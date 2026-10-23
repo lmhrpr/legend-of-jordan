@@ -1,6 +1,13 @@
 {
   "FolderOrderSettings":[],
   "ResourceOrderSettings":[
+    {"name":"o_gap_1","order":6,"path":"objects/o_gap_1/o_gap_1.yy",},
+    {"name":"o_hitbox","order":4,"path":"objects/o_hitbox/o_hitbox.yy",},
+    {"name":"o_interactive","order":3,"path":"objects/o_interactive/o_interactive.yy",},
+    {"name":"o_solid","order":2,"path":"objects/o_solid/o_solid.yy",},
+    {"name":"o_start_position","order":1,"path":"objects/o_start_position/o_start_position.yy",},
+    {"name":"o_wall_solid","order":5,"path":"objects/o_wall_solid/o_wall_solid.yy",},
+    {"name":"s_gap_1","order":1,"path":"sprites/s_gap_1/s_gap_1.yy",},
     {"name":"ts_dirt_walls","order":1,"path":"tilesets/ts_dirt_walls/ts_dirt_walls.yy",},
   ],
 }

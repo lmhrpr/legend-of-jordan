@@ -57,12 +57,26 @@ def wall_solids(room_yy):
         else:
             cells += data[i + 1:i + 1 + n]; i += 1 + n
     w = layer["tiles"]["SerialiseWidth"]
+    stairs_ids = [int(v) for v in re.search(r"#macro WALL_STAIR_TILES \[([\d,]+)\]", gml).group(1).split(",")]
+    stair_px = set()
+    for l in room_yy["layers"]:
+        if l["name"] in ("Tiles_Decor", "Tiles_Ground") and l.get("tiles"):
+            d, j, sc = l["tiles"]["TileCompressedData"], 0, []
+            while j < len(d):
+                n = d[j]
+                if n < 0:
+                    sc += [d[j + 1]] * (-n); j += 2
+                else:
+                    sc += d[j + 1:j + 1 + n]; j += 1 + n
+            sw = l["tiles"]["SerialiseWidth"]
+            stair_px |= {((k % sw) * 16, (k // sw) * 16) for k, v in enumerate(sc) if v > 0 and v & 0x7FFFF in stairs_ids}
     out = []
     for k, v in enumerate(cells):
         v = v & 0x7FFFF if v > 0 else 0
         m = masks[v] if 0 < v < len(masks) else 0
         for bit in range(16):
-            if m >> bit & 1:
+            cx, cy = (k % w) * 32 + (bit % 4) * 8, (k // w) * 32 + (bit // 4) * 8
+            if m >> bit & 1 and (cx // 16 * 16, cy // 16 * 16) not in stair_px:
                 out.append(dict(name="wall", obj="o_solid", x=(k % w) * 32 + (bit % 4) * 8, y=(k // w) * 32 + (bit // 4) * 8, sx=0.5, sy=0.5))
     return out
 

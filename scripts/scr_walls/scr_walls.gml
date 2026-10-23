@@ -9,6 +9,10 @@
 #macro WALL_TILE_MASKS [0,0,65416,65297,65280,34959,34952,34817,34816,0,4383,580,4369,4352,15,8,1,0]
 #macro WALL_CELL 8
 
+// Stair tiles (ts_top_down) placed on the ground or decor layer cut a way through a
+// cliff: the wall underneath them isn't solid.
+#macro WALL_STAIR_TILES [294]
+
 /// @function walls_make_solid()
 function walls_make_solid()
 {
@@ -22,6 +26,14 @@ function walls_make_solid()
 	var _cols = tilemap_get_width(_map) * _per;
 	var _rows = tilemap_get_height(_map) * _per;
 	var _masks = WALL_TILE_MASKS;
+	var _stairs = WALL_STAIR_TILES;
+	var _stair_maps = [];
+	var _names = ["Tiles_Decor", "Tiles_Ground"];
+	for (var _n = 0; _n < array_length(_names); _n++)
+	{
+		var _l = layer_get_id(_names[_n]);
+		if (_l != -1) array_push(_stair_maps, layer_tilemap_get_id(_l));
+	}
 
 	// One row of 8px cells at a time; join neighbouring solid cells into one block
 	for (var _r = 0; _r < _rows; _r++)
@@ -37,6 +49,7 @@ function walls_make_solid()
 				{
 					_solid = (_masks[_index] >> ((_r mod _per) * 4 + (_c mod _per))) & 1;
 				}
+				if (_solid and wall_is_stair(_stair_maps, _stairs, _c * WALL_CELL + 1, _r * WALL_CELL + 1)) _solid = false;
 			}
 			if (_solid and _run_start == -1) _run_start = _c;
 			if (!_solid and _run_start != -1)
@@ -48,4 +61,16 @@ function walls_make_solid()
 			}
 		}
 	}
+}
+
+/// @function wall_is_stair(tilemaps, stair_tiles, x, y)
+/// @desc True if any of the tilemaps has a stair tile at room position x, y
+function wall_is_stair(_maps, _stairs, _x, _y)
+{
+	for (var _m = 0; _m < array_length(_maps); _m++)
+	{
+		var _index = tile_get_index(tilemap_get_at_pixel(_maps[_m], _x, _y));
+		if (array_contains(_stairs, _index)) return true;
+	}
+	return false;
 }

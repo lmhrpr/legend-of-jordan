@@ -13,7 +13,7 @@
 //   { say: "Mavi", lines: ["..."] }        a text box (waits until it's closed)
 //   { ding: true }                         the doorbell
 //   { door: true | false }                 the flat's front door open / shut
-//   { tv: "off" | "splash" | "title" }
+//   { tv: "off" | "splash" | "title" | "closeup" | "closeup_title" }   (close-ups fill the screen)
 //   { music: a_home_music }                (or noone to stop)
 //   { wait: 1 }                            (seconds)
 //   { finish: true }                       back to the title screen
@@ -31,9 +31,9 @@ steps_ = [
 	{ fade_out: 1 },
 
 	{ scene: "street" },
-	{ place: "liam", x: -12, y: 160, dir: "right" },
+	{ place: "liam", x: -12, y: 110, dir: "right" },
 	{ fade_in: 1 },
-	{ walk: "liam", x: 288, y: 160 },
+	{ walk: "liam", x: 168, y: 110 },
 	{ face: "liam", dir: "up" },
 	{ wait: 0.5 },
 	{ ding: true },
@@ -42,8 +42,8 @@ steps_ = [
 
 	{ scene: "flat" },
 	{ music: a_home_music },
-	{ place: "jordan", x: 146, y: 158, dir: "up", seated: true },
-	{ place: "mavi", x: 172, y: 155, dir: "up", seated: true },
+	{ place: "jordan", x: 144, y: 128, dir: "up", seated: true },
+	{ place: "mavi", x: 160, y: 126, dir: "up", seated: true },
 	{ fade_in: 1.5 },
 	{ say: "Mavi", lines: ["...and then what happened?"] },
 	{ say: "Jordan", lines: [
@@ -55,27 +55,29 @@ steps_ = [
 	{ ding: true },
 	{ wait: 1 },
 	{ say: "Mavi", lines: ["Who's that?"] },
-	{ place: "jordan", x: 146, y: 158, dir: "right", seated: false },
-	{ walk: "jordan", x: 262, y: 146 },
+	{ place: "jordan", x: 144, y: 128, dir: "right", seated: false },
+	{ walk: "jordan", x: 246, y: 66 },
 	{ face: "jordan", dir: "right" },
 	{ door: true },
-	{ place: "liam", x: 284, y: 142, dir: "left" },
+	{ place: "liam", x: 264, y: 56, dir: "down" },
 	{ wait: 0.5 },
 	{ say: "Liam", lines: ["Hiya. Sorry it took me so long.", "I finally finished it."] },
 	{ say: "Jordan", lines: ["No way."] },
-	{ walk: "liam", x: 236, y: 152 },
+	{ walk: "liam", x: 264, y: 76 },
 	{ door: false },
-	{ walk: "jordan", x: 146, y: 158 },
-	{ walk: "liam", x: 198, y: 158 },
-	{ place: "jordan", x: 146, y: 158, dir: "up", seated: true },
-	{ place: "liam", x: 198, y: 158, dir: "up", seated: true },
+	{ walk: "jordan", x: 144, y: 128 },
+	{ walk: "liam", x: 176, y: 128 },
+	{ place: "jordan", x: 144, y: 128, dir: "up", seated: true },
+	{ place: "liam", x: 176, y: 128, dir: "up", seated: true },
 	{ music: noone },
 	{ wait: 0.5 },
 	{ tv: "splash" },
+	{ wait: 2 },
+	{ tv: "closeup" },
 	{ wait: 3 },
-	{ tv: "title" },
+	{ tv: "closeup_title" },
 	{ music: a_title_music },
-	{ wait: 5 },
+	{ wait: 6 },
 	{ fade_out: 2 },
 	{ card: "THE END", time: 3 },
 	{ card: "For Jordan, from Liam", time: 4 },
@@ -108,6 +110,23 @@ actors_ = {
 };
 
 audio_stop_all();
+
+/// The title card's animation frame, counted from when the telly showed it
+title_frame = function()
+{
+	return floor(tv_timer_ * sprite_get_speed(s_title_card) / game_get_speed(gamespeed_fps)) mod sprite_get_number(s_title_card);
+};
+
+/// Faint scanlines over the telly picture
+tv_scanlines = function(_x, _y, _w, _h)
+{
+	draw_set_alpha(0.15);
+	draw_set_colour(c_black);
+	for (var _l = _y; _l < _y + _h; _l += 2) draw_line(_x, _l, _x + _w, _l);
+	draw_set_alpha(1);
+	draw_set_colour(c_white);
+};
+
 next_step = function()
 {
 	step_ += 1;

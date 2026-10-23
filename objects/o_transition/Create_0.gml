@@ -1,6 +1,7 @@
 /// @description Initialise transition
 type_ = trans_type.slide;
 target_ = room;
+on_cover_ = undefined;	// if set, called when the screen is covered instead of changing room
 speed_ = 0.02;
 delay_ = 0;
 progress_ = 0;

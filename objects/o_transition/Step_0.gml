@@ -14,7 +14,8 @@ if (closing_)
 		closing_ = false;
 		// The iris pauses on black for a moment before opening
 		hold_ = (type_ == trans_type.iris) ? round(global.one_second * 0.15) : 0;
-		room_goto(target_);
+		if (is_callable(on_cover_)) on_cover_();
+		else room_goto(target_);
 	}
 }
 else if (hold_ > 0)

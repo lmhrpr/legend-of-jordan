@@ -69,3 +69,20 @@ function player_found_item(_sprite, _text)
 	play_sfx(a_found_item, 10);
 	global.active_textbox = create_textbox(_text, noone, false);
 }
+
+/// @function camera_snap()
+/// @desc Puts the camera straight onto Jordan's screen (no scrolling)
+function camera_snap()
+{
+	if (!instance_exists(o_camera) or !instance_exists(o_player)) return;
+	with (o_camera)
+	{
+		map_grid_x_ = floor(o_player.x / VIEW_W) + 1;
+		map_grid_y_ = floor(o_player.y / VIEW_H) + 1;
+		x = VIEW_W * (map_grid_x_ - 1);
+		y = VIEW_H * (map_grid_y_ - 1);
+		camera_set_view_pos(camera_, x, y);
+		view_x_ = x;
+		view_y_ = y;
+	}
+}

@@ -207,6 +207,27 @@ def invisible_walls(w, h, insts, seen, ignore=()):
     return found
 
 
+def flood_with_doors(room, w, h, insts, start, ignore=()):
+    """Flood fill that also follows dungeon doorways (o_dungeon_door moves Jordan to dest_x_, dest_y_)."""
+    doors = []
+    for i in insts:
+        if i["obj"] == "o_dungeon_door":
+            code = open(f"{ROOT}/rooms/{room}/InstanceCreationCode_{i['name']}.gml", encoding="utf-8").read()
+            dx = float(re.search(r"dest_x_ = ([\d.]+)", code).group(1))
+            dy = float(re.search(r"dest_y_ = ([\d.]+)", code).group(1))
+            doors.append(((i["x"] - 8, i["y"] - 8, i["x"] + 8, i["y"] + 8), (dx, dy)))
+    seen = flood(w, h, insts, start, ignore)
+    done = set()
+    while True:
+        new = [d for k, d in enumerate(doors) if k not in done and reachable(seen, d[0], 0)]
+        if not new:
+            return seen
+        for k, d in enumerate(doors):
+            if d in new:
+                done.add(k)
+                seen |= flood(w, h, insts, d[1], ignore)
+
+
 def reachable(seen, target, reach):
     x0, y0, x1, y1 = target
     ys, xs = np.nonzero(seen)
@@ -239,7 +260,7 @@ def main():
         if room.startswith("r_dungeon"):
             phases = (("doors open", ("o_barred_door", "o_locked_door")),)
         for phase, ignore in phases:
-            seen = flood(w, h, insts, (start["x"], start["y"]), ignore)
+            seen = flood_with_doors(room, w, h, insts, (start["x"], start["y"]), ignore)
             missing = [k for k, b, r in targets if not reachable(seen, b, r)]
             note = ""
             if phase == "no sword" and room == "r_village":

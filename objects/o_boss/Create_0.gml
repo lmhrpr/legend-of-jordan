@@ -9,16 +9,19 @@ enum boss
 	hit,		// = enemy.hit (knockback)
 	chase,
 	windup,
-	charge
+	charge,
+	intro,		// sizing Jordan up when he arrives
+	dizzy		// worn out after a charge: the moment to hit it
 }
 
 flag_ = "d1_boss";		// set when it's beaten (instance creation code can change it)
-max_health_ = 12;
+max_health_ = 6;		// hits to beat it
 health_ = max_health_;
 scale_ = 2;
 
 starting_state_ = boss.chase;
-state_ = starting_state_;
+state_ = boss.intro;
+intro_time_ = global.one_second * 2;		// how long it waits once Jordan is in the arena
 
 sprite_index = s_porcupine_run;
 mask_index = s_porcupine_run;
@@ -26,4 +29,4 @@ image_xscale = scale_;
 image_yscale = scale_;
 hit_cooldown_ = 0;
 
-alarm[1] = global.one_second * 2;
+

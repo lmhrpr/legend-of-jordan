@@ -1,3 +1,3 @@
 /// @description Invincibility alarm
 
-invincible_ = false;
+if (visible) invincible_ = false;		// stays invincible while fainted

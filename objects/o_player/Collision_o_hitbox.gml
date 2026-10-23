@@ -1,5 +1,6 @@
 /// @description Hit logic
 
+if (!visible) exit;		// fainted
 if (hurtbox_entity_can_be_hit_by(other))
 {
 	invincible_ = true;

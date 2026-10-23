@@ -12,14 +12,16 @@ if (flag_get(flag_))
 
 event_inherited();
 
-// Touching the boss hurts
+// Only a charging boss hurts to touch (walking about, it just shoves)
 hit_cooldown_ = max(0, hit_cooldown_ - 1);
-if (hit_cooldown_ == 0 and on_player_screen(x, y) and place_meeting(x, y, o_player))
+if (state_ == boss.charge and hit_cooldown_ == 0 and on_player_screen(x, y)
+	and !instance_exists(o_transition) and instance_exists(o_player) and o_player.visible
+	and place_meeting(x, y, o_player))
 {
 	var _hitbox = create_hitbox(s_porcupine_hitbox, x, y - 8, 0, 1, [o_player], 1, 5);
 	_hitbox.image_xscale = scale_;
 	_hitbox.image_yscale = scale_;
-	hit_cooldown_ = 20;
+	hit_cooldown_ = 30;
 }
 
 // Keep facing the way it's going, at full size

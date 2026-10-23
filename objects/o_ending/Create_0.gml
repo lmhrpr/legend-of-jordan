@@ -50,7 +50,7 @@ steps_ = [
 	{ fade_in: 1.5 },
 	{ say: "Mavi", lines: ["...and then what happened?"] },
 	{ say: "Jordan", lines: [
-		"Then Uncle Liam gave me a computer game. He'd been making a game for me the whole time!",
+		"Then Uncle Liam gave me a computer game. He'd been making a game the whole time!",
 		"The Legend of Jordan."
 	] },
 	{ say: "Mavi", lines: ["Did you ever complete the game?"] },
@@ -84,7 +84,7 @@ steps_ = [
 	{ wait: 6 },
 	{ fade_out: 2 },
 	{ card: "THE END", time: 3 },
-	{ card: "For Jordan, from Liam", time: 4 },
+	{ card: "For Jordan, from Liam", time: 6 },
 	{ finish: true }
 ];
 

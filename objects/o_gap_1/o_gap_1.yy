@@ -12,8 +12,8 @@
     "path":"folders/Objects/Collision Objects.yy",
   },
   "parentObjectId":{
-    "name":"o_solid",
-    "path":"objects/o_solid/o_solid.yy",
+    "name":"o_gap",
+    "path":"objects/o_gap/o_gap.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

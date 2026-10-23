@@ -3,7 +3,7 @@
 // so the toolbar never covers the map.
 
 // Don't draw GUI on title screen
-if (room == r_title or room == r_init) { exit; }
+if (room == r_title or room == r_init or room == r_ending) { exit; }
 
 // If paused, show a snapshot of the world, dimmed
 if (sprite_exists(global.paused_sprite))

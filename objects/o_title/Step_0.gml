@@ -4,6 +4,13 @@ title_frame_ += sprite_get_speed(s_title_card) / game_get_speed(gamespeed_fps);
 
 if (instance_exists(o_transition)) exit;
 
+// For testing: press E on the title screen to watch the ending
+if (keyboard_check_pressed(ord("E")))
+{
+	room_transition(trans_type.fade, r_ending, 0.02, 0);
+	exit;
+}
+
 if (phase_ == 0)
 {
 	if (timer_ > global.one_second * 3 or o_input.interact_pressed_)

@@ -12,7 +12,12 @@ path = f"{ROOT}/rooms/{room}/{room}.yy"
 t = open(path, encoding="utf-8", newline="").read()
 lines = list(re.finditer(r'^ *\{"\$GMRInstance".*$\n', t, re.M))
 template = next((m.group(0) for m in lines if f'"name":"{objname}"' in m.group(0)), None)
-assert template, f"no {objname} in {room} to copy"
+if template is None:
+    # None in this room yet: copy any plain instance and switch its object
+    template = next(m.group(0) for m in lines if '"hasCreationCode":false' in m.group(0))
+    template = re.sub(r'"objectId":\{"name":"\w+","path":"objects/\w+/\w+\.yy",\}',
+                      f'"objectId":{{"name":"{objname}","path":"objects/{objname}/{objname}.yy",}}', template)
+    template = re.sub(r'"scaleX":[\d.]+,"scaleY":[\d.]+', '"scaleX":1.0,"scaleY":1.0', template)
 taken = set(re.findall(r'"name":"(inst_[0-9A-F]+)"', t))
 new, names = "", []
 for given, x, y in coords:

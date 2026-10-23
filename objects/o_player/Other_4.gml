@@ -1,8 +1,8 @@
-// Coming back out of a dungeon: start at its stairs (and step off them, below)
+// Coming back out of a dungeon: start just below its entrance
 var _off_stairs = false;
 if (global.arrive_at_ != "")
 {
-	with (o_stairs) if (dungeon_ == global.arrive_at_) { global.player_start_position = id; _off_stairs = true; }
+	with (o_dungeon_entrance) if (dungeon_ == global.arrive_at_) { global.player_start_position = id; _off_stairs = true; }
 	global.arrive_at_ = "";
 }
 
@@ -11,8 +11,8 @@ if instance_exists(global.player_start_position)
 	if instance_exists(o_player)
 	{
 		o_player.persistent = false;
-		o_player.x = _off_stairs ? global.player_start_position.x + 8 : global.player_start_position.x;
-		o_player.y = _off_stairs ? global.player_start_position.bbox_bottom + 12 : global.player_start_position.y;
+		o_player.x = global.player_start_position.x;
+		o_player.y = global.player_start_position.y + (_off_stairs ? 30 : 0);	// step off the entrance
 		o_player.layer = layer_get_id("Instances");
 		o_player.visible = true;
 		o_player.invincible_ = false;

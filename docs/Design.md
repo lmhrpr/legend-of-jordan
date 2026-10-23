@@ -99,7 +99,7 @@ Each outer region hides a ruin holding **one of Liam's undelivered letters** (th
 | # | Dungeon | To get in, you need | Reward item | What it unlocks | Boss |
 |---|---|---|---|---|---|
 | — | Desert shrine *(done)* | — | Magic Sword | Cut the bushes into the Old Forest | — |
-| 1 | Old Forest ruins | The Keeper opens the way | Bombs | Blow open cracked rocks and old trees | *TBD* (stand-in: a giant charging porcupine) |
+| 1 | Old Forest ruins | The Keeper throws a bomb at the slab | Bombs | Blow open cracked rocks and old trees | *TBD* (stand-in: a giant charging porcupine) |
 | 2 | Southern Desert pyramid *(built)* | Bombs (blow open the cracked rocks) | Ring (roll) | Roll through low gaps and over small pits | *TBD* (stand-in: a sand-coloured giant porcupine) |
 | 3 | Fields | Ring | Lantern | Light dark caves | *TBD* |
 | 4 | Hills | Lantern | Catapult | Hit far-off switches and flying enemies | *TBD* |
@@ -125,7 +125,7 @@ Building blocks for later dungeons: `o_locked_door` (uses a key), `o_barred_door
 
 ### Dungeon 2: the desert pyramid (built)
 
-Room `r_dungeon2`, entered by `o_stairs` placed in the desert (behind `o_rock_cracked` rocks that only bombs break). Coming back out, Jordan appears in front of the stairs.
+Room `r_dungeon2`. The pyramid is sealed by a cracked stone slab (`o_dungeon_entrance`): a bomb blows it open, then Jordan walks down the steps. Every dungeon from here on is opened the same way. Coming back out, Jordan appears just below the entrance.
 
 |   | Col 0 | Col 1 | Col 2 | Col 3 |
 |---|---|---|---|---|

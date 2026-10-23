@@ -1,0 +1,33 @@
+# OS Generated Files (Keeps Mac/Windows from fighting)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# GameMaker Exported Projects & Backups
+*.yyz
+*.zip
+
+# Compiled Executables & Builds (If you export into the project folder)
+*.exe
+*.apk
+*.aab
+*.mac.zip
+*.app
+*.dmg
+*.pkg
+/builds/
+/exports/
+
+# Security (NEVER upload your mobile keystores or passwords!)
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+
+# Any custom IDE/Editor local settings (if applicable)
+.vscode/
+.idea/

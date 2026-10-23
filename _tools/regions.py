@@ -81,7 +81,7 @@ def sign(room, c, r, lines, point=0):
 
 def edge_door(room, c, r, width, target_room, target_start, h=1.0):
     room.add("o_door", c * TILE, r * TILE, sx=width, sy=h,
-             code=f"room_ = {target_room};\nstart_ = {target_start};")
+             code=f"room_ = {target_room};\nstart_ = {target_start};\ntype_ = trans_type.slide;")
 
 
 def flowers(room, rnd, cells, density=0.7, small=0.25):

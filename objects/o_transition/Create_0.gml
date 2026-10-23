@@ -5,6 +5,8 @@ speed_ = 0.02;
 delay_ = 0;
 progress_ = 0;
 closing_ = true;
+hold_ = 0;			// steps to stay black between rooms (set when the room changes)
+surface_ = -1;		// used to cut the circle out of the black for the iris
 
 if (instance_exists(o_player))
 {

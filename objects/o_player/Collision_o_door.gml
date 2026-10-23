@@ -5,4 +5,4 @@ if (other.room_ == noone) exit;
 
 global.player_start_position = other.start_;
 persistent = true;
-room_transition(trans_type.slide, other.room_, 0.02, 0);
+room_transition(other.type_, other.room_, 0.02, 0);

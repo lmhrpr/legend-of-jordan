@@ -9,5 +9,6 @@
 enum trans_type
 {
 	slide,
-	fade
+	fade,
+	iris		// circle closes on Jordan, then opens on him in the new room
 }

@@ -1,4 +1,6 @@
 /// @description Give control back to Jordan
+if (surface_exists(surface_)) surface_free(surface_);
+
 if (instance_exists(o_player))
 {
 	with (o_player)

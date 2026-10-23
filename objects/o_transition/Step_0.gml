@@ -12,8 +12,14 @@ if (closing_)
 	if (progress_ >= 1)
 	{
 		closing_ = false;
+		// The iris pauses on black for a moment before opening
+		hold_ = (type_ == trans_type.iris) ? round(global.one_second * 0.15) : 0;
 		room_goto(target_);
 	}
+}
+else if (hold_ > 0)
+{
+	hold_ -= 1;
 }
 else
 {

@@ -24,5 +24,5 @@ set_sprite_facing();
 if (instance_exists(o_player) and o_player.visible and distance_to_object(o_player) < notice_range_)
 {
 	state_ = bat.hover;
-	state_timer_ = global.one_second * random_range(1, 1.8);
+	state_timer_ = global.one_second * random_range(hover_time_min_, hover_time_max_);
 }

@@ -58,8 +58,20 @@ draw_sprite_ext(s_stat_box_edge, 0, _stats_left_edge, sprite_get_height(s_stat_b
 // Draw hearts
 for (var _i = 0; _i < global.player_max_health; _i++)
 {
-	var _filled = _i < global.player_health;
-	draw_sprite(s_heart_ui, _filled, _stats_left_edge + (_i * 15) + 1, sprite_get_height(s_stat_box) - 25);
+	var _hx = _stats_left_edge + (_i * 15) + 1;
+	var _hy = sprite_get_height(s_stat_box) - 25;
+	if (global.player_health >= _i + 1)
+	{
+		draw_sprite(s_heart_ui, 1, _hx, _hy);					// full
+	}
+	else
+	{
+		draw_sprite(s_heart_ui, 0, _hx, _hy);					// empty...
+		if (global.player_health >= _i + 0.5)					// ...with its left half filled
+		{
+			draw_sprite_part(s_heart_ui, 1, 0, 0, sprite_get_width(s_heart_ui) div 2, sprite_get_height(s_heart_ui), _hx, _hy);
+		}
+	}
 }
 
 // Draw stamina

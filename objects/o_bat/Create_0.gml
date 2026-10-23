@@ -24,16 +24,23 @@ starting_state_ = bat.wander;
 state_ = starting_state_;
 
 // Tuning
-wander_speed_ = 0.35;		// pottering about
-hover_speed_ = 0.6;			// keeping station in front of Jordan
-swoop_speed_ = 2.4;			// the attack (Jordan runs at 1.5)
+wander_speed_ = 0.25;		// pottering about
+hover_speed_ = 0.3;			// drifting to its spot in front of Jordan
+swoop_speed_ = 1.6;			// the attack (Jordan runs at 1.5)
+swoop_damage_ = 0.5;		// half a heart
 notice_range_ = 72;			// starts hovering when Jordan is this close
 give_up_range_ = 120;		// goes back to wandering past this
-hover_distance_ = 36;		// how far in front of Jordan it hovers
+hover_distance_ = 40;		// how far in front of Jordan it hovers
+hover_slack_ = 14;			// only repositions when this far off its spot
+windup_time_ = 0.6;			// seconds of warning before a swoop
+hover_time_min_ = 1.8;		// seconds between swoops
+hover_time_max_ = 3;
 
 state_timer_ = 0;
 wander_timer_ = 0;
 swoop_direction_ = 0;
+target_x_ = x;
+target_y_ = y;
 
 mask_index = s_bat;
 image_index = 0;

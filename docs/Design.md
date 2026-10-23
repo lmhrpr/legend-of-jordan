@@ -10,7 +10,7 @@
 Liam has gone to deliver a letter for Dad and hasn't come home. Mum sends Jordan to find him. The trail leads from Granny & Granda's to Dad's Post Office, then to the Old Forest, and Jordan needs the Magic Sword from the Southern Desert to get through.
 
 ### The twists
-1. **Dad's secret post round** *(revealed by the Keeper in the Old Forest)*. Dad's Post Office has always secretly delivered mail to the hidden folk of the forest and beyond. Liam was on the round with a whole bag of letters when something chased him into the old ruins.
+1. **Dad's secret post round** *(revealed by the Keeper in the Old Forest)*. Dad's Post Office has always secretly delivered mail to the hidden folk of the forest and beyond. Liam was due at the Keeper's with a whole bag of letters, but never arrived. The Keeper suggests the old ruins: Liam was always asking about them.
 2. **Liam is going in on purpose** *(clear by dungeon 2–3)*. Jordan starts out rescuing him, but the evidence says Liam is going deeper by choice. Jordan can't work out why.
 3. **Liam is making a game** *(revealed at the end)*. Liam has been gathering knowledge of the dungeons, monsters and world to put into a game for Jordan: *The Legend of Jordan*.
 
@@ -18,8 +18,8 @@ Liam has gone to deliver a letter for Dad and hasn't come home. Mum sends Jordan
 
 | Point in game | What Jordan learns | What Jordan thinks |
 |---|---|---|
-| The Keeper (Old Forest) | The letter was for the Keeper. Dad's Post Office secretly serves the forest folk. Liam had more letters; something big chased him into the ruins. | He's been taken, or he's trapped. |
-| Dungeon 1 (Old Forest) | Liam's dropped post bag by the boss's lair. Some letters are missing; they've been delivered. | A rescue, but something's odd. |
+| The Keeper (Old Forest) | The letter was for the Keeper. Dad's Post Office secretly serves the forest folk. Liam was expected but never arrived; the Keeper thinks he's gone into the ruins he was always asking about. | He's lost in the ruins. |
+| Dungeon 1 (Old Forest) | Liam's post bag, left in the ruins. Half the letters are gone. Delivered? Down here? | He's in there, but something's odd. |
 | Dungeon 2 | "Your brother? He asked what I was called and drew me in a little notebook. Then he asked the way to the next ruin." | Why would he go *further in*? |
 | Dungeon 3 | Liam's own map: the ruins numbered, three ticked off. | Baffled, and a bit cross. |
 | Dungeons 4–7 | "He asked how hard my puzzles were and wrote it down." "He made me roar three times to get it right." "He asked where I'd hide my treasure." | Wrong guesses, each a chance for a joke: running away, a spy, a present for Mum. |
@@ -99,7 +99,7 @@ Each outer region hides a ruin holding **one of Liam's undelivered letters** (th
 | # | Dungeon | To get in, you need | Reward item | What it unlocks | Boss |
 |---|---|---|---|---|---|
 | — | Desert shrine *(done)* | — | Magic Sword | Cut the bushes into the Old Forest | — |
-| 1 | Old Forest ruins | The Keeper opens the way | Bombs | Blow open cracked rocks and old trees | Whatever chased Liam *(TBD)* |
+| 1 | Old Forest ruins | The Keeper opens the way | Bombs | Blow open cracked rocks and old trees | *TBD* (stand-in: a giant charging porcupine) |
 | 2 | Fields | Bombs | Ring (roll) | Roll through low gaps and over small pits | *TBD* |
 | 3 | Southern Desert | Ring | Lantern | Light dark caves | *TBD* |
 | 4 | Hills | Lantern | Catapult | Hit far-off switches and flying enemies | *TBD* |
@@ -108,6 +108,20 @@ Each outer region hides a ruin holding **one of Liam's undelivered letters** (th
 | 7 | Coast | Raft | Gloves | Lift and throw boulders | *TBD* |
 | 8 | Canyon | Gloves | Last letter | — | *TBD* |
 | 9 | Where Liam is | All 8 letters | **The cartridge** | The ending | *TBD* |
+
+### Dungeon 1: the Old Forest ruins (built)
+
+A 4 × 3 grid of one-screen rooms joined like a maze (room `r_dungeon1`):
+
+|   | Col 0 | Col 1 | Col 2 | Col 3 |
+|---|---|---|---|---|
+| **Row 0** | — | **Boss arena** (bars drop behind you) | Key room | Treasure (gems, heart) |
+| **Row 1** | Switch room | Liam's post bag; **locked door** north | East hall (zig-zag) | — |
+| **Row 2** | Bat room | **Entrance** (barred door north; steps out south) | Side room (heart) | — |
+
+The route: Entrance → Bat room → Switch room (the switch lifts the Entrance bars) → post-bag corridor → East hall → Key room (beat everyone and a key drops) → back to the locked door → Boss → Heart Container, then a chest with Bombs appears.
+
+Building blocks for later dungeons: `o_locked_door` (uses a key), `o_barred_door` (opens on a flag; or shuts you in until a flag), `o_floor_switch` (sets a flag), `o_key_spawner` (drops a key when a screen is cleared), `o_chest`, `o_heart_container`. Flags and keys are saved.
 
 ### Character progression
 

@@ -14,10 +14,10 @@ else if (!global.met_keeper)
 		"Hmm. You're not the usual postboy, though. You must be his big brother. Same nose.",
 		"Your Dad's Post Office has delivered to us forest folk for years, you know.",
 		"...He never told you? No, I suppose he wouldn't.",
-		"Your brother came by this morning with a whole bag of letters for the forest folk.",
-		"Then something came crashing out of the trees after him. Something big.",
-		"He dropped my letter and ran into the old ruins.",
-		"Nobody goes into the ruins. Not even the post!",
+		"Your brother was due this morning with a whole bag of letters for the forest folk. He never came.",
+		"And yet you found my letter lying on the path. So he did come this way...",
+		"He was always asking me about the old ruins. What's down there? Who lives there?",
+		"I'd wager that's where he's gone. Nobody goes into the ruins. Not even the post!",
 		"If you're going after him, you'll need to get past the stone. Stand back..."
 	];
 	textbox_on_close(function() {

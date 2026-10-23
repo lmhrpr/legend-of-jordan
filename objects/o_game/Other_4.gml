@@ -1,6 +1,7 @@
 /// @description Create Jordan at the start position
 
 tile_animations_scan();
+global.dungeon = dungeon_for_room(room);
 
 if (room == r_title or room == r_init) { exit; }
 

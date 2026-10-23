@@ -56,6 +56,13 @@ for (var _i = 0; _i < global.player_max_stamina; _i++)
 	draw_sprite(s_stamina, _i < global.player_stamina, 150 + (_i mod 4) * 14, 2 + (_i div 4) * 11);
 }
 
+// --- Small keys (only in dungeons) ---
+if (global.dungeon != "")
+{
+	draw_sprite(s_key, 0, 222, 20);
+	draw_text(230, 4, "x" + string(keys_get()));
+}
+
 // --- Equipped items: Z and X ---
 for (var _k = 0; _k < 2; _k++)
 {

@@ -20,6 +20,12 @@ function save_game()
 	var _cut_list = "";
 	for (var _c = 0; _c < array_length(_cut); _c++) _cut_list += (_c > 0 ? "|" : "") + _cut[_c];
 	ini_write_string("world", "cut_bushes", _cut_list);
+	var _flags = variable_struct_get_names(global.flags);
+	var _flag_list = "";
+	for (var _f = 0; _f < array_length(_flags); _f++) _flag_list += (_f > 0 ? "|" : "") + _flags[_f];
+	ini_write_string("world", "flags", _flag_list);
+	var _dungeons = variable_struct_get_names(global.keys);
+	for (var _d = 0; _d < array_length(_dungeons); _d++) ini_write_real("keys", _dungeons[_d], global.keys[$ _dungeons[_d]]);
 
 	if (instance_exists(o_player))
 	{
@@ -62,6 +68,15 @@ function load_game()
 	global.cut_bushes = {};
 	var _cut = string_split(ini_read_string("world", "cut_bushes", ""), "|", true);
 	for (var _c = 0; _c < array_length(_cut); _c++) global.cut_bushes[$ _cut[_c]] = true;
+	global.flags = {};
+	var _flags = string_split(ini_read_string("world", "flags", ""), "|", true);
+	for (var _f = 0; _f < array_length(_flags); _f++) global.flags[$ _flags[_f]] = true;
+	global.keys = {};
+	var _dungeons = ["d1"];
+	for (var _d = 0; _d < array_length(_dungeons); _d++)
+	{
+		if (ini_key_exists("keys", _dungeons[_d])) global.keys[$ _dungeons[_d]] = ini_read_real("keys", _dungeons[_d], 0);
+	}
 	global.first_play = false;
 
 	// Read by o_player's Create event

@@ -1,0 +1,3 @@
+/// @description Take damage, but it's too heavy to be knocked far
+event_inherited();
+speed_ = min(speed_, 1.5);

@@ -1,0 +1,71 @@
+/// Dungeon helpers: world flags (switches pressed, doors opened, bosses beaten...),
+/// small keys (each dungeon keeps its own count) and the "found an item" moment.
+
+/// @function flag_get(name)
+function flag_get(_name)
+{
+	return _name != "" and variable_struct_exists(global.flags, _name) and global.flags[$ _name];
+}
+
+/// @function flag_set(name)
+function flag_set(_name)
+{
+	if (_name != "") global.flags[$ _name] = true;
+}
+
+/// @function keys_get()
+/// @desc Keys Jordan holds for the dungeon he's in (0 outside dungeons)
+function keys_get()
+{
+	if (global.dungeon == "" or !variable_struct_exists(global.keys, global.dungeon)) return 0;
+	return global.keys[$ global.dungeon];
+}
+
+/// @function keys_add(amount)
+function keys_add(_amount)
+{
+	if (global.dungeon == "") return;
+	global.keys[$ global.dungeon] = keys_get() + _amount;
+}
+
+/// @function dungeon_for_room(room)
+/// @desc The key/flag prefix for a dungeon room, or "" for anywhere else
+function dungeon_for_room(_room)
+{
+	if (_room == r_dungeon1) return "d1";
+	return "";
+}
+
+/// @function on_player_screen(x, y)
+/// @desc True when the point is on the screen the camera is showing
+function on_player_screen(_x, _y)
+{
+	if (!instance_exists(o_camera)) return true;
+	return floor(_x / VIEW_W) == o_camera.map_grid_x_ - 1 and floor(_y / VIEW_H) == o_camera.map_grid_y_ - 1;
+}
+
+/// @function enemies_left_on_screen(x, y)
+/// @desc How many enemies are still alive on the screen containing x, y
+function enemies_left_on_screen(_x, _y)
+{
+	var _sx = floor(_x / VIEW_W), _sy = floor(_y / VIEW_H), _count = 0;
+	with (o_enemy)
+	{
+		if (floor(x / VIEW_W) == _sx and floor(y / VIEW_H) == _sy) _count++;
+	}
+	return _count;
+}
+
+/// @function player_found_item(sprite, text)
+/// @desc Jordan holds the item up over his head while the text box is open
+function player_found_item(_sprite, _text)
+{
+	with (o_player)
+	{
+		state_ = player.found_item;
+		facing_direction_ = dir.down;
+		item_found_sprite_ = _sprite;
+	}
+	play_sfx(a_found_item, 10);
+	global.active_textbox = create_textbox(_text, noone, false);
+}

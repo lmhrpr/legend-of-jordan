@@ -1,24 +1,33 @@
-/// @description bat.swoop: fly to the locked-on spot, then stop
+/// @description bat.swoop: fly in a straight line to the locked-on spot, and stop dead there
 
 image_speed = 0.6;
 var _remaining = point_distance(x, y, target_x_, target_y_);
-set_movement(swoop_direction_, min(swoop_speed_, _remaining));
-move_movement_entity(true);
+var _arrived = (_remaining <= swoop_speed_);
 
-// Hit Jordan on the way?
-if (instance_exists(o_player) and point_distance(x, y, o_player.x, o_player.y) < 10)
+if (_arrived)
 {
-	create_hitbox(s_porcupine_hitbox, x, y, 0, 1, [o_player], swoop_damage_, 3);
-	state_ = bat.recover;
-	state_timer_ = round(global.one_second * 1);
-	set_movement(swoop_direction_ + 180, 0.4);
-	exit;
+	// Land exactly on the spot (no overshoot)
+	x = target_x_;
+	y = target_y_;
+	speed_ = 0;
+}
+else
+{
+	set_movement(swoop_direction_, swoop_speed_);
+	move_movement_entity(false);
 }
 
-// Reached the spot, or bumped into a tree
-if (_remaining <= swoop_speed_ or speed_ < 0.1)
+// Hit Jordan on the way?
+var _hit = instance_exists(o_player) and point_distance(x, y, o_player.x, o_player.y) < 10;
+if (_hit)
 {
+	create_hitbox(s_porcupine_hitbox, x, y, 0, 1, [o_player], swoop_damage_, 3);
+}
+
+// Arrived, hit Jordan, or bumped into a tree: stop and rest
+if (_arrived or _hit or speed_ < 0.1)
+{
+	speed_ = 0;
 	state_ = bat.recover;
-	state_timer_ = round(global.one_second * 1);
-	set_movement(swoop_direction_ + 180, 0.3);
+	state_timer_ = round(global.one_second * rest_time_);
 }

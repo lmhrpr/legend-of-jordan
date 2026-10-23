@@ -31,10 +31,20 @@ image_xscale = (o_player.x < x) ? -1 : 1;
 state_timer_ -= 1;
 if (state_timer_ <= 0)
 {
-	// Lock on to where Jordan is NOW. He has the wind-up to get out of the way.
-	target_x_ = o_player.x;
-	target_y_ = o_player.y;
-	state_ = bat.windup;
-	state_timer_ = round(global.one_second * windup_time_);
-	speed_ = 0;
+	if (point_distance(x, y, o_player.x, o_player.y) <= notice_range_)
+	{
+		// Lock on to exactly where Jordan is standing NOW. He has the wind-up to get out of the way.
+		target_x_ = o_player.x;
+		target_y_ = o_player.y;
+		return_x_ = x;
+		return_y_ = y;
+		state_ = bat.windup;
+		state_timer_ = round(global.one_second * windup_time_);
+		speed_ = 0;
+	}
+	else
+	{
+		// Jordan's out of range: keep hovering and try again shortly
+		state_timer_ = round(global.one_second * 0.5);
+	}
 }

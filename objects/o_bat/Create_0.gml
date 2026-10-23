@@ -41,6 +41,9 @@ wander_timer_ = 0;
 swoop_direction_ = 0;
 target_x_ = x;
 target_y_ = y;
+return_x_ = x;			// where the swoop started: the bat flies back here afterwards
+return_y_ = y;
+rest_time_ = 0.6;			// seconds it sits still after a swoop (a good moment to hit it)
 
 mask_index = s_bat;
 image_index = 0;

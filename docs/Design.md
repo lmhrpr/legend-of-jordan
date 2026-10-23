@@ -100,13 +100,13 @@ Each outer region hides a ruin holding **one of Liam's undelivered letters** (th
 |---|---|---|---|---|---|
 | — | Desert shrine *(done)* | — | Magic Sword | Cut the bushes into the Old Forest | — |
 | 1 | Old Forest ruins | The Keeper throws a bomb at the slab | Bombs | Blow open cracked rocks and old trees | *TBD* (stand-in: a giant charging porcupine) |
-| 2 | Southern Desert pyramid *(built)* | Bombs (blow open the cracked rocks) | Ring (roll) | Roll through low gaps and over small pits | *TBD* (stand-in: a sand-coloured giant porcupine) |
-| 3 | Fields | Ring | Lantern | Light dark caves | *TBD* |
+| 2 | Southern Desert pyramid *(built)* | Bombs (blow open the sealed entrance) | Winged Boots | Jump over small gaps | *TBD* (stand-in: a sand-coloured giant porcupine) |
+| 3 | Canyon (west of the Desert, through the cracked rocks) | Bombs to get in; Winged Boots to cross its gaps | Lantern? | Light dark caves | *TBD* |
 | 4 | Hills | Lantern | Catapult | Hit far-off switches and flying enemies | *TBD* |
 | 5 | Riverside | Catapult | Wellies | Wade through shallow water | *TBD* |
 | 6 | Lake | Wellies | Raft | Cross deep water | *TBD* |
 | 7 | Coast | Raft | Gloves | Lift and throw boulders | *TBD* |
-| 8 | Canyon | Gloves | Last letter | — | *TBD* |
+| 8 | Fields | Gloves | Last letter | — | *TBD* |
 | 9 | Where Liam is | All 8 letters | **The cartridge** | The ending | *TBD* |
 
 ### Dungeon 1: the Old Forest ruins (built)
@@ -133,7 +133,7 @@ Room `r_dungeon2`. The pyramid is sealed by a cracked stone slab (`o_dungeon_ent
 | **Row 1** | Switch room | Centre hall; **locked door** north | East hall | Treasure (behind a secret **cracked wall**) |
 | **Row 2** | West room | **Entrance** (cracked wall north; steps out south) | East room (barred door north) | — |
 
-The route: bomb the entrance's cracked north wall → centre hall (locked door) → west room → switch room (lifts the east room's bars) → east room → east hall (a cracked wall east hides the treasure) → key room → back to the locked door → boss → Heart Container, then a chest with the Ring.
+The route: bomb the entrance's cracked north wall → centre hall (locked door) → west room → switch room (lifts the east room's bars) → east room → east hall (a cracked wall east hides the treasure) → key room → back to the locked door → boss → Heart Container, then a chest with the Winged Boots.
 
 ### Character progression
 

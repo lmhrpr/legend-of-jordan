@@ -1,5 +1,5 @@
 draw_sprite(s_medium_shadow, 0, x, y);
-draw_self();
+draw_sprite_ext(sprite_index, image_index, x, y + jump_z_, image_xscale, image_yscale, 0, image_blend, image_alpha);
 draw_self_flash(c_red, 12, alarm[0]);
 
 // Hold a newly found item above his head

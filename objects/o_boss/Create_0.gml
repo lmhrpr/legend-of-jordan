@@ -1,7 +1,7 @@
 /// @description Stand-in boss for the Old Forest ruins: a giant porcupine that charges
 // (Swap the sprites for the real boss later.)
 event_inherited();
-initialise_movement_entity(0.15, 0.4, o_solid);
+initialise_movement_entity(0.15, 0.4, [o_solid, o_gap]);
 
 enum boss
 {

@@ -1,6 +1,6 @@
 /// @description Initialise player object
 
-initialise_movement_entity(0.5, 1, o_solid);
+initialise_movement_entity(0.5, 1, [o_solid, o_gap]);	// gaps only stop him on foot (he can jump them)
 initialise_hurtbox_entity();
 
 global.player_health = global.player_max_health;
@@ -16,6 +16,14 @@ max_speed_ = 1.5;
 facing_direction_ = dir.right;
 roll_direction_ = 0;
 roll_speed_ = 2;
+// Jumping (the Winged Boots): about 40px in 22 steps, up to 12px off the ground
+jump_time_ = 22;
+jump_distance_ = 40;
+jump_height_ = 12;
+jump_t_ = 0;
+jump_z_ = 0;
+jump_from_x_ = x;
+jump_from_y_ = y;
 
 // Text boxes
 name = "Jordan";
@@ -82,10 +90,10 @@ sprite[player.sword, dir.up] = s_jordan_sword_up_basic;
 sprite[player.sword, dir.left] = s_jordan_sword_right_basic;
 sprite[player.sword, dir.down] = s_jordan_sword_down_basic;
 
-sprite[player.evade, dir.right] = s_player_roll_right;
-sprite[player.evade, dir.up] = s_player_roll_up;
-sprite[player.evade, dir.left] = s_player_roll_right;
-sprite[player.evade, dir.down] = s_player_roll_down;
+sprite[player.evade, dir.right] = s_jordan_run_right_basic;
+sprite[player.evade, dir.up] = s_jordan_run_up_basic;
+sprite[player.evade, dir.left] = s_jordan_run_right_basic;
+sprite[player.evade, dir.down] = s_jordan_run_down_basic;
 
 sprite[player.bomb, dir.right] = s_jordan_run_right_basic;
 sprite[player.bomb, dir.up] = s_jordan_run_up_basic;

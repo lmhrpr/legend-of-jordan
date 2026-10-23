@@ -100,11 +100,11 @@ textbox_ = noone;
 name = "";
 voice = a_text;
 
-// The people in it
+// The people in it (sprites named directly: GameMaker leaves out sprites the code never names)
 actors_ = {
-	liam:   { prefix: "s_end_liam",   x: 0, y: 0, dir: "down", seated: false, visible: false, moving: false, frame: 0 },
-	jordan: { prefix: "s_end_jordan", x: 0, y: 0, dir: "down", seated: false, visible: false, moving: false, frame: 0 },
-	mavi:   { prefix: "s_end_mavi",   x: 0, y: 0, dir: "down", seated: false, visible: false, moving: false, frame: 0 }
+	liam:   { sprites: { right: s_end_liam_right, up: s_end_liam_up, down: s_end_liam_down },   x: 0, y: 0, dir: "down", seated: false, visible: false, moving: false, frame: 0 },
+	jordan: { sprites: { right: s_end_jordan_right, up: s_end_jordan_up, down: s_end_jordan_down }, x: 0, y: 0, dir: "down", seated: false, visible: false, moving: false, frame: 0 },
+	mavi:   { sprites: { right: s_end_mavi_right, up: s_end_mavi_up, down: s_end_mavi_down },   x: 0, y: 0, dir: "down", seated: false, visible: false, moving: false, frame: 0 }
 };
 
 audio_stop_all();

@@ -72,7 +72,7 @@ for (var _i = 0; _i < array_length(_list); _i++)
 	var _a = _list[_i];
 	if (variable_struct_exists(_a, "sofa")) { draw_sprite(s_end_sofa, 0, 160, 150 + _oy); continue; }
 	var _dir = (_a.dir == "left") ? "right" : _a.dir;
-	var _spr = asset_get_index(_a.prefix + "_" + _dir);
+	var _spr = _a.sprites[$ _dir];
 	var _frame = _a.moving ? floor(_a.frame) mod sprite_get_number(_spr) : 0;
 	draw_sprite_ext(_spr, _frame, _a.x, _a.y + _oy, (_a.dir == "left") ? -1 : 1, 1, 0, c_white, 1);
 }

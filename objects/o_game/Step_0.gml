@@ -64,13 +64,10 @@ if o_input.pause_pressed_
 		global.paused = true;
 		
 		// Create snapshot of current view
-		global.paused_sprite = sprite_create_from_surface(
-			application_surface, 
-			0, 0, 
-			view_wport[0], 
-			view_hport[0], 
-			false, false, 
-			0, 0);
+		var _sw = surface_get_width(application_surface);
+		var _sh = surface_get_height(application_surface);
+		global.paused_sprite = sprite_create_from_surface(application_surface, 0, 0, _sw, _sh, false, false, 0, 0);
+		global.paused_sprite_scale = VIEW_W / _sw;
 			
 		// Deactivate all instances
 		instance_deactivate_all(true);

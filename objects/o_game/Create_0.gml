@@ -24,12 +24,12 @@ global.player_stamina = global.player_max_stamina;
 global.active_textbox = noone;
 global.loaded_flags = undefined;
 
-display_set_gui_size(VIEW_W, VIEW_H);
+display_set_gui_size(VIEW_W, GUI_H);
 
 global.paused = false;
 global.respawned = false;
 global.paused_sprite = noone;
-global.paused_sprite_scale = VIEW_W / view_wport[0];
+global.paused_sprite_scale = 1;
 
 global.item[0] = noone;
 global.item[1] = noone;

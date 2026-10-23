@@ -6,16 +6,16 @@ switch (type_)
 	case trans_type.slide:
 		if (closing_)
 		{
-			draw_rectangle(0, 0, VIEW_W * progress_, VIEW_H, false);
+			draw_rectangle(0, HUD_H, VIEW_W * progress_, GUI_H, false);
 		}
 		else
 		{
-			draw_rectangle(VIEW_W * (1 - progress_), 0, VIEW_W, VIEW_H, false);
+			draw_rectangle(VIEW_W * (1 - progress_), HUD_H, VIEW_W, GUI_H, false);
 		}
 		break;
 
 	case trans_type.iris:
-		// Centre the circle on Jordan (in GUI coordinates, which match the view)
+		// Centre the circle on Jordan (view coordinates; the surface is drawn below the toolbar)
 		var _cx = VIEW_W / 2;
 		var _cy = VIEW_H / 2;
 		if (instance_exists(o_player))
@@ -41,12 +41,12 @@ switch (type_)
 			gpu_set_blendmode(bm_normal);
 		}
 		surface_reset_target();
-		draw_surface(surface_, 0, 0);
+		draw_surface(surface_, 0, HUD_H);
 		break;
 
 	default:
 		draw_set_alpha(progress_);
-		draw_rectangle(0, 0, VIEW_W, VIEW_H, false);
+		draw_rectangle(0, (room == r_title) ? 0 : HUD_H, VIEW_W, GUI_H, false);
 		draw_set_alpha(1);
 		break;
 }

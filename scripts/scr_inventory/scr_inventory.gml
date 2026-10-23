@@ -75,7 +75,7 @@ function inventory_draw(_x, _y)
 	var _box_w = sprite_get_width(s_inv_box);
 	var _total_w = _size * (_box_w + 4) - 4;
 	var _start_x = (VIEW_W - _total_w) div 2;
-	var _box_y = (VIEW_H div 2) - 24;
+	var _box_y = HUD_H + (VIEW_H div 2) - 24;
 
 	draw_set_halign(fa_center);
 	draw_set_valign(fa_top);
@@ -107,7 +107,7 @@ function inventory_draw(_x, _y)
 		draw_text_ext(VIEW_W div 2, _box_y + _box_w + 8, _selected.description_, 12, VIEW_W - 40);
 	}
 	draw_set_colour(c_ltgray);
-	draw_text(VIEW_W div 2, VIEW_H - 22, "Z / X: equip to that button    P: back");
+	draw_text(VIEW_W div 2, GUI_H - 22, "Z / X: equip to that button    P: back");
 	draw_set_colour(c_white);
 	draw_set_halign(fa_left);
 }

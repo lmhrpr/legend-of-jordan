@@ -3,7 +3,7 @@
 var _box_w = sprite_get_width(s_text_box);
 var _box_h = sprite_get_height(s_text_box);
 var _x = (VIEW_W - _box_w) div 2;
-var _y = VIEW_H - _box_h - 4;
+var _y = GUI_H - _box_h - 4;
 
 draw_sprite(s_text_box, 0, _x, _y);
 

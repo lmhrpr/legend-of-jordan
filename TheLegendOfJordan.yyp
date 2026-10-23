@@ -185,6 +185,7 @@
     {"id":{"name":"s_hit_effect","path":"sprites/s_hit_effect/s_hit_effect.yy",},},
     {"id":{"name":"s_inv_box_equipped","path":"sprites/s_inv_box_equipped/s_inv_box_equipped.yy",},},
     {"id":{"name":"s_inv_box","path":"sprites/s_inv_box/s_inv_box.yy",},},
+    {"id":{"name":"s_item_slot","path":"sprites/s_item_slot/s_item_slot.yy",},},
     {"id":{"name":"s_jordan_run_down_basic","path":"sprites/s_jordan_run_down_basic/s_jordan_run_down_basic.yy",},},
     {"id":{"name":"s_jordan_run_right_basic","path":"sprites/s_jordan_run_right_basic/s_jordan_run_right_basic.yy",},},
     {"id":{"name":"s_jordan_run_up_basic","path":"sprites/s_jordan_run_up_basic/s_jordan_run_up_basic.yy",},},

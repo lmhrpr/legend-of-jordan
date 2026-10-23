@@ -33,6 +33,7 @@ function keys_add(_amount)
 function dungeon_for_room(_room)
 {
 	if (_room == r_dungeon1) return "d1";
+	if (_room == r_dungeon2) return "d2";
 	return "";
 }
 

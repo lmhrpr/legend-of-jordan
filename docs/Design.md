@@ -87,7 +87,7 @@ Bats and porcupines everywhere except the Keeper's glade. Gloom deepens towards 
 | 5 | **The Magic Sword shrine** | 2, 4, 8 |
 | 6 | Porcupine flats | 3, 9 |
 | 7 | Dead end: treasure | 8 |
-| 8 | **The sealed pyramid** (a later dungeon; a small footprint in the sand...) | 5, 7, 9 |
+| 8 | **The sealed pyramid** (Dungeon 2, behind cracked rocks: bomb them) | 5, 7, 9 |
 | 9 | Rocky maze | 6, 8 |
 
 ---
@@ -100,8 +100,8 @@ Each outer region hides a ruin holding **one of Liam's undelivered letters** (th
 |---|---|---|---|---|---|
 | — | Desert shrine *(done)* | — | Magic Sword | Cut the bushes into the Old Forest | — |
 | 1 | Old Forest ruins | The Keeper opens the way | Bombs | Blow open cracked rocks and old trees | *TBD* (stand-in: a giant charging porcupine) |
-| 2 | Fields | Bombs | Ring (roll) | Roll through low gaps and over small pits | *TBD* |
-| 3 | Southern Desert | Ring | Lantern | Light dark caves | *TBD* |
+| 2 | Southern Desert pyramid *(built)* | Bombs (blow open the cracked rocks) | Ring (roll) | Roll through low gaps and over small pits | *TBD* (stand-in: a sand-coloured giant porcupine) |
+| 3 | Fields | Ring | Lantern | Light dark caves | *TBD* |
 | 4 | Hills | Lantern | Catapult | Hit far-off switches and flying enemies | *TBD* |
 | 5 | Riverside | Catapult | Wellies | Wade through shallow water | *TBD* |
 | 6 | Lake | Wellies | Raft | Cross deep water | *TBD* |
@@ -122,6 +122,18 @@ A 4 × 3 grid of one-screen rooms joined like a maze (room `r_dungeon1`):
 The route: Entrance → Bat room → Switch room (the switch lifts the Entrance bars) → post-bag corridor → East hall → Key room (beat everyone and a key drops) → back to the locked door → Boss → Heart Container, then a chest with Bombs appears.
 
 Building blocks for later dungeons: `o_locked_door` (uses a key), `o_barred_door` (opens on a flag; or shuts you in until a flag), `o_floor_switch` (sets a flag), `o_key_spawner` (drops a key when a screen is cleared), `o_chest`, `o_heart_container`. Flags and keys are saved.
+
+### Dungeon 2: the desert pyramid (built)
+
+Room `r_dungeon2`, entered by `o_stairs` placed in the desert (behind `o_rock_cracked` rocks that only bombs break). Coming back out, Jordan appears in front of the stairs.
+
+|   | Col 0 | Col 1 | Col 2 | Col 3 |
+|---|---|---|---|---|
+| **Row 0** | — | **Boss arena** (bars drop behind you) | Key room | — |
+| **Row 1** | Switch room | Centre hall; **locked door** north | East hall | Treasure (behind a secret **cracked wall**) |
+| **Row 2** | West room | **Entrance** (cracked wall north; steps out south) | East room (barred door north) | — |
+
+The route: bomb the entrance's cracked north wall → centre hall (locked door) → west room → switch room (lifts the east room's bars) → east room → east hall (a cracked wall east hides the treasure) → key room → back to the locked door → boss → Heart Container, then a chest with the Ring.
 
 ### Character progression
 
@@ -153,8 +165,8 @@ Building blocks for later dungeons: `o_locked_door` (uses a key), `o_barred_door
 | Dungeon | Memory / theme | Item's real-life version | Boss idea |
 |---|---|---|---|
 | 1 Old Forest | | | |
-| 2 Fields | | | |
-| 3 Southern Desert | | | |
+| 2 Southern Desert | | | |
+| 3 Fields | | | |
 | 4 Hills | | | |
 | 5 Riverside | | | |
 | 6 Lake | | | |

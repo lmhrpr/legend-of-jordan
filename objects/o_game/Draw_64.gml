@@ -1,5 +1,5 @@
 /// @description The toolbar, and the pause screen
-// The world view sits below the toolbar (rooms' view 0 is at port y = HUD_H * 3),
+// The world is drawn below the toolbar (see Post Draw),
 // so the toolbar never covers the map.
 
 // Don't draw GUI on title screen
@@ -8,7 +8,7 @@ if (room == r_title or room == r_init) { exit; }
 // If paused, show a snapshot of the world, dimmed
 if (sprite_exists(global.paused_sprite))
 {
-	draw_sprite_ext(global.paused_sprite, 0, 0, 0, global.paused_sprite_scale, global.paused_sprite_scale, 0, c_white, 1);
+	draw_sprite_ext(global.paused_sprite, 0, 0, HUD_H, global.paused_sprite_scale, global.paused_sprite_scale, 0, c_white, 1);
 	draw_set_alpha(0.6);
 	draw_set_colour(c_black);
 	draw_rectangle(0, HUD_H, VIEW_W, GUI_H, false);

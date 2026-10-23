@@ -1,11 +1,4 @@
 /// @description Animated tiles, pause screen
-// Keep the game's drawing surface tall enough for the toolbar plus the world
-// (GameMaker can reset it to the view's size when a room starts)
-if (surface_get_width(application_surface) != VIEW_W * 3 or surface_get_height(application_surface) != GUI_H * 3)
-{
-	surface_resize(application_surface, VIEW_W * 3, GUI_H * 3);
-}
-
 
 if (!global.paused) tile_animations_step();
 
@@ -74,7 +67,7 @@ if o_input.pause_pressed_
 		var _sw = surface_get_width(application_surface);
 		var _sh = surface_get_height(application_surface);
 		global.paused_sprite = sprite_create_from_surface(application_surface, 0, 0, _sw, _sh, false, false, 0, 0);
-		global.paused_sprite_scale = VIEW_W / _sw;
+		global.paused_sprite_scale = VIEW_W / _sw;	// the snapshot is the world only
 			
 		// Deactivate all instances
 		instance_deactivate_all(true);

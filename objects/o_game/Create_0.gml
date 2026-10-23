@@ -24,10 +24,11 @@ global.player_stamina = global.player_max_stamina;
 global.active_textbox = noone;
 global.loaded_flags = undefined;
 
-// The window is the toolbar plus the world, at 3x. GameMaker sizes the window from the
-// view alone, so set it (and the surface the game draws to) here.
+// The window is the toolbar plus the world, at 3x. The world is drawn to the
+// application surface as normal (960x540), and o_game's Post Draw puts it on the
+// screen below the toolbar, so nothing is stretched.
+application_surface_draw_enable(false);
 window_set_size(VIEW_W * 3, GUI_H * 3);
-surface_resize(application_surface, VIEW_W * 3, GUI_H * 3);
 call_later(1, time_source_units_frames, window_center);
 display_set_gui_size(VIEW_W, GUI_H);
 

@@ -30,4 +30,4 @@ Thumbs.db
 
 # Any custom IDE/Editor local settings (if applicable)
 .vscode/
-.idea/
+.idea/__pycache__/

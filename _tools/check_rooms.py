@@ -42,12 +42,38 @@ def sprite_box(spr):
     return _sprites[spr]
 
 
+def wall_solids(room_yy):
+    """The invisible blocks walls_make_solid() lays along the Tiles_Walls layer (same masks as scr_walls)."""
+    layer = next((l for l in room_yy["layers"] if l["name"] == "Tiles_Walls"), None)
+    if not layer:
+        return []
+    gml = open(f"{ROOT}/scripts/scr_walls/scr_walls.gml", encoding="utf-8").read()
+    masks = [int(v) for v in re.search(r"#macro WALL_TILE_MASKS \[([\d,]+)\]", gml).group(1).split(",")]
+    data, i, cells = layer["tiles"]["TileCompressedData"], 0, []
+    while i < len(data):
+        n = data[i]
+        if n < 0:
+            cells += [data[i + 1]] * (-n); i += 2
+        else:
+            cells += data[i + 1:i + 1 + n]; i += 1 + n
+    w = layer["tiles"]["SerialiseWidth"]
+    out = []
+    for k, v in enumerate(cells):
+        v = v & 0x7FFFF if v > 0 else 0
+        m = masks[v] if 0 < v < len(masks) else 0
+        for bit in range(16):
+            if m >> bit & 1:
+                out.append(dict(name="wall", obj="o_solid", x=(k % w) * 32 + (bit % 4) * 8, y=(k // w) * 32 + (bit // 4) * 8, sx=0.5, sy=0.5))
+    return out
+
+
 def instances(room):
     y = load(f"{ROOT}/rooms/{room}/{room}.yy")
     out = []
     for layer in y["layers"]:
         for i in layer.get("instances", []):
             out.append(dict(name=i["name"], obj=i["objectId"]["name"], x=i["x"], y=i["y"], sx=i["scaleX"], sy=i["scaleY"]))
+    out += wall_solids(y)
     return y["roomSettings"]["Width"], y["roomSettings"]["Height"], out
 
 

@@ -42,15 +42,16 @@ def render(room, debug=False):
         elif L["resourceType"] == "GMRTileLayer":
             ts = load(f"{ROOT}/tilesets/{L['tilesetId']['name']}/{L['tilesetId']['name']}.yy")
             sheet, _ = sprite(ts["spriteId"]["name"])
-            cols = sheet.width // 16
+            tw, th = ts.get("tileWidth", 16), ts.get("tileHeight", 16)
+            cols = sheet.width // tw
             cells = decode(L["tiles"]["TileCompressedData"])
             w = L["tiles"]["SerialiseWidth"]
             for k, v in enumerate(cells):
                 if v == EMPTY or v <= 0:
                     continue
                 v &= 0x7FFFF
-                t = sheet.crop(((v % cols) * 16, (v // cols) * 16, (v % cols) * 16 + 16, (v // cols) * 16 + 16))
-                im.alpha_composite(t, ((k % w) * 16, (k // w) * 16))
+                t = sheet.crop(((v % cols) * tw, (v // cols) * th, (v % cols) * tw + tw, (v // cols) * th + th))
+                im.alpha_composite(t, ((k % w) * tw, (k // w) * th))
     insts = [i for L in layers for i in L.get("instances", [])]
     objs = {}
     for i in sorted(insts, key=lambda i: i["y"]):

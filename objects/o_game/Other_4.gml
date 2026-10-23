@@ -4,6 +4,8 @@ tile_animations_scan();
 
 if (room == r_title or room == r_init) { exit; }
 
+walls_make_solid();		// cliffs on the Tiles_Walls layer block movement
+
 if (!instance_exists(o_player) and instance_exists(global.player_start_position))
 {
 	var _start = global.player_start_position;

@@ -16,6 +16,10 @@ function save_game()
 	ini_write_real("quest", "main_quest_active", global.main_quest_active);
 	ini_write_real("quest", "found_letter", global.found_letter);
 	ini_write_real("quest", "met_keeper", global.met_keeper);
+	var _cut = variable_struct_get_names(global.cut_bushes);
+	var _cut_list = "";
+	for (var _c = 0; _c < array_length(_cut); _c++) _cut_list += (_c > 0 ? "|" : "") + _cut[_c];
+	ini_write_string("world", "cut_bushes", _cut_list);
 
 	if (instance_exists(o_player))
 	{
@@ -55,6 +59,9 @@ function load_game()
 	global.main_quest_active = ini_read_real("quest", "main_quest_active", false);
 	global.found_letter = ini_read_real("quest", "found_letter", false);
 	global.met_keeper = ini_read_real("quest", "met_keeper", false);
+	global.cut_bushes = {};
+	var _cut = string_split(ini_read_string("world", "cut_bushes", ""), "|", true);
+	for (var _c = 0; _c < array_length(_cut); _c++) global.cut_bushes[$ _cut[_c]] = true;
 	global.first_play = false;
 
 	// Read by o_player's Create event

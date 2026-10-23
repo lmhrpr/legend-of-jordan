@@ -91,6 +91,8 @@ function inventory_draw(_x, _y)
 		if (instance_exists(_item))
 		{
 			draw_sprite(_item.sprite_, 0, _bx + _box_w / 2, _box_y);
+			if (_item == global.item[0]) draw_sprite(s_button_badge, 0, _bx + 22, _box_y + 22);
+			if (_item == global.item[1]) draw_sprite(s_button_badge, 1, _bx + 22, _box_y + 22);
 		}
 		if (_i == item_index_)
 		{

@@ -129,7 +129,8 @@ def build():
     new_sprite("s_letter", [art(LETTER)], 7, 8, "Sprites/Item Sprites")
     new_sprite("s_keeper", keeper_frames(), 16, 30, "Sprites/NPC Sprites", speed=3.0)
     new_sprite("s_ruin_lid", [ruin_lid()], 16, 16, "Sprites/World Sprites")
-    return ["s_keeper", "s_ruin_lid", "s_tree_dark", "s_signpost", "s_post_box", "s_sweetie_tin", "s_letter"]
+    new_sprite("s_button_badge", button_badges(), 0, 0, "Sprites/UI Sprites")
+    return ["s_button_badge", "s_keeper", "s_ruin_lid", "s_tree_dark", "s_signpost", "s_post_box", "s_sweetie_tin", "s_letter"]
 
 
 def outline(im):
@@ -191,3 +192,27 @@ def ruin_lid():
     """The stone slab sealing the way into the ruins (tiles 243/244/259/260)."""
     src = Image.open("/tmp/claude-0/-home-claude/bfa170d3-60b9-5a2e-b951-afe43e5c5976/scratchpad/top_down_raw.png").convert("RGBA")
     return src.crop((3 * 16, 15 * 16, 5 * 16, 17 * 16))
+
+
+def button_badges():
+    """Corner badges for the equipped-item boxes: frame 0 = Z, frame 1 = X.
+    Uses the green and black of s_inv_box_equipped's border."""
+    letters = {
+        "Z": ["#####", "...#.", "..#..", ".#...", "#####"],
+        "X": ["#...#", ".#.#.", "..#..", ".#.#.", "#...#"],
+    }
+    black, green, light = (0, 0, 0, 255), (60, 184, 120, 255), (172, 212, 115, 255)
+    frames = []
+    for key in ("Z", "X"):
+        im = Image.new("RGBA", (9, 9), black)
+        for y in range(1, 8):
+            for x in range(1, 8):
+                im.putpixel((x, y), green)
+        for x in range(1, 8):
+            im.putpixel((x, 1), light)            # highlight along the top, like the box border
+        for y, row in enumerate(letters[key]):
+            for x, ch in enumerate(row):
+                if ch == "#":
+                    im.putpixel((2 + x, 2 + y), black)
+        frames.append(im)
+    return frames

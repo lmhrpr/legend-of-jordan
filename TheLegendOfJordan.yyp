@@ -164,6 +164,7 @@
     {"id":{"name":"s_bomb_item","path":"sprites/s_bomb_item/s_bomb_item.yy",},},
     {"id":{"name":"s_bomb","path":"sprites/s_bomb/s_bomb.yy",},},
     {"id":{"name":"s_bush","path":"sprites/s_bush/s_bush.yy",},},
+    {"id":{"name":"s_button_badge","path":"sprites/s_button_badge/s_button_badge.yy",},},
     {"id":{"name":"s_dad","path":"sprites/s_dad/s_dad.yy",},},
     {"id":{"name":"s_death_effect","path":"sprites/s_death_effect/s_death_effect.yy",},},
     {"id":{"name":"s_dirt_path_tileset","path":"sprites/s_dirt_path_tileset/s_dirt_path_tileset.yy",},},

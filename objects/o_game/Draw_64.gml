@@ -24,16 +24,6 @@ draw_text(sprite_get_width(s_gems_box) - _text_width, sprite_get_height(s_gems_b
 draw_sprite(s_inv_box_equipped, 0, VIEW_W - sprite_get_width(s_inv_box), 0);
 draw_sprite(s_inv_box_equipped, 0, VIEW_W - (sprite_get_width(s_inv_box) * 2), 0);
 
-// Button labels under the equipped boxes
-draw_set_font(f_12);
-draw_set_halign(fa_center);
-draw_set_colour(make_colour_rgb(255, 214, 120));
-draw_text(VIEW_W - (sprite_get_width(s_inv_box) * 1.5), sprite_get_height(s_inv_box) - 2, "Z");
-draw_text(VIEW_W - (sprite_get_width(s_inv_box) * 0.5), sprite_get_height(s_inv_box) - 2, "X");
-draw_set_colour(c_white);
-draw_set_halign(fa_left);
-draw_set_font(global.font);
-
 // Draw equipped items 
 if instance_exists(global.item[0])
 {
@@ -44,6 +34,10 @@ if instance_exists(global.item[1])
 {
 	draw_sprite(global.item[1].sprite_, 0, VIEW_W - sprite_get_width(s_inv_box) + (sprite_get_width(s_inv_box) / 2), 0);
 }
+
+// Z / X badges in the bottom-right corner of each box (drawn last, clear of the item)
+draw_sprite(s_button_badge, 0, VIEW_W - (sprite_get_width(s_inv_box) * 2) + 22, 22);
+draw_sprite(s_button_badge, 1, VIEW_W - sprite_get_width(s_inv_box) + 22, 22);
 
 // Draw box around health bar
 var _stats_right_edge = max((global.player_max_health * 15), (global.player_max_stamina * 15)) + 5;

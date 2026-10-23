@@ -1,4 +1,8 @@
 /// @description Drop hidden treasure (or sometimes a random item)
+
+// Remember it's been cut, so it doesn't grow back
+global.cut_bushes[$ bush_key_] = true;
+
 if (hidden_item_ != noone)
 {
 	repeat (hidden_count_)

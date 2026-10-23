@@ -22,7 +22,6 @@ else if (!global.met_keeper)
 	];
 	textbox_on_close(function() {
 		global.met_keeper = true;
-		global.player_health = global.player_max_health;
 		with (o_ruin_entrance)
 		{
 			create_animation_effect(s_explosion_effect, x + 8, y + 16, 1, false);

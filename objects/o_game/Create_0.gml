@@ -17,6 +17,7 @@ global.main_quest_active = false;
 global.first_play = true;
 global.found_letter = false;
 global.met_keeper = false;
+global.cut_bushes = {};		// "room:x:y" of every bush Jordan has cut down
 global.textbox_on_close = undefined;
 global.player_health = global.player_max_health;
 global.player_stamina = global.player_max_stamina;

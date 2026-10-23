@@ -214,3 +214,30 @@ class Room:
                 im.alpha_composite(tmp)
         im.save(path)
         return im
+
+
+TREE_OBJS = {"o_tree", "o_tree_dark"}
+BORDER_ROWS = {32.0, 192.0, 368.0, 544.0}
+BORDER_COLS = {8.0: 0, 312.0: 1, 328.0: 0, 632.0: 1, 648.0: 0, 952.0: 0}
+
+
+def thin_trees(room):
+    """Same rules as _tools/thin_trees.py: border lines keep every other tree (staggered between
+    screens, openings' edge trees always kept); other trees on a 32px grid clear of the borders."""
+    trees = {(i["x"], i["y"]): i for i in room.instances if i["obj"] in TREE_OBJS}
+    pos = set(trees)
+    kept = set()
+    for (x, y) in pos:
+        if y in BORDER_ROWS:
+            edge = (x - 16, y) not in pos or (x + 16, y) not in pos
+            if int((x - 8) // 16) % 2 == 0 or edge:
+                kept.add((x, y))
+        elif x in BORDER_COLS:
+            edge = (x, y - 16) not in pos or (x, y + 16) not in pos
+            if (int((y - 16) // 16) + BORDER_COLS[x]) % 2 == 0 or edge:
+                kept.add((x, y))
+    for (x, y) in sorted(pos - kept, key=lambda p: (p[1], p[0])):
+        if not any(abs(x - kx) < 32 and abs(y - ky) < 32 for kx, ky in kept):
+            kept.add((x, y))
+    drop = {id(trees[p]) for p in pos - kept}
+    room.instances = [i for i in room.instances if id(i) not in drop]

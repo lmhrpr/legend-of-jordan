@@ -373,3 +373,272 @@ def desert():
     room.add("o_camera", 0, 0)
     room.solid_cells(solids)
     return room
+
+
+# =====================================================================================
+#  REGION HELPERS (3 x 3 screens)
+# =====================================================================================
+def region_openings(links):
+    """links: list of (kind, line, cells) -> v_open / h_open dicts for borders()."""
+    v_open = {19: set(), 20: set(), 39: set(), 40: set()}
+    h_open = {11: set(), 22: set()}
+    for kind, line, cells in links:
+        if kind == "v":
+            for col in line:
+                v_open[col] |= set(cells)
+        else:
+            h_open[line] |= set(cells)
+    return v_open, h_open
+
+
+def screen_rect(n):
+    """Cell rect of screen n (1-9, row-major) interior."""
+    sx, sy = SCREEN[n]
+    r = rows(n)
+    return sx * 20 + 1, r[0], sx * 20 + 18, r[-1]
+
+
+def dense_forest(room, rnd, keep, dark=True, olds=0.25, cells=None):
+    """Trees on a staggered 32px grid everywhere except the trail cells in `keep`."""
+    for r in range(2, 33):
+        for c in range(1, 59):
+            if r in (11, 22) or c in (19, 20, 39, 40):
+                continue
+            if r % 2 or (c + (r // 2)) % 2:
+                continue
+            if any((c + dc, r + dr) in keep for dc in (-1, 0, 1) for dr in (-1, 0, 1)):
+                continue
+            if rnd.random() < 0.9:
+                if rnd.random() < olds:
+                    room.add("o_old_tree1", c * TILE + 8, r * TILE + 16)
+                else:
+                    tree(room, c, r, dark=dark)
+
+
+# =====================================================================================
+#  THE OLD FOREST (3 x 3), north of the Village
+#     1 Dead end: gem stash     2 The Keeper's glade + ruins (Dungeon 1)   3 Old trees, a heart
+#     4 Winding trail            5 Crossroads                              6 Pond
+#     7 Dead end: hidden heart   8 Entrance from the Village               9 Bats
+# =====================================================================================
+def old_forest_region():
+    rnd = random.Random(1999)
+    room = Room("r_old_forest", 960, 540, bg_sprite="s_grass_background")
+    solids = set()
+    v_open, h_open = region_openings([
+        ("v", (19, 20), range(26, 31)),     # 7 <-> 8
+        ("v", (39, 40), range(26, 31)),     # 8 <-> 9
+        ("v", (19, 20), range(15, 20)),     # 4 <-> 5
+        ("h", 22, range(28, 31)),           # 5 <-> 8
+        ("h", 22, range(48, 51)),           # 6 <-> 9
+        ("h", 11, range(28, 31)),           # 2 <-> 5
+        ("h", 11, range(8, 11)),            # 1 <-> 4
+        ("h", 11, range(48, 51)),           # 3 <-> 6
+    ])
+    every = {SCREEN[n] for n in range(1, 10)}
+    borders(room, 60, v_open, h_open, bottom_open=set(range(28, 31)), dark=every)
+    room.solid_rect(0, 0, 59, 0)
+    room.solid_rect(0, 33, 27, 33)
+    room.solid_rect(31, 33, 59, 33)
+
+    trails = set()
+    for a, b, c, d in [
+        (28, 23, 30, 33), (20, 26, 39, 29),             # 8: up from the Village; east-west
+        (12, 26, 19, 29), (3, 24, 11, 31),              # 7: to a dead-end clearing
+        (40, 26, 46, 29), (47, 22, 50, 29),             # 9: east, then north
+        (47, 12, 50, 21), (51, 14, 57, 19),             # 6: north, and the pond clearing
+        (47, 2, 50, 10), (51, 3, 57, 8),                # 3: the old-tree clearing
+        (28, 12, 30, 21), (24, 14, 34, 19),             # 5: crossroads
+        (12, 15, 27, 18), (8, 12, 11, 18), (3, 13, 8, 20),   # 4: west, then north
+        (8, 4, 11, 10), (2, 3, 10, 7),                  # 1: dead end
+        (28, 6, 30, 10), (21, 2, 37, 9),                # 2: the Keeper's glade
+    ]:
+        trails |= rect(a, b, c, d)
+    # Pond in screen 6
+    for (c, r) in rect(54, 15, 56, 17):
+        room.set_tile("Tiles_Ground", c, r, WATER)
+        solids.add((c, r))
+    dense_forest(room, rnd, trails)
+
+    # ---- 2: The Keeper's glade ----
+    room.add("o_letter", 24 * TILE + 8, 8 * TILE + 8)
+    room.add("o_keeper", 29 * TILE + 8, 6 * TILE)
+    ruin = [[240, 241, 242], [256, 257, 258], [272, 273, 274]]
+    for dr in range(3):
+        for dc in range(3):
+            room.set_tile("Tiles_Decor", 33 + dc, 3 + dr, ruin[dr][dc])
+            if (dc, dr) != (1, 1):
+                solids.add((33 + dc, 3 + dr))
+    room.add("o_ruin_entrance", 34 * TILE, 4 * TILE)
+    flowers(room, rnd, rect(22, 7, 26, 9) | rect(31, 7, 36, 9), density=0.35, small=0.6)
+
+    # ---- Treasure and secrets ----
+    bush(room, 5 * TILE, 27 * TILE + 12, hidden="o_heart_pickup")               # 7
+    bush(room, 7 * TILE, 27 * TILE + 12, hidden="o_gem_pickup", count=2)
+    bush(room, 4 * TILE, 5 * TILE + 12, hidden="o_gem_pickup", count=3)         # 1
+    bush(room, 6 * TILE, 5 * TILE + 12, hidden="o_gem_pickup", count=2)
+    room.add("o_heart_pickup", 55 * TILE, 5 * TILE + 8)                          # 3
+    for (c, r) in [(52, 4), (56, 7), (53, 7)]:
+        room.add("o_old_tree1", c * TILE + 8, r * TILE + 16)
+    for (c, r) in [(25, 15), (26, 18), (33, 15), (52, 18), (14, 16), (16, 17), (4, 14), (5, 19), (9, 6), (48, 25)]:
+        grass(room, c, r)
+    grass(room, 33, 18, hidden="o_gem_pickup")
+    grass(room, 52, 15, hidden="o_heart_pickup")
+
+    # ---- Creatures (none in the Keeper's glade) ----
+    for obj, c, r in [("o_bat", 34, 27), ("o_porcupine", 6, 26), ("o_porcupine", 9, 30),
+                      ("o_bat", 44, 27), ("o_bat", 49, 25), ("o_porcupine", 49, 14), ("o_bat", 53, 18),
+                      ("o_porcupine", 53, 5), ("o_bat", 26, 16), ("o_bat", 32, 17), ("o_porcupine", 29, 13),
+                      ("o_porcupine", 15, 17), ("o_porcupine", 5, 16), ("o_bat", 4, 5), ("o_bat", 9, 8)]:
+        room.add(obj, c * TILE + 8, r * TILE + 8)
+
+    # ---- Signs ----
+    sign(room, 26, 25, ["THE OLD FOREST", "Turn back now!"])
+
+    # ---- Exits, gloom, music ----
+    edge_door(room, 28, 33, 3, "r_village", "i_village_north")
+    room.add("o_start_position", 29 * TILE + 8, 32 * TILE + 4, name="i_forest_entrance")
+    gloom = {0: (0.45, 0.38), 1: (0.38, 0.32), 2: (0.32, 0.26)}
+    for n in range(1, 10):
+        sx, sy = SCREEN[n]
+        top, bottom = gloom[sy]
+        if n == 2:
+            top, bottom = 0.22, 0.2           # the Keeper's glade is a little brighter
+        room.add("o_darkness", sx * 320, sy * 180, code=f"alpha_top_ = {top};\nalpha_bottom_ = {bottom};")
+        room.add("o_forest_music", sx * 320 + 24, sy * 180 + 40)
+    room.add("o_camera", 0, 0)
+    room.solid_cells(solids)
+    from roomgen import thin_trees
+    thin_trees(room)
+    return room
+
+
+# =====================================================================================
+#  THE SOUTHERN DESERT (3 x 3), south of the Village
+#     1 Dead end: buried stash   2 Rocks and dead trees     3 Entrance from the Post Office
+#     4 Oasis                    5 The Magic Sword shrine   6 Porcupine flats
+#     7 Dead end: treasure       8 The sealed pyramid (a later dungeon)   9 Rocky maze
+# =====================================================================================
+def desert_region():
+    rnd = random.Random(2027)
+    room = Room("r_desert", 960, 540, bg_sprite="s_grass_background")
+    solids = set()
+    autotile(room, "Tiles_Ground", rect(0, 0, 59, 34), SAND)
+    # Sprinkle sand variations
+    for (c, r) in rect(1, 1, 58, 32):
+        x = rnd.random()
+        if x < 0.04:
+            room.set_tile("Tiles_Ground", c, r, 43)
+        elif x < 0.07:
+            room.set_tile("Tiles_Ground", c, r, 74)
+
+    # Rocky ridges between screens, with gaps
+    v_open, h_open = region_openings([
+        ("v", (39, 40), range(4, 8)),       # 2 <-> 3
+        ("v", (19, 20), range(4, 8)),       # 1 <-> 2
+        ("v", (19, 20), range(15, 19)),     # 4 <-> 5
+        ("v", (19, 20), range(26, 30)),     # 7 <-> 8
+        ("v", (39, 40), range(26, 30)),     # 8 <-> 9
+        ("h", 11, range(48, 51)),           # 3 <-> 6
+        ("h", 11, range(28, 31)),           # 2 <-> 5
+        ("h", 22, range(28, 31)),           # 5 <-> 8
+        ("h", 22, range(48, 51)),           # 6 <-> 9
+    ])
+    ridge, ridge_extra = set(), set()
+    for c in range(60):
+        if c not in range(48, 51):
+            ridge.add((c, 0))
+        ridge.add((c, 33))
+        for row in (11, 22):
+            if c not in h_open[row]:
+                ridge.add((c, row))
+    for r in range(34):
+        ridge.add((0, r)); ridge.add((59, r))
+        for col in (19, 20, 39, 40):
+            if r not in v_open[col]:
+                ridge.add((col, r))
+    # Roughen the ridges: extra boulders here and there, never near a gap
+    gaps = {(c, r) for col in (19, 20, 39, 40) for r in v_open[col] for c in (col,)} | \
+           {(c, row) for row in (11, 22) for c in h_open[row]} | {(c, 0) for c in range(48, 51)}
+    near_gap = {(c + dc, r + dr) for (c, r) in gaps for dc in range(-3, 4) for dr in range(-3, 4)}
+    for (c, r) in sorted(ridge):
+        for dc, dr in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+            cell = (c + dc, r + dr)
+            if 0 < cell[0] < 59 and 0 < cell[1] < 33 and cell not in ridge and cell not in near_gap and rnd.random() < 0.18:
+                ridge_extra.add(cell)
+    for (c, r) in ridge | ridge_extra:
+        room.set_tile("Tiles_Decor", c, r, ROCK)
+        solids.add((c, r))
+
+    def rocks(cells):
+        for (c, r) in cells:
+            room.set_tile("Tiles_Decor", c, r, ROCK)
+            solids.add((c, r))
+
+    # ---- 3: Entrance ----
+    sign(room, 45, 3, ["THE SOUTHERN DESERT", "Legend says a magic sword rests here."])
+    rocks([(43, 7), (44, 7), (54, 4), (55, 4), (56, 8), (42, 9)])
+    room.add("o_old_tree1", 53 * TILE + 8, 8 * TILE + 16)
+
+    # ---- 2: Rocks and dead trees ----
+    rocks([(23, 3), (24, 3), (25, 8), (32, 2), (33, 2), (35, 9), (36, 9), (22, 9)])
+    for (c, r) in [(27, 4), (34, 6), (24, 6)]:
+        room.add("o_old_tree1", c * TILE + 8, r * TILE + 16)
+
+    # ---- 1: Dead end, a buried stash ----
+    rocks([(3, 3), (4, 3), (3, 4), (12, 8), (13, 8), (6, 9)])
+    bush(room, 5 * TILE, 5 * TILE + 12, hidden="o_gem_pickup", count=3)
+    bush(room, 7 * TILE, 5 * TILE + 12, hidden="o_heart_pickup")
+    room.add("o_old_tree1", 10 * TILE + 8, 4 * TILE + 16)
+
+    # ---- 4: Oasis ----
+    for (c, r) in rect(6, 14, 10, 18):
+        room.set_tile("Tiles_Ground", c, r, WATER)
+        solids.add((c, r))
+    for (c, r) in [(4, 14), (12, 14), (4, 19), (12, 19)]:
+        tree(room, c, r)
+    flowers(room, rnd, rect(5, 19, 11, 20) | rect(5, 13, 11, 13), density=0.5, small=0.5)
+    room.add("o_gem_pickup", 14 * TILE + 8, 16 * TILE + 8)
+
+    # ---- 5: The Magic Sword shrine ----
+    for dr in range(2):
+        for dc in range(2):
+            room.set_tile("Tiles_Decor", 29 + dc, 16 + dr, PLATFORM[dr][dc])
+    room.add("o_sword_pickup", 30 * TILE, 16 * TILE - 6)
+    rocks([(25, 14), (34, 14), (25, 20), (34, 20)])     # standing stones round the shrine
+    sign(room, 27, 19, ["Here rests the Magic Sword.", "Only the brave may take it."])
+
+    # ---- 6: Porcupine flats ----
+    rocks([(44, 14), (45, 14), (55, 17), (52, 20), (43, 19)])
+    room.add("o_porcupine", 46 * TILE, 17 * TILE)
+    room.add("o_porcupine", 54 * TILE, 14 * TILE)
+
+    # ---- 8: The sealed pyramid ----
+    pyramid = [[243, 244], [259, 260]]
+    for dr in range(2):
+        for dc in range(2):
+            room.set_tile("Tiles_Decor", 29 + dc, 25 + dr, pyramid[dr][dc])
+            solids.add((29 + dc, 25 + dr))
+    sign(room, 27, 28, ["An ancient pyramid, sealed tight.", "There are strange markings, and a small footprint in the sand..."])
+    rocks([(23, 30), (36, 24), (37, 24), (24, 25)])
+
+    # ---- 7: Dead end, treasure behind the rocks ----
+    rocks([(10, 24), (10, 25), (10, 26), (10, 30), (10, 31), (4, 27)])
+    bush(room, 5 * TILE, 29 * TILE + 12, hidden="o_heart_pickup")
+    room.add("o_gem_pickup", 3 * TILE + 8, 25 * TILE + 8)
+    room.add("o_porcupine", 14 * TILE, 28 * TILE)
+
+    # ---- 9: Rocky maze ----
+    rocks([(44, 24), (44, 25), (44, 26), (48, 28), (48, 29), (48, 30), (52, 24), (52, 25), (52, 26), (56, 28), (56, 29)])
+    room.add("o_porcupine", 50 * TILE, 31 * TILE)
+    room.add("o_gem_pickup", 57 * TILE + 8, 25 * TILE + 8)
+
+    # ---- Exits, music ----
+    edge_door(room, 48, 0, 3, "r_village", "i_village_south", h=0.6)
+    room.add("o_start_position", 49 * TILE, 20, name="i_desert_entrance")
+    for n in range(1, 10):
+        sx, sy = SCREEN[n]
+        room.add("o_desert_music", sx * 320 + 24, sy * 180 + 40)
+    room.add("o_camera", 0, 0)
+    room.solid_cells(solids)
+    return room

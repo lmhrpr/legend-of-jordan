@@ -60,6 +60,36 @@ Nine regions of 3 × 3 screens, with the Village in the middle.
 
 No enemies in the Village.
 
+### The Old Forest (north of the Village)
+
+| Screen | Contents | Exits |
+|---|---|---|
+| 1 | Dead end: gem stash under bushes | 4 |
+| 2 | **The Keeper's glade**: Liam's letter, the Keeper, the sealed ruins (Dungeon 1) | 5 |
+| 3 | Old-tree clearing, a heart | 6 |
+| 4 | Winding trail | 1, 5 |
+| 5 | Crossroads | 2, 4, 8 |
+| 6 | Pond | 3, 9 |
+| 7 | Dead end: hidden heart and gems | 8 |
+| 8 | Entrance from the Village (screen 2) | 5, 7, 9, Village |
+| 9 | Bats | 6, 8 |
+
+Bats and porcupines everywhere except the Keeper's glade. Gloom deepens towards the north.
+
+### The Southern Desert (south of the Village)
+
+| Screen | Contents | Exits |
+|---|---|---|
+| 1 | Dead end: buried stash | 2 |
+| 2 | Rocks and dead trees | 1, 3, 5 |
+| 3 | Entrance from the Post Office (Village screen 9) | 2, 6, Village |
+| 4 | Oasis | 5 |
+| 5 | **The Magic Sword shrine** | 2, 4, 8 |
+| 6 | Porcupine flats | 3, 9 |
+| 7 | Dead end: treasure | 8 |
+| 8 | **The sealed pyramid** (a later dungeon; a small footprint in the sand...) | 5, 7, 9 |
+| 9 | Rocky maze | 6, 8 |
+
 ---
 
 ## 3. Dungeons and progression

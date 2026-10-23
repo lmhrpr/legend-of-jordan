@@ -345,8 +345,8 @@ def all_rooms():
     rooms.append(title)
     import regions
     rooms.append(regions.village())
-    rooms.append(regions.old_forest())
-    rooms.append(regions.desert())
+    rooms.append(regions.old_forest_region())
+    rooms.append(regions.desert_region())
     rooms.append(interior("r_home", "o_home_music", "r_village", "i_home_out", "i_home_in", home))
     rooms.append(interior("r_granny", "o_home_music", "r_village", "i_granny_out", "i_granny_in", granny))
     rooms.append(interior("r_post_office", "o_village_music", "r_village", "i_post_office_out", "i_post_office_in", post_office))

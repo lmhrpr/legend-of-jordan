@@ -30,7 +30,9 @@ global.loaded_flags = undefined;
 application_surface_draw_enable(false);
 window_set_size(VIEW_W * 3, GUI_H * 3);
 call_later(1, time_source_units_frames, window_center);
-display_set_gui_size(VIEW_W, GUI_H);
+// GUI at 3x from the window's top-left corner. (display_set_gui_size would fit the GUI
+// to the world surface's 16:9 shape and push the toolbar down.)
+display_set_gui_maximise(3, 3, 0, 0);
 
 global.paused = false;
 global.respawned = false;

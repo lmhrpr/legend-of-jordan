@@ -1,4 +1,6 @@
 {
   "FolderOrderSettings":[],
-  "ResourceOrderSettings":[],
+  "ResourceOrderSettings":[
+    {"name":"ts_dirt_walls","order":1,"path":"tilesets/ts_dirt_walls/ts_dirt_walls.yy",},
+  ],
 }

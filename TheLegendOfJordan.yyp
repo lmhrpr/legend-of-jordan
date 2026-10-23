@@ -238,6 +238,7 @@
     {"id":{"name":"s_top_down","path":"sprites/s_top_down/s_top_down.yy",},},
     {"id":{"name":"s_tree_dark","path":"sprites/s_tree_dark/s_tree_dark.yy",},},
     {"id":{"name":"s_tree","path":"sprites/s_tree/s_tree.yy",},},
+    {"id":{"name":"ts_dirt_walls","path":"tilesets/ts_dirt_walls/ts_dirt_walls.yy",},},
     {"id":{"name":"ts_top_down","path":"tilesets/ts_top_down/ts_top_down.yy",},},
   ],
   "resourceType":"GMProject",

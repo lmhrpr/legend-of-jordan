@@ -129,6 +129,84 @@ def flood(w, h, insts, start, ignore=()):
     return seen
 
 
+def blocked_mask(w, h, insts, ignore=()):
+    """Origins where Jordan's feet would overlap something solid, plus which instances cover each spot."""
+    blocked = np.zeros((h, w), bool)
+    boxes = []
+    for i in insts:
+        if i["obj"] in ignore or not is_solid(i["obj"]):
+            continue
+        x0, y0, x1, y1 = box(i)
+        bx0, by0, bx1, by1 = int(np.floor(x0 - PX1)), int(np.floor(y0 - PY1)), int(np.ceil(x1 - PX0)), int(np.ceil(y1 - PY0))
+        blocked[max(by0, 0):max(min(by1 + 1, h), 0), max(bx0, 0):max(min(bx1 + 1, w), 0)] = True
+        boxes.append(((bx0, by0, bx1, by1), visible_box(i)))
+    return blocked, boxes
+
+
+def visible_box(i):
+    """The part of the room an instance can be seen in: its sprite for visible objects; the collision
+    box itself for invisible solids (they sit under tiles that show the obstacle)."""
+    spr, _ = obj(i["obj"])
+    if spr and object_visible(i["obj"]):
+        y = load(f"{ROOT}/sprites/{spr}/{spr}.yy")
+        ox, oy = y["sequence"]["xorigin"], y["sequence"]["yorigin"]
+        return (i["x"] - ox * i["sx"], i["y"] - oy * i["sy"], i["x"] + (y["width"] - ox) * i["sx"] - 1, i["y"] + (y["height"] - oy) * i["sy"] - 1)
+    return box(i)
+
+
+def object_visible(name):
+    return load(f"{ROOT}/objects/{name}/{name}.yy")["visible"]
+
+
+def invisible_walls(w, h, insts, seen, ignore=()):
+    """Spots where Jordan walks up to a screen border and is stopped by something he can't see,
+    because it's entirely on the other screen. Returns (description, from-screen, position range)."""
+    VW, VH = 320, 180
+    blocked, boxes = blocked_mask(w, h, insts, ignore)
+    cols = w // VW
+    screen = lambda x, y: (y // VH) * cols + (x // VW) + 1
+    found = []
+
+    def blockers(x, y):
+        return [vis for (bx0, by0, bx1, by1), vis in boxes if bx0 <= x <= bx1 and by0 <= y <= by1]
+
+    def scan(line, along, horizontal):
+        for direction in (1, -1):                  # approaching the line from before it (+1) or after it (-1)
+            hits = []
+            for a in range(along):
+                for d in range(1, 9):              # Jordan within 8px of the line on his side
+                    o = line - d if direction == 1 else line + d - 1
+                    n = o + direction
+                    x, y, nx, ny = (a, o, a, n) if horizontal else (o, a, n, a)
+                    if not (0 <= n < (h if horizontal else w)) or not seen[y, x] or not blocked[ny, nx]:
+                        continue
+                    vis = blockers(nx, ny)
+                    if direction == 1:
+                        can_see = any((v[1] if horizontal else v[0]) < line for v in vis)    # some of it is on Jordan's side
+                    else:
+                        can_see = any((v[3] if horizontal else v[2]) >= line for v in vis)
+                    if vis and not can_see:
+                        hits.append((a, screen(x, y)))
+                    break
+            # group into runs
+            run = []
+            for a, s in hits + [(None, None)]:
+                if run and (a is None or a != run[-1][0] + 1 or s != run[-1][1]):
+                    if run[-1][0] - run[0][0] >= 2:
+                        kind = "y" if horizontal else "x"
+                        span = f"x {run[0][0]}-{run[-1][0]}" if horizontal else f"y {run[0][0]}-{run[-1][0]}"
+                        found.append(f"screen {run[0][1]}: invisible wall at {kind}={line}, {span}")
+                    run = []
+                if a is not None:
+                    run.append((a, s))
+
+    for X in range(VW, w, VW):
+        scan(X, h, False)
+    for Y in range(VH, h, VH):
+        scan(Y, w, True)
+    return found
+
+
 def reachable(seen, target, reach):
     x0, y0, x1, y1 = target
     ys, xs = np.nonzero(seen)
@@ -169,6 +247,10 @@ def main():
             ok = len(targets) - len(missing) - (len(behind_bushes) if note.startswith(" (+") else 0)
             print(f"{room} [{phase}]: {ok}/{len(targets)} reachable{note}" + (f"  MISSING {missing}" if missing else ""))
             problems += len(missing)
+            if phase == "with sword" and (w > 320 or h > 180):
+                for msg in invisible_walls(w, h, insts, seen, ignore):
+                    print("  " + msg)
+                    problems += 1
             if room == "r_village" and phase == "with sword":
                 for (kind, pos), opens in VILLAGE_OPENINGS.items():
                     if kind == "v":

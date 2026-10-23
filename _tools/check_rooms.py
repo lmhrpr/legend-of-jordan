@@ -234,9 +234,9 @@ def reachable(seen, target, reach):
     return bool(((xs + PX1 >= x0 - reach) & (xs + PX0 <= x1 + reach) & (ys + PY1 >= y0 - reach) & (ys + PY0 <= y1 + reach)).any())
 
 
-TALK = {"o_post_bag", "o_chest", "o_locked_door", "o_mum", "o_dad", "o_granny", "o_granda", "o_keeper", "o_sign", "o_sweetie_tin", "o_save_point", "o_letter", "o_ruin_entrance", "o_bush"}
+TALK = {"o_cracked_wall", "o_post_bag", "o_chest", "o_locked_door", "o_mum", "o_dad", "o_granny", "o_granda", "o_keeper", "o_sign", "o_sweetie_tin", "o_save_point", "o_letter", "o_ruin_entrance", "o_bush"}
 TOUCH = {"o_floor_switch", "o_key_spawner", "o_door", "o_sword_pickup", "o_heart_pickup", "o_gem_pickup"}
-STARTS = {"r_dungeon1": "i_dungeon1_in", "r_village": "i_game_start", "r_old_forest": "i_forest_entrance", "r_desert": "i_desert_entrance",
+STARTS = {"r_dungeon1": "i_dungeon1_in", "r_dungeon2": "i_dungeon2_in", "r_village": "i_game_start", "r_old_forest": "i_forest_entrance", "r_desert": "i_desert_entrance",
           "r_home": "i_home_in", "r_granny": "i_granny_in", "r_post_office": "i_post_office_in"}
 
 # Village: intended openings between screens (pixel ranges along each border line)
@@ -258,7 +258,7 @@ def main():
                    for i in insts if i["obj"] in TALK | TOUCH]
         phases = (("no sword", ()), ("with sword", ("o_bush",)))
         if room.startswith("r_dungeon"):
-            phases = (("doors open", ("o_barred_door", "o_locked_door")),)
+            phases = (("doors open", ("o_barred_door", "o_locked_door", "o_cracked_wall")),)
         for phase, ignore in phases:
             seen = flood_with_doors(room, w, h, insts, (start["x"], start["y"]), ignore)
             missing = [k for k, b, r in targets if not reachable(seen, b, r)]

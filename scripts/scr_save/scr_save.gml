@@ -72,7 +72,7 @@ function load_game()
 	var _flags = string_split(ini_read_string("world", "flags", ""), "|", true);
 	for (var _f = 0; _f < array_length(_flags); _f++) global.flags[$ _flags[_f]] = true;
 	global.keys = {};
-	var _dungeons = ["d1"];
+	var _dungeons = ["d1", "d2"];
 	for (var _d = 0; _d < array_length(_dungeons); _d++)
 	{
 		if (ini_key_exists("keys", _dungeons[_d])) global.keys[$ _dungeons[_d]] = ini_read_real("keys", _dungeons[_d], 0);

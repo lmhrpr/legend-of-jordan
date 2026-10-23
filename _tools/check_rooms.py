@@ -236,7 +236,7 @@ def reachable(seen, target, reach):
 
 TALK = {"o_dungeon_entrance", "o_cracked_wall", "o_post_bag", "o_chest", "o_locked_door", "o_mum", "o_dad", "o_granny", "o_granda", "o_keeper", "o_sign", "o_sweetie_tin", "o_save_point", "o_letter", "o_ruin_entrance", "o_bush"}
 TOUCH = {"o_floor_switch", "o_key_spawner", "o_door", "o_sword_pickup", "o_heart_pickup", "o_gem_pickup"}
-STARTS = {"r_dungeon1": "i_dungeon1_in", "r_dungeon2": "i_dungeon2_in", "r_village": "i_game_start", "r_old_forest": "i_forest_entrance", "r_desert": "i_desert_entrance",
+STARTS = {"r_canyon": "i_canyon_in", "r_canyon_caves": "i_cave1_in", "r_dungeon1": "i_dungeon1_in", "r_dungeon2": "i_dungeon2_in", "r_village": "i_game_start", "r_old_forest": "i_forest_entrance", "r_desert": "i_desert_entrance",
           "r_home": "i_home_in", "r_granny": "i_granny_in", "r_post_office": "i_post_office_in"}
 
 # Village: intended openings between screens (pixel ranges along each border line)
@@ -257,6 +257,8 @@ def main():
         targets = [(f'{i["obj"]}@{int(i["x"])},{int(i["y"])}', box(i), 20 if i["obj"] in TALK else 0)
                    for i in insts if i["obj"] in TALK | TOUCH]
         phases = (("no sword", ()), ("with sword", ("o_bush",)))
+        if room.startswith("r_canyon"):
+            phases = (("bombs and boots", ("o_bush", "o_rock_cracked")),)    # (gaps don't count as walls here)
         if room.startswith("r_dungeon"):
             phases = (("doors open", ("o_barred_door", "o_locked_door", "o_cracked_wall")),)
         for phase, ignore in phases:
@@ -271,7 +273,7 @@ def main():
             ok = len(targets) - len(missing) - (len(behind_bushes) if note.startswith(" (+") else 0)
             print(f"{room} [{phase}]: {ok}/{len(targets)} reachable{note}" + (f"  MISSING {missing}" if missing else ""))
             problems += len(missing)
-            if phase in ("with sword", "doors open") and (w > 320 or h > 180):
+            if phase in ("with sword", "doors open", "bombs and boots") and (w > 320 or h > 180):
                 for msg in invisible_walls(w, h, insts, seen, ignore):
                     print("  " + msg)
                     problems += 1

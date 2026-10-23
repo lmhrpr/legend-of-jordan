@@ -92,6 +92,21 @@ Bats and porcupines everywhere except the Keeper's glade. Gloom deepens towards 
 
 ---
 
+### The Canyon (west of the Southern Desert)
+
+Room `r_canyon` (3 × 3 screens), reached by bombing the cracked rocks on the Desert's west side (the exit is on screen 4's west edge). Built from the tileset's raised-ground pieces: plateaus with white rims and layered cliff faces, stairs cut into the cliffs, and cracks (`o_gap`) to jump with the Winged Boots. High ground along the screen borders makes a maze; the gaps between screens are:
+
+| Between | Way through |
+|---|---|
+| Desert → 6 | The way in (east edge) |
+| 6 ↔ 5 | Open |
+| 5 ↔ 2, 5 ↔ 8 | Open |
+| 2 ↔ 3 | A crack to jump |
+| 8 | A long crack splits it in two |
+| 8 ↔ 7 ↔ 4 ↔ 1 | Open |
+
+Secrets: a cave in screen 1 behind cracked rocks (gems and a heart), a cave in screen 3's high mesa (a Heart Container), a cave in screen 7 behind a cracked rock (Liam's scratched map: "L.H."), a gem guarded by a cracked rock on screen 2's mesa, and gems beyond cracks on the mesas in screens 4 and 6. The caves are `r_canyon_caves`. Dungeon 3's entrance is still to place.
+
 ## 3. Dungeons and progression
 
 Each outer region hides a ruin holding **one of Liam's undelivered letters** (the Golden Axe Warrior "crystals"). Delivering all eight opens the way to Liam.

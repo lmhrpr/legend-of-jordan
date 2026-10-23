@@ -4,13 +4,7 @@ if (!global.paused) tile_animations_step();
 
 /// @description Pause screen
 
-if (room != r_overworld)
-{
-	with (o_enemy)
-	{
-		lock_entities(true);
-	}
-}
+// (Enemies only move on Jordan's current screen: see o_enemy's Step event)
 
 if global.paused
 {

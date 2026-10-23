@@ -33,6 +33,6 @@ if (o_input.interact_pressed_ and timer_ > 20)
 	else
 	{
 		global.player_start_position = i_game_start;
-		room_transition(trans_type.fade, r_overworld, 0.02, 0);
+		room_transition(trans_type.fade, r_village, 0.02, 0);
 	}
 }

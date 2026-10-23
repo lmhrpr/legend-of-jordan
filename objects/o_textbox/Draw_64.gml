@@ -1,11 +1,15 @@
 /// @description Draw the text box
 
-var _box_w = sprite_get_width(s_text_box);
+// Nearly the full width: the box sprite is drawn in three parts, with the middle stretched
+var _box_w = VIEW_W - 8;
 var _box_h = sprite_get_height(s_text_box);
 var _x = (VIEW_W - _box_w) div 2;
 var _y = GUI_H - _box_h - 4;
-
-draw_sprite(s_text_box, 0, _x, _y);
+var _edge = 8;
+var _spr_w = sprite_get_width(s_text_box);
+draw_sprite_part(s_text_box, 0, 0, 0, _edge, _box_h, _x, _y);
+draw_sprite_part_ext(s_text_box, 0, _edge, 0, _spr_w - _edge * 2, _box_h, _x + _edge, _y, (_box_w - _edge * 2) / (_spr_w - _edge * 2), 1, c_white, 1);
+draw_sprite_part(s_text_box, 0, _spr_w - _edge, 0, _edge, _box_h, _x + _box_w - _edge, _y);
 
 // Speaker's name
 if (name_ != "")

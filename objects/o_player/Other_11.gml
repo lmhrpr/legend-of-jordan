@@ -10,18 +10,10 @@ if (animation_hit_frame(1))
 	var _damage = 1;
 	var _knockback = 8;
 	
-	var _hitbox = create_hitbox(s_sword_hitbox, x, y, _angle, _life, [o_enemy, o_grass, o_bush], _damage, _knockback);
+	// A simple box reaching 24px out in front of Jordan's middle (turned to face his way),
+	// so it covers the whole swipe you see
+	var _hitbox = create_hitbox(s_sword_reach, x, y - 8, _angle, _life, [o_enemy, o_grass, o_bush], _damage, _knockback);
 	play_sfx(a_swipe, 8);
-	
-	switch (facing_direction_)
-	{
-		case dir.up: 
-			_hitbox.y -= 4; 
-			break;
-		default:
-			_hitbox.y -= 8;
-			break;
-	}
 }
 
 // When the attack animation finishes

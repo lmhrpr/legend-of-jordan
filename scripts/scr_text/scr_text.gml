@@ -61,7 +61,7 @@ function create_textbox(_text, _speaker, _show_name)
 
 
 #macro TEXTBOX_FONT f_12
-#macro TEXTBOX_WIDTH 184
+#macro TEXTBOX_WIDTH (VIEW_W - 32)	// the box is nearly the full screen width
 #macro TEXTBOX_LINES 2
 #macro TEXTBOX_LINE_HEIGHT 11
 

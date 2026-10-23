@@ -7,4 +7,4 @@ dir_ = 90;
 dest_x_ = x;
 dest_y_ = y;
 image_speed = 0;
-depth = -y + 2;		// under any bars or locked door in the same doorway
+depth = -(y - 8) + 1;	// just under any bars or locked door in the same doorway

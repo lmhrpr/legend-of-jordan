@@ -12,3 +12,6 @@ Python scripts used to rebuild and extend the project. GameMaker ignores this fo
 | `sounds.py` | Synthesises the chiptune sound effects and music |
 | `sprites.py`, `newsprites.py` | Sprite conversion and the small extra sprites |
 | `build.py` | Runs everything |
+
+> **Rooms are now edited by hand in GameMaker.** Don't re-run `build.py` over the project: it would
+> overwrite those edits. Changes are made directly in the project files and merged with git.

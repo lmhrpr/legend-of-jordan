@@ -26,6 +26,11 @@ function create_textbox(_text, _speaker, _show_name)
 	if (array_length(_pages) == 0) array_push(_pages, "...");
 
 	_textbox.pages_ = textbox_paginate(_pages, TEXTBOX_WIDTH, TEXTBOX_LINES);
+
+	// A story moment can ask for something to happen once the player has read the text:
+	//   textbox_on_close(function() { ... });   (call before the text box opens)
+	_textbox.on_close_ = global.textbox_on_close;
+	global.textbox_on_close = undefined;
 	_textbox.name_ = "";
 	_textbox.voice_ = a_text;
 
@@ -103,4 +108,12 @@ function textbox_paginate(_pages, _width, _max_lines)
 	draw_set_font(_old_font);
 	if (array_length(_result) == 0) array_push(_result, "...");
 	return _result;
+}
+
+
+/// @function textbox_on_close(callback)
+/// @desc Runs callback when the next text box to open is closed
+function textbox_on_close(_callback)
+{
+	global.textbox_on_close = _callback;
 }

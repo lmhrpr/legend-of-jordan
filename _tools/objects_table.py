@@ -37,6 +37,8 @@ OBJECTS = {
     "o_sweetie_tin":      ("s_sweetie_tin", "o_interactive", True, False, "Objects/Signs"),
     "o_save_point":       ("s_post_box", "o_interactive", True, False, "Objects/Signs"),
     "o_letter":           ("s_letter", "o_interactive", True, False, "Objects/Signs"),
+    "o_ruin_entrance":    ("s_solid", "o_interactive", True, False, "Objects/Signs"),
+    "o_keeper":           ("s_keeper", "o_npc", True, False, "Objects/NPCs"),
     # --- Environment ---
     "o_grass":            ("s_grass", None, True, False, "Objects/Environment"),
     "o_bush":             ("s_bush", "o_solid", True, False, "Objects/Environment"),

@@ -2,6 +2,14 @@
 
 global.active_textbox = noone;
 
+// Story moment waiting for this text to be read?
+if (is_callable(on_close_))
+{
+	var _callback = on_close_;
+	on_close_ = undefined;
+	_callback();
+}
+
 if (instance_exists(o_player))
 {
 	with (o_player)

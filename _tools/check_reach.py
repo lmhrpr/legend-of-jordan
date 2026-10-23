@@ -6,7 +6,7 @@ from objects_table import OBJECTS
 import world
 
 SOLID_OBJS = {o for o, v in OBJECTS.items() if o == "o_solid" or v[1] in ("o_solid", "o_interactive", "o_npc")}
-SOLID_OBJS |= {"o_npc", "o_mum", "o_dad", "o_granny", "o_granda", "o_sign", "o_sweetie_tin", "o_save_point", "o_letter"}
+SOLID_OBJS |= {"o_npc", "o_mum", "o_dad", "o_granny", "o_granda", "o_sign", "o_sweetie_tin", "o_save_point", "o_letter", "o_keeper", "o_ruin_entrance"}
 PX0, PX1, PY0, PY1 = -5, 4, -5, -2        # Jordan's feet box relative to his origin
 sprite_cache = {}
 
@@ -72,7 +72,7 @@ def main():
             o = i["obj"]
             if o in ("o_door", "o_sword_pickup", "o_heart_pickup", "o_gem_pickup"):
                 targets.append((f"{o}@{int(i['x'])},{int(i['y'])}", inst_box(i), 0))
-            elif o in ("o_mum", "o_dad", "o_granny", "o_granda", "o_sign", "o_sweetie_tin", "o_save_point", "o_letter", "o_bush"):
+            elif o in ("o_mum", "o_dad", "o_granny", "o_granda", "o_sign", "o_sweetie_tin", "o_save_point", "o_letter", "o_bush", "o_keeper", "o_ruin_entrance"):
                 targets.append((f"{o}@{int(i['x'])},{int(i['y'])}", inst_box(i), 20))
         for o in ("i_home_out", "i_granny_out", "i_post_office_out", "i_village_north", "i_village_south"):
             if o in named:

@@ -7,6 +7,7 @@ name_ = "";
 voice_ = a_text;
 ready_ = false;		// Ignore the key press that opened the box
 last_blip_ = 0;
+on_close_ = undefined;
 
 // Freeze Jordan while talking (unless he's still asleep)
 if (instance_exists(o_player))

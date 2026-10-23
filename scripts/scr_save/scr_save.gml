@@ -15,6 +15,7 @@ function save_game()
 	ini_write_real("player", "gems", global.player_gems);
 	ini_write_real("quest", "main_quest_active", global.main_quest_active);
 	ini_write_real("quest", "found_letter", global.found_letter);
+	ini_write_real("quest", "met_keeper", global.met_keeper);
 
 	if (instance_exists(o_player))
 	{
@@ -53,6 +54,7 @@ function load_game()
 	global.player_stamina = global.player_max_stamina;
 	global.main_quest_active = ini_read_real("quest", "main_quest_active", false);
 	global.found_letter = ini_read_real("quest", "found_letter", false);
+	global.met_keeper = ini_read_real("quest", "met_keeper", false);
 	global.first_play = false;
 
 	// Read by o_player's Create event

@@ -127,4 +127,67 @@ def build():
     new_sprite("s_post_box", [art(POST_BOX)], 8, 21, "Sprites/World Sprites")
     new_sprite("s_sweetie_tin", [art(SWEETIE_TIN)], 8, 13, "Sprites/World Sprites")
     new_sprite("s_letter", [art(LETTER)], 7, 8, "Sprites/Item Sprites")
-    return ["s_tree_dark", "s_signpost", "s_post_box", "s_sweetie_tin", "s_letter"]
+    new_sprite("s_keeper", keeper_frames(), 16, 30, "Sprites/NPC Sprites", speed=3.0)
+    new_sprite("s_ruin_lid", [ruin_lid()], 16, 16, "Sprites/World Sprites")
+    return ["s_keeper", "s_ruin_lid", "s_tree_dark", "s_signpost", "s_post_box", "s_sweetie_tin", "s_letter"]
+
+
+def outline(im):
+    """Add a 1px black outline round the opaque pixels (like the original sprites)."""
+    out = im.copy()
+    px, opx = im.load(), out.load()
+    for y in range(im.height):
+        for x in range(im.width):
+            if px[x, y][3] == 0:
+                for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < im.width and 0 <= ny < im.height and px[nx, ny][3] > 0 and px[nx, ny][:3] != (20, 16, 24):
+                        opx[x, y] = (20, 16, 24, 255)
+                        break
+    return out
+
+
+def keeper_frames():
+    """Stand-in Keeper of the Old Forest: a small hooded moss creature with a beard and a staff."""
+    from PIL import ImageDraw
+    frames = []
+    for bob, blink in ((0, False), (1, False), (1, True), (0, False)):
+        im = Image.new("RGBA", (32, 32), (0, 0, 0, 0))
+        d = ImageDraw.Draw(im)
+        y0 = 1 + bob
+        moss, moss_dark, moss_light = (74, 122, 64, 255), (46, 84, 52, 255), (124, 170, 88, 255)
+        # Staff
+        d.line([(25, 8 + y0), (25, 29)], fill=(120, 78, 44, 255), width=2)
+        d.ellipse([22, 3 + y0, 28, 9 + y0], fill=(108, 180, 92, 255))           # leafy top
+        # Robe
+        d.polygon([(9, 29), (23, 29), (21, 14 + y0), (11, 14 + y0)], fill=moss)
+        d.polygon([(9, 29), (12, 29), (12, 16 + y0), (11, 14 + y0)], fill=moss_light)
+        d.polygon([(20, 29), (23, 29), (21, 14 + y0), (20, 16 + y0)], fill=moss_dark)
+        # Hood
+        d.ellipse([8, 3 + y0, 24, 19 + y0], fill=moss)
+        d.ellipse([9, 4 + y0, 15, 12 + y0], fill=moss_light)
+        d.ellipse([11, 8 + y0, 21, 17 + y0], fill=(30, 26, 40, 255))              # shadowed face
+        # Glowing eyes
+        if not blink:
+            for ex in (13, 18):
+                d.rectangle([ex, 11 + y0, ex + 1, 12 + y0], fill=(255, 226, 92, 255))
+        else:
+            for ex in (13, 18):
+                d.line([(ex, 12 + y0), (ex + 1, 12 + y0)], fill=(255, 226, 92, 255))
+        # Beard
+        d.polygon([(12, 15 + y0), (20, 15 + y0), (16, 26 + y0)], fill=(238, 236, 226, 255))
+        d.line([(14, 17 + y0), (16, 23 + y0)], fill=(200, 196, 186, 255))
+        # Postbag strap and bag (he's on the round too)
+        d.line([(11, 15 + y0), (20, 24)], fill=(150, 60, 50, 255))
+        d.rectangle([18, 22, 22, 26], fill=(196, 64, 56, 255))
+        # Feet
+        d.rectangle([11, 29, 13, 30], fill=(60, 44, 40, 255))
+        d.rectangle([18, 29, 20, 30], fill=(60, 44, 40, 255))
+        frames.append(outline(im))
+    return frames
+
+
+def ruin_lid():
+    """The stone slab sealing the way into the ruins (tiles 243/244/259/260)."""
+    src = Image.open("/tmp/claude-0/-home-claude/bfa170d3-60b9-5a2e-b951-afe43e5c5976/scratchpad/top_down_raw.png").convert("RGBA")
+    return src.crop((3 * 16, 15 * 16, 5 * 16, 17 * 16))

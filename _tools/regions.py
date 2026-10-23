@@ -314,11 +314,22 @@ def old_forest():
     room.add("o_porcupine", 36 * TILE, 7 * TILE + 8)
     room.add("o_bat", 24 * TILE, 7 * TILE)
     room.add("o_gem_pickup", 32 * TILE, 4 * TILE)
-    forest(range(41, 59), rect(40, 6, 45, 8) | rect(45, 3, 55, 10), 0.35)
-    room.add("o_letter", 50 * TILE, 6 * TILE + 8)
+    forest(range(41, 59), rect(40, 6, 45, 8) | rect(45, 3, 57, 10), 0.35)
+    # The clearing: Liam's dropped letter, the Keeper, and the sealed way into the ruins
+    room.add("o_letter", 46 * TILE + 8, 7 * TILE + 8)
+    room.add("o_keeper", 50 * TILE + 8, 7 * TILE)
+    ruin = [[240, 241, 242], [256, 257, 258], [272, 273, 274]]
+    ruin_solids = set()
+    for dr in range(3):
+        for dc in range(3):
+            room.set_tile("Tiles_Decor", 54 + dc, 3 + dr, ruin[dr][dc])
+            if (dc, dr) != (1, 1):
+                ruin_solids.add((54 + dc, 3 + dr))
+    room.add("o_ruin_entrance", 55 * TILE, 4 * TILE)
+    room.solid_cells(ruin_solids)
     room.add("o_porcupine", 47 * TILE, 4 * TILE + 8)
     room.add("o_porcupine", 53 * TILE, 9 * TILE)
-    for (c, r) in [(48, 8), (52, 4), (51, 9), (46, 9), (54, 5)]:
+    for (c, r) in [(48, 8), (52, 4), (51, 9), (46, 9)]:
         grass(room, c, r)
 
     edge_door(room, 8, 10, 3, "r_village", "i_village_north", h=0.75)

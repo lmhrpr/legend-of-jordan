@@ -1,4 +1,5 @@
 /// @description Play the current step
+if (waiting_for_room_) exit;
 timer_ += 1;
 tv_timer_ += 1;
 var _s = steps_[step_];
@@ -20,20 +21,20 @@ else if (variable_struct_exists(_s, "plane"))
 }
 else if (variable_struct_exists(_s, "walk"))
 {
-	var _a = actors_[$ _s.walk];
-	var _d = point_distance(_a.x, _a.y, _s.x, _s.y);
+	var _p = person(_s.walk), _m = marker(_s.to);
+	var _d = point_distance(_p.x, _p.y, _m.x, _m.y);
 	if (_d <= walk_speed_)
 	{
-		_a.x = _s.x; _a.y = _s.y; _a.moving = false;
+		_p.x = _m.x; _p.y = _m.y; _p.moving_ = false;
 		_done = true;
 	}
 	else
 	{
-		var _dir = point_direction(_a.x, _a.y, _s.x, _s.y);
-		_a.x += lengthdir_x(walk_speed_, _dir);
-		_a.y += lengthdir_y(walk_speed_, _dir);
-		if (abs(lengthdir_x(1, _dir)) >= abs(lengthdir_y(1, _dir))) _a.dir = (lengthdir_x(1, _dir) > 0) ? "right" : "left";
-		else _a.dir = (lengthdir_y(1, _dir) < 0) ? "up" : "down";
+		var _dir = point_direction(_p.x, _p.y, _m.x, _m.y);
+		_p.x += lengthdir_x(walk_speed_, _dir);
+		_p.y += lengthdir_y(walk_speed_, _dir);
+		if (abs(lengthdir_x(1, _dir)) >= abs(lengthdir_y(1, _dir))) _p.dir_ = (lengthdir_x(1, _dir) > 0) ? "right" : "left";
+		else _p.dir_ = (lengthdir_y(1, _dir) < 0) ? "up" : "down";
 	}
 }
 else if (variable_struct_exists(_s, "say"))
@@ -44,10 +45,5 @@ else if (variable_struct_exists(_s, "wait"))
 {
 	_done = timer_ >= duration_;
 }
-
-// Walking animation
-struct_foreach(actors_, function(_n, _a) {
-	if (_a.moving) _a.frame += 0.2; else _a.frame = 0;
-});
 
 if (_done) next_step();

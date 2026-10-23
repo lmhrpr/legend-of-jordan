@@ -40,7 +40,7 @@ if global.paused
 if o_input.pause_pressed_
 {
 	// Don't pause on the title screen
-	if (room == r_title or room == r_init or room == r_ending) { exit; }
+	if (!room_has_toolbar()) { exit; }
 	
 	// If already paused, unpause
 	if (global.paused)

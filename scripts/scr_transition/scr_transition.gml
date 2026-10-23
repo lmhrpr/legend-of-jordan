@@ -25,3 +25,11 @@ function screen_transition(_type, _speed, _on_cover)
 	_transition.speed_ = max(_speed, 0.01);
 	_transition.on_cover_ = _on_cover;
 }
+
+/// @function room_has_toolbar()
+/// @desc False on the title screen and in the ending (no toolbar, and the world is centred)
+function room_has_toolbar()
+{
+	return !(room == r_init or room == r_title or room == r_ending
+		or room == r_end_airport or room == r_end_street or room == r_end_flat);
+}

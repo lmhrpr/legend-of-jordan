@@ -19,9 +19,7 @@ if (sprite_exists(global.paused_sprite))
 draw_set_colour(make_colour_rgb(54, 54, 54));
 draw_rectangle(0, 0, VIEW_W, HUD_H - 1, false);
 draw_set_colour(make_colour_rgb(251, 175, 93));
-draw_line(0, HUD_H - 2, VIEW_W, HUD_H - 2);
-draw_set_colour(c_black);
-draw_line(0, HUD_H - 1, VIEW_W, HUD_H - 1);
+draw_rectangle(0, HUD_H - 1, VIEW_W, HUD_H - 1, false);	// gold edge along the bottom
 draw_set_colour(c_white);
 
 // --- Gems (centred vertically in the bar) ---

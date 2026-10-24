@@ -1,6 +1,6 @@
 /// @description Initialise player object
 
-initialise_movement_entity(0.5, 1, [o_solid, o_gap]);	// gaps only stop him on foot (he can jump them)
+initialise_movement_entity(0.5, 1, [o_solid, o_gap, o_ledge]);	// gaps only stop him on foot (he can jump them)
 initialise_hurtbox_entity();
 
 global.player_health = global.player_max_health;
@@ -16,11 +16,12 @@ max_speed_ = 1.5;
 facing_direction_ = dir.right;
 roll_direction_ = 0;
 roll_speed_ = 2;
-// Jumping (the Winged Boots): about 40px in 22 steps, up to 12px off the ground
+// Jumping (the Winged Boots): about 48px in 22 steps, up to 12px off the ground
 jump_time_ = 22;
-jump_distance_ = 40;
+jump_distance_ = 48;		// clears a one-tile canyon between two plateaus
 jump_height_ = 12;
 jump_t_ = 0;
+jump_high_ = false;
 auto_walk_ = undefined;		// walking himself through a dungeon doorway (see o_doorway)
 jump_z_ = 0;
 jump_from_x_ = x;

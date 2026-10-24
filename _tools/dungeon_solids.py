@@ -76,6 +76,26 @@ for r in range(h):
         elif top in WALLS:          # the decor layer (painted on top) decides
             fill(c, r)
 
+if CANYON:
+    # Thin plateau tops (one tile between rims, like the high ground along the screen borders)
+    # can't be landed on: count them as ledge too.
+    TOP_RIMS = {110, 111, 126, 127, 141, 142, 143, 157, 158, 159, 173, 174, 175}
+    BOTTOM_RIMS = {205, 206, 207, 90, 91, 140, 156}
+    # (Only strips with no stairs up to them: those are the high ground along the screen borders.)
+    STAIRS = {2, 3, 4, 5, 294}
+    thin = lambda c, r: G(c, r) == 190 and G(c, r - 1) in TOP_RIMS and G(c, r + 1) in (BOTTOM_RIMS | STAIRS)
+    seen = set()
+    for r in range(h):
+        for c in range(w):
+            if (c, r) in seen or not thin(c, r):
+                continue
+            strip, e = [], c
+            while thin(e, r):
+                strip.append((e, r)); seen.add((e, r)); e += 1
+            if not any(G(x, r + 1) in STAIRS for x, _ in strip):
+                for x, y in strip:
+                    fill(x, y)
+
 # Gaps (o_gap and its children) are jumped, not walls
 for m in re.finditer(r'"objectId":\{"name":"(o_gap\w*)"[^\n]*?"x":([-\d.]+),"y":([-\d.]+)', t):
     gc, gr = int(float(m.group(2))) // 16, int(float(m.group(3))) // 16
@@ -83,10 +103,14 @@ for m in re.finditer(r'"objectId":\{"name":"(o_gap\w*)"[^\n]*?"x":([-\d.]+),"y":
         for qy in (0, 1):
             solid.discard((gc * 2 + qx, gr * 2 + qy))
 
-# Replace the room's o_solid instances
+# Replace the room's o_solid (or, in the canyon, o_ledge) instances.
+# Canyon walls are o_ledge: they stop walking, but Jordan can jump over them from high ground.
+OBJ = "o_ledge" if CANYON else "o_solid"
 inst_re = re.compile(r'^ *\{"\$GMRInstance".*$\n', re.M)
-lines = [m for m in inst_re.finditer(t) if '"name":"o_solid"' in m.group(0)]
-template = lines[0].group(0)
+lines = [m for m in inst_re.finditer(t) if re.search(r'"name":"o_(solid|ledge)"', m.group(0))
+         and '"hasCreationCode":false' in m.group(0)]
+template = re.sub(r'"objectId":\{"name":"\w+","path":"objects/\w+/\w+\.yy",\}',
+                  f'"objectId":{{"name":"{OBJ}","path":"objects/{OBJ}/{OBJ}.yy",}}', lines[0].group(0))
 old = [re.search(r'"%Name":"([^"]+)"', m.group(0)).group(1) for m in lines]
 for m in sorted(lines, key=lambda m: -m.start()):
     t = t[:m.start()] + t[m.end():]
@@ -121,4 +145,4 @@ t = t[:last.end()] + new_lines + t[last.end():]
 co = t.index("  ],", t.index('"instanceCreationOrder":['))
 t = t[:co] + "".join(f'    {{"name":"{n}","path":"rooms/{room}/{room}.yy",}},\n' for n in names) + t[co:]
 open(path, "w", encoding="utf-8", newline="").write(t)
-print(f"{room}: {len(old)} o_solid replaced by {len(names)} ({len(solid)} solid 8px cells)")
+print(f"{room}: {len(old)} blocks replaced by {len(names)} {OBJ} ({len(solid)} solid 8px cells)")

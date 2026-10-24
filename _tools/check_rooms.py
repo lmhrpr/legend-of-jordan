@@ -28,7 +28,7 @@ def obj(name):
 
 def is_solid(name):
     while name:
-        if name == "o_solid":
+        if name in ("o_solid", "o_ledge"):
             return True
         name = obj(name)[1]
     return False
@@ -258,7 +258,7 @@ def main():
                    for i in insts if i["obj"] in TALK | TOUCH]
         phases = (("no sword", ()), ("with sword", ("o_bush",)))
         if room.startswith("r_canyon"):
-            phases = (("bombs and boots", ("o_bush", "o_rock_cracked")),)    # (gaps don't count as walls here)
+            phases = (("bombs and boots", ("o_bush", "o_rock_cracked", "o_hidden_cave")),)    # (jumps between plateaus aren't checked)
         if room.startswith("r_dungeon"):
             phases = (("doors open", ("o_barred_door", "o_locked_door", "o_cracked_wall")),)
         for phase, ignore in phases:

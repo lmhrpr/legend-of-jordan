@@ -74,3 +74,23 @@ function wall_is_stair(_maps, _stairs, _x, _y)
 	}
 	return false;
 }
+
+/// @function high_ground_at(x, y)
+/// @desc True if the spot is on top of raised ground (a plateau): looking up from it, the first
+///       ledge reached is a top rim (the plateau's own far edge), not a cliff face.
+function high_ground_at(_x, _y)
+{
+	var _layer = layer_get_id("Tiles_Ground");
+	if (_layer == -1) return false;
+	var _map = layer_tilemap_get_id(_layer);
+	var _c = floor(_x / 16), _r = floor((_y - 3) / 16);
+	var _top_rims = [110, 111, 126, 127, 141, 142, 143, 157, 158, 159, 173, 174, 175];
+	for (var _rr = _r - 1; _rr >= max(0, _r - 14); _rr--)
+	{
+		if (position_meeting(_c * 16 + 8, _rr * 16 + 8, o_ledge))
+		{
+			return array_contains(_top_rims, tile_get_index(tilemap_get(_map, _c, _rr)));
+		}
+	}
+	return false;
+}

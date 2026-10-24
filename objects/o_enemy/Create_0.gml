@@ -1,6 +1,6 @@
 /// @description Initialise enemy
 
-initialise_movement_entity(1, 0.5, o_solid);
+initialise_movement_entity(1, 0.5, [o_solid, o_ledge]);
 initialise_hurtbox_entity();
 
 image_speed = 0;

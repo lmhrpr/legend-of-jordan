@@ -2,7 +2,7 @@
 
 // Inherit the parent event
 event_inherited();
-initialise_movement_entity(0.4, 0.5, [o_solid, o_gap]);
+initialise_movement_entity(0.4, 0.5, [o_solid, o_gap, o_ledge]);
 
 // idle uses the same user event number as enemy.hit, so knockback still works
 enum porcupine

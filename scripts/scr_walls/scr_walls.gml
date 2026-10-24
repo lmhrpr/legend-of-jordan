@@ -183,16 +183,23 @@ function jump_landing(_dir)
 	var _best = undefined, _best_h = -1;
 	for (var _d = 8; _d <= JUMP_REACH; _d += 2)
 	{
-		var _lx = x + _dx * _d, _ly = y + _dy * _d;
-		if (place_meeting(_lx, _ly, o_ledge)) continue;		// over a rim or cliff
-		var _h = plateau_height_at(_lx, _ly);
-		if (_h > _h0) break;										// higher ground in the way
-		if (place_meeting(_lx, _ly, [o_solid, o_gap])) continue;
-		if (jump_open_edge(_lx, _ly) == _dir) continue;			// still on the edge he's leaving
-		if (_h > _best_h)
+		var _cx = x + _dx * _d, _cy = y + _dy * _d;
+		if (!place_meeting(_cx, _cy, o_ledge) and plateau_height_at(_cx, _cy) > _h0) break;	// higher ground in the way
+		// Land here, or a few pixels to either side if that fits inside the rim
+		var _nudges = [0, -4, 4, -8, 8];
+		for (var _n = 0; _n < array_length(_nudges); _n++)
 		{
-			_best_h = _h;
-			_best = { x: _lx, y: _ly };
+			var _lx = _cx + _dy * _nudges[_n], _ly = _cy + _dx * _nudges[_n];
+			if (place_meeting(_lx, _ly, [o_solid, o_ledge, o_gap])) continue;
+			if (jump_open_edge(_lx, _ly) == _dir) continue;		// still on the edge he's leaving
+			var _h = plateau_height_at(_lx, _ly);
+			if (_h > _h0) continue;
+			if (_h > _best_h)
+			{
+				_best_h = _h;
+				_best = { x: _lx, y: _ly };
+			}
+			break;
 		}
 	}
 	return _best;

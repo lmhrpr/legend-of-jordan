@@ -109,17 +109,17 @@ Secrets: a cave in screen 1 behind cracked rocks (gems and a heart), a cave in s
 
 **Jumping (the Winged Boots).** Jordan can jump over a pit (`o_gap`) right in front of him, landing just past it. On raised ground he can only jump from an open edge of a plateau, where there's no stone parapet (tiles 478, 479, 480 and 172, facing out of the edge), and only to somewhere the same height or lower, landing inside its rim. A plateau's height is the rows of cliff below it, rim included (0 is the canyon floor); a plateau whose cliff comes down behind another one is on the floor behind it. If there's nowhere to land, the boots do nothing: no falls, no lost hearts. So the jump north from the band in screen 3 (height 3) to the mesa (height 2) is one-way, and the way back is the tunnel (cave 5): its blocks only sink once the switch on its north side is pressed (flag `canyon_tunnel`).
 
-**Test copy: `r_canyon_test`** (F1 menu: "Canyon (test copy)"). Liam's canyon with screens 8 and 9 rebuilt to try out two ideas: *over and under* and *the cascade*.
+**Test copy: `r_canyon_test`** (F1 menu: "Canyon (test copy)"). Liam's canyon with screens 3 and 6 kept and the rest rebuilt so the way out (north, from the plateau on screen 2) is reached by going under, then stepping down:
 
 | Step | Where | What happens |
 |---|---|---|
-| 1 | Screen 5 | A cave in the face of the big plateau (cave 6) tunnels under the wall... |
-| 2 | Screen 8 | ...into a pocket sealed off from everywhere else. The Altar, with the sealed Dungeon 3 entrance, is right there, but it has no stairs. |
-| 3 | Screen 8 to 9 | A second cave in the pocket (cave 7) comes up through steps on top of the Lookout. |
-| 4 | Screen 9 | From the Lookout, three narrow pillars lead west to the Altar. Each jump only works from one row: jump too high and Jordan drops to the canyon floor (back round through screen 5), too low and he hits a cliff edge (half a heart). |
-| 5 | Screen 8 | On the Altar: bomb the slab. Leaving, he can jump north off the Altar back into screen 5. |
+| 1 | Screen 8 | A cave in the wall above the canyon floor (cave 6) tunnels north, under screen 5... |
+| 2 | Screens 4/5 | ...and comes up through steps on top of the Tower (height 4). None of the plateaus on the route have stairs. |
+| 3 | Screen 4 | Jump west off the Tower's open edge onto the Ledge (height 3). |
+| 4 | Screens 4 to 1 | Jump north from the notch in the Ledge's rim onto the Shelf (height 2). |
+| 5 | Screens 1 to 2 | Jump east off the Shelf onto the Gate plateau (height 2); steps lead north out of the canyon. |
 
-The slab leads to a stand-in screen in `r_canyon_caves` until Dungeon 3 exists. The other caves in the copy still lead back to the real `r_canyon`.
+Coming back from the north: jump west from the Gate plateau to the Shelf, then drop off the Shelf's west end to the floor of screen 1 (one way). Cave 1 is now in the Ledge's cliff, behind the cracked rocks. Caves 1 to 5 in the copy lead back to the real `r_canyon`.
 
 ## 3. Dungeons and progression
 

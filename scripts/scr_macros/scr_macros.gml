@@ -17,3 +17,7 @@ enum trans_type
 	fade,
 	iris		// circle closes on Jordan, then opens on him in the new room
 }
+
+// Which canyon the game uses: true = the test copy (r_canyon_test), false = the real one (r_canyon).
+// (The doors into the canyon, from the desert and out of the canyon caves, follow this.)
+#macro CANYON_TEST true

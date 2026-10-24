@@ -8,7 +8,7 @@
     "TileSerialiseData":[],
   },
   "name":"ts_top_down",
-  "out_columns":23,
+  "out_columns":22,
   "out_tilehborder":2,
   "out_tilevborder":2,
   "parent":{

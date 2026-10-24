@@ -16,7 +16,7 @@ for (var _i = 0; _i < array_length(rooms_) + array_length(extras_); _i++)
 	if (_i < array_length(rooms_))
 	{
 		_text = rooms_[_i].name;
-		var _n = debug_screen_count(rooms_[_i].room);
+		var _n = rooms_[_i].cols * rooms_[_i].rows;
 		if (_sel and _n > 1) _text += "   < screen " + string(screen_ + 1) + " of " + string(_n) + " >";
 	}
 	else _text = extras_[_i - array_length(rooms_)];

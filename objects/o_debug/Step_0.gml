@@ -15,13 +15,13 @@ if (keyboard_check_pressed(vk_up)) { index_ = (index_ - 1 + _count) mod _count; 
 if (index_ < array_length(rooms_))
 {
 	var _r = rooms_[index_].room;
-	var _screens = debug_screen_count(_r);
+	var _cols = rooms_[index_].cols;
+	var _screens = _cols * rooms_[index_].rows;
 	if (keyboard_check_pressed(vk_right)) screen_ = (screen_ + 1) mod _screens;
 	if (keyboard_check_pressed(vk_left)) screen_ = (screen_ - 1 + _screens) mod _screens;
 	if (keyboard_check_pressed(vk_enter))
 	{
 		open_ = false;
-		var _cols = max(1, room_get_width(_r) div VIEW_W) ;
 		global.debug_target = {
 			x: (screen_ mod _cols) * VIEW_W + VIEW_W div 2,
 			y: (screen_ div _cols) * VIEW_H + VIEW_H div 2

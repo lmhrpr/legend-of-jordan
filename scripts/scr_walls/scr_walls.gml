@@ -104,7 +104,7 @@ function high_ground_at(_x, _y)
 // faces, and the stairs and cave mouths cut into them).
 #macro PLATEAU_TOP_RIMS [110, 111, 126, 127, 141, 142, 143, 154, 155, 157, 158, 159, 173, 174, 175, 481, 482]
 #macro PLATEAU_CLIFF [205, 206, 207, 90, 91, 140, 156, 221, 222, 223, 238, 239, 253, 254, 255, 2, 3, 4, 5, 294, 237]
-#macro JUMP_REACH 64		// furthest a jump can go (px)
+#macro JUMP_REACH 72		// furthest a jump can go (px): 4.5 tiles
 
 /// @function plateau_height_at(x, y)
 /// @desc How high the ground is at a spot: 0 on the canyon floor, otherwise the rows of cliff
@@ -119,11 +119,14 @@ function plateau_height_at(_x, _y)
 	var _h = tilemap_get_height(_map);
 	if (_c < 0 or _c >= tilemap_get_width(_map) or _r < 0) return 0;
 	var _top = PLATEAU_TOP_RIMS, _cliff = PLATEAU_CLIFF;
-	// Down across the top to its edge...
+	// Down across the top to its edge... (an open notch in a rim further down is the top edge of
+	// something lower; the notch he's standing in is part of his own plateau)
+	var _r0 = _r;
 	while (_r < _h)
 	{
 		var _t = tile_get_index(tilemap_get(_map, _c, _r));
 		if (array_contains(_cliff, _t) or array_contains(_top, _t)) break;
+		if (_t == 480 and _r > _r0) break;
 		_r++;
 	}
 	// ...then count the cliff (none if the edge is the top rim of something lower: he's on the floor)

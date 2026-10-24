@@ -88,9 +88,3 @@ function camera_snap()
 	}
 }
 
-/// @function debug_screen_count(room)
-/// @desc How many screens a room has (for the test menu)
-function debug_screen_count(_room)
-{
-	return max(1, room_get_width(_room) div VIEW_W) * max(1, room_get_height(_room) div VIEW_H);
-}

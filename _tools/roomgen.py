@@ -192,6 +192,8 @@ class Room:
         # Instances sorted by y (like depth = -y)
         from objects_table import OBJECTS
         for inst in sorted(self.instances, key=lambda i: i["y"]):
+            if inst["obj"] not in OBJECTS:      # (objects made in GameMaker, e.g. o_gap_1)
+                continue
             spr = OBJECTS[inst["obj"]][0]
             visible = OBJECTS[inst["obj"]][2]
             if inst["obj"] == "o_solid":

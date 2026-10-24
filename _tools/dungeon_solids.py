@@ -10,7 +10,7 @@ from render_room import decode
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WALLS = {1, 240, 241, 242, 243, 244, 256, 258, 259, 260, 272, 273, 274, 275, 276, 277, 278,
-         305, 307, 323, 336, 352, 456, 414, 218}
+         305, 307, 323, 336, 352, 456}          # (blocks are o_block objects now)
 DOORWAY = {237, 247, 248, 249, 250, 263, 264, 265, 266, 279, 280}
 room = sys.argv[1]
 path = f"{ROOT}/rooms/{room}/{room}.yy"

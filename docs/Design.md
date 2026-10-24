@@ -107,6 +107,18 @@ Room `r_canyon` (3 × 3 screens), reached by bombing the cracked rocks on the De
 
 Secrets: a cave in screen 1 behind cracked rocks (gems and a heart), a cave in screen 3's high mesa (a Heart Container), a cave in screen 7 behind a cracked rock (Liam's scratched map: "L.H."), a gem guarded by a cracked rock on screen 2's mesa, and gems beyond cracks on the mesas in screens 4 and 6. The caves are `r_canyon_caves`. Dungeon 3's entrance is still to place.
 
+**Test copy: `r_canyon_test`** (F1 menu: "Canyon (test copy)"). Liam's canyon with screens 8 and 9 rebuilt to try out two ideas: *over and under* and *the cascade*.
+
+| Step | Where | What happens |
+|---|---|---|
+| 1 | Screen 5 | A cave in the face of the big plateau (cave 6) tunnels under the wall... |
+| 2 | Screen 8 | ...into a pocket sealed off from everywhere else. The Altar, with the sealed Dungeon 3 entrance, is right there, but it has no stairs. |
+| 3 | Screen 8 to 9 | A second cave in the pocket (cave 7) comes up through steps on top of the Lookout. |
+| 4 | Screen 9 | From the Lookout, three narrow pillars lead west to the Altar. Each jump only works from one row: jump too high and Jordan drops to the canyon floor (back round through screen 5), too low and he hits a cliff edge (half a heart). |
+| 5 | Screen 8 | On the Altar: bomb the slab. Leaving, he can jump north off the Altar back into screen 5. |
+
+The slab leads to a stand-in screen in `r_canyon_caves` until Dungeon 3 exists. The other caves in the copy still lead back to the real `r_canyon`.
+
 ## 3. Dungeons and progression
 
 Each outer region hides a ruin holding **one of Liam's undelivered letters** (the Golden Axe Warrior "crystals"). Delivering all eight opens the way to Liam.

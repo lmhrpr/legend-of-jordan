@@ -7,7 +7,8 @@ rooms_ = [
 	{ name: "Old Forest", room: r_old_forest , cols: 3, rows: 3 },
 	{ name: "Southern Desert", room: r_desert , cols: 3, rows: 3 },
 	{ name: "Canyon", room: r_canyon , cols: 3, rows: 3 },
-	{ name: "Canyon caves", room: r_canyon_caves , cols: 3, rows: 1, first_row: 2 },	// (the caves are the bottom row)
+	{ name: "Canyon (test copy)", room: r_canyon_test , cols: 3, rows: 3 },
+	{ name: "Canyon caves", room: r_canyon_caves , cols: 4, rows: 2, first_row: 1 },	// (the caves are the bottom two rows)
 	{ name: "Dungeon 1: Old Forest ruins", room: r_dungeon1 , cols: 4, rows: 3 },
 	{ name: "Dungeon 2: desert pyramid", room: r_dungeon2 , cols: 4, rows: 3 },
 	{ name: "Home", room: r_home , cols: 1, rows: 1 },

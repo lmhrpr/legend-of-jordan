@@ -40,7 +40,7 @@ D = lambda c, r: decor[r * w + c] if 0 <= c < w and 0 <= r < h else None
 #   in side walls: top tiles have the pillar on top, bottom tiles underneath
 PILLAR = {263: "L", 247: "L", 279: "L", 264: "R", 248: "R", 280: "R", 249: "T", 250: "T", 265: "B", 266: "B"}
 HALF = {"L": [(0, 0), (0, 1)], "R": [(1, 0), (1, 1)], "T": [(0, 0), (1, 0)], "B": [(0, 1), (1, 1)]}
-CANYON = room == "r_canyon"
+CANYON = room in ("r_canyon", "r_canyon_test")
 if CANYON:
     # Raised ground: rims and cliff faces are solid; the side pieces are solid on their outer half;
     # the tops (190), ground, stairs, cave mouths and cracks are walkable.

@@ -21,6 +21,7 @@ jump_time_ = 22;
 jump_distance_ = 40;
 jump_height_ = 12;
 jump_t_ = 0;
+auto_walk_ = undefined;		// walking himself through a dungeon doorway (see o_doorway)
 jump_z_ = 0;
 jump_from_x_ = x;
 jump_from_y_ = y;

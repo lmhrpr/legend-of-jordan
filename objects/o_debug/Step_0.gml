@@ -24,7 +24,7 @@ if (index_ < array_length(rooms_))
 		open_ = false;
 		global.debug_target = {
 			x: (screen_ mod _cols) * VIEW_W + VIEW_W div 2,
-			y: (screen_ div _cols) * VIEW_H + VIEW_H div 2
+			y: ((screen_ div _cols) + (variable_struct_exists(rooms_[index_], "first_row") ? rooms_[index_].first_row : 0)) * VIEW_H + VIEW_H div 2
 		};
 		global.player_start_position = noone;
 		var _keep = (_r != r_ending);		// (no Jordan in the ending)

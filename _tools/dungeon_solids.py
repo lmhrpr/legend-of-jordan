@@ -45,7 +45,7 @@ if CANYON:
     # Raised ground: rims and cliff faces are solid; the side pieces are solid on their outer half;
     # the tops (190), ground, stairs, cave mouths and cracks are walkable.
     WALLS = {110, 111, 126, 127, 141, 142, 143, 157, 158, 159, 173, 174, 175, 205, 206, 207,
-             221, 222, 223, 238, 239, 253, 254, 255, 90, 91, 140, 156, 108, 109, 124, 125}
+             221, 222, 223, 238, 239, 253, 254, 255, 90, 91, 140, 156, 108, 109, 124, 125, 481, 482}
     DOORWAY = {2, 3, 4, 5, 294, 237}
     PILLAR = {189: "L", 191: "R"}
 solid = set()                   # cells at 8px: (c*2 + qx, r*2 + qy)
@@ -79,7 +79,7 @@ for r in range(h):
 if CANYON:
     # Thin plateau tops (one tile between rims, like the high ground along the screen borders)
     # can't be landed on: count them as ledge too.
-    TOP_RIMS = {110, 111, 126, 127, 141, 142, 143, 157, 158, 159, 173, 174, 175}
+    TOP_RIMS = {110, 111, 126, 127, 141, 142, 143, 157, 158, 159, 173, 174, 175, 481, 482}
     BOTTOM_RIMS = {205, 206, 207, 90, 91, 140, 156}
     # (Only strips with no stairs up to them: those are the high ground along the screen borders.)
     STAIRS = {2, 3, 4, 5, 294}

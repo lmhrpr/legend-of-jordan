@@ -103,7 +103,7 @@ function high_ground_at(_x, _y)
 // Rims (white parapets) along the top edge of raised ground, and the cliff below it (bottom rims,
 // faces, and the stairs and cave mouths cut into them).
 #macro PLATEAU_TOP_RIMS [110, 111, 126, 127, 141, 142, 143, 154, 155, 157, 158, 159, 173, 174, 175, 481, 482]
-#macro PLATEAU_CLIFF [205, 206, 207, 90, 91, 140, 156, 221, 222, 223, 238, 239, 253, 254, 255, 2, 3, 4, 5, 294, 237]
+#macro PLATEAU_CLIFF [205, 206, 207, 90, 91, 140, 156, 172, 221, 222, 223, 238, 239, 253, 254, 255, 2, 3, 4, 5, 294, 237]	// (172: an open bottom edge)
 #macro JUMP_REACH 72		// furthest a jump can go (px): 4.5 tiles
 
 /// @function plateau_height_at(x, y)

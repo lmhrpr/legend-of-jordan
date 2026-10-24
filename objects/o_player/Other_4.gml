@@ -37,3 +37,27 @@ if instance_exists(global.player_start_position)
 	
 	global.player_start_position = noone;
 }
+
+// Arriving from the F1 test menu: the middle of the chosen screen, or the nearest clear spot
+if (is_struct(global.debug_target))
+{
+	var _tx = global.debug_target.x, _ty = global.debug_target.y;
+	global.debug_target = undefined;
+	with (o_player)
+	{
+		persistent = false;
+		layer = layer_get_id("Instances");
+		visible = true;
+		var _found = false;
+		for (var _d = 0; _d < 80 and !_found; _d += 4)
+		{
+			for (var _a = 0; _a < 360 and !_found; _a += 15)
+			{
+				var _x = _tx + lengthdir_x(_d, _a), _y = _ty + lengthdir_y(_d, _a);
+				if (!place_meeting(_x, _y, [o_solid, o_gap])) { x = _x; y = _y; _found = true; }
+			}
+		}
+		if (!_found) { x = _tx; y = _ty; }
+	}
+	if (instance_exists(o_camera)) camera_snap();
+}

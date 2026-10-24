@@ -21,7 +21,9 @@ global.cut_bushes = {};		// "room:x:y" of every bush Jordan has cut down
 global.flags = {};			// dungeon switches, doors, bosses... (see scr_dungeon)
 global.keys = {};			// small keys held, per dungeon
 global.dungeon = "";		// which dungeon Jordan is in ("" outside)
-global.arrive_at_ = "";		// set when leaving a dungeon: come out at its stairs
+global.arrive_at_ = "";
+global.debug_target = undefined;	// set by the F1 test menu
+instance_create_depth(0, 0, -15950, o_debug);		// set when leaving a dungeon: come out at its stairs
 global.textbox_on_close = undefined;
 global.player_health = global.player_max_health;
 global.player_stamina = global.player_max_stamina;

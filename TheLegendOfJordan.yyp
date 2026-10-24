@@ -85,6 +85,7 @@
     {"id":{"name":"o_cracked_wall","path":"objects/o_cracked_wall/o_cracked_wall.yy",},},
     {"id":{"name":"o_dad","path":"objects/o_dad/o_dad.yy",},},
     {"id":{"name":"o_darkness","path":"objects/o_darkness/o_darkness.yy",},},
+    {"id":{"name":"o_debug","path":"objects/o_debug/o_debug.yy",},},
     {"id":{"name":"o_desert_music","path":"objects/o_desert_music/o_desert_music.yy",},},
     {"id":{"name":"o_door","path":"objects/o_door/o_door.yy",},},
     {"id":{"name":"o_dungeon_door","path":"objects/o_dungeon_door/o_dungeon_door.yy",},},

@@ -1,5 +1,5 @@
 """Rebuild a dungeon room's o_solid blocks from its tiles (after walls/doorways are repainted).
-Usage: python3 dungeon_solids.py r_dungeon1
+Usage: python3 dungeon_solids.py r_dungeon1   (blocks are made at 8px, so doorway pillars are solid)
 
 Solid: wall tiles (ground or decor layer), blocks and torches on the decor layer, and empty cells
 (the black rows between screens), except where a doorway runs through them.
@@ -30,23 +30,45 @@ _, decor = layer("Tiles_Decor")
 h = len(ground) // w
 G = lambda c, r: ground[r * w + c] if 0 <= c < w and 0 <= r < h else None
 D = lambda c, r: decor[r * w + c] if 0 <= c < w and 0 <= r < h else None
-solid = set()
+# Doorway tiles are half pillar, half opening: the pillar half is solid.
+#   in top/bottom walls: left tiles have the pillar on their left, right tiles on their right
+#   in side walls: top tiles have the pillar on top, bottom tiles underneath
+PILLAR = {263: "L", 247: "L", 279: "L", 264: "R", 248: "R", 280: "R", 249: "T", 250: "T", 265: "B", 266: "B"}
+HALF = {"L": [(0, 0), (0, 1)], "R": [(1, 0), (1, 1)], "T": [(0, 0), (1, 0)], "B": [(0, 1), (1, 1)]}
+solid = set()                   # cells at 8px: (c*2 + qx, r*2 + qy)
+
+
+def fill(c, r, quarters=((0, 0), (1, 0), (0, 1), (1, 1))):
+    for qx, qy in quarters:
+        solid.add((c * 2 + qx, r * 2 + qy))
+
+
 for r in range(h):
     for c in range(w):
         g, d = G(c, r), D(c, r)
+        top = d if d is not None else g
+        if top in PILLAR:
+            fill(c, r, HALF[PILLAR[top]])
+            continue
         if g in DOORWAY or d in DOORWAY or g == 294 or d == 294:
             continue
         if g is None and d is None:
-            # the gap between screens: open only where a doorway runs through it
-            if G(c, r - 1) in DOORWAY and G(c, r + 1) in DOORWAY:
+            # the gap between screens: open only where a doorway runs through it (pillars continue)
+            above = G(c, r - 1)
+            if above in DOORWAY and G(c, r + 1) in DOORWAY:
+                if above in PILLAR:
+                    fill(c, r, HALF[PILLAR[above]])
                 continue
-            solid.add((c, r))
-        elif (d if d is not None else g) in WALLS:      # the decor layer (painted on top) decides
-            solid.add((c, r))
+            fill(c, r)
+        elif top in WALLS:          # the decor layer (painted on top) decides
+            fill(c, r)
 
 # Gaps (o_gap and its children) are jumped, not walls
 for m in re.finditer(r'"objectId":\{"name":"(o_gap\w*)"[^\n]*?"x":([-\d.]+),"y":([-\d.]+)', t):
-    solid.discard((int(float(m.group(2))) // 16, int(float(m.group(3))) // 16))
+    gc, gr = int(float(m.group(2))) // 16, int(float(m.group(3))) // 16
+    for qx in (0, 1):
+        for qy in (0, 1):
+            solid.discard((gc * 2 + qx, gr * 2 + qy))
 
 # Replace the room's o_solid instances
 inst_re = re.compile(r'^ *\{"\$GMRInstance".*$\n', re.M)
@@ -60,14 +82,14 @@ for n in old:
 taken = set(re.findall(r'"name":"(inst_[0-9A-F]+)"', t))
 new_lines, names = "", []
 k = 0
-for r in range(h):
+for r in range(h * 2):
     c = 0
-    while c < w:
+    while c < w * 2:
         if (c, r) not in solid:
             c += 1
             continue
         e = c
-        while e < w and (e, r) in solid:
+        while e < w * 2 and (e, r) in solid:
             e += 1
         while True:
             k += 1
@@ -77,8 +99,8 @@ for r in range(h):
         names.append(n)
         old_n = re.search(r'"%Name":"([^"]+)"', template).group(1)
         s = template.replace(f'"%Name":"{old_n}"', f'"%Name":"{n}"').replace(f'"name":"{old_n}"', f'"name":"{n}"')
-        s = re.sub(r'"scaleX":[\d.]+,"scaleY":[\d.]+', f'"scaleX":{float(e - c)},"scaleY":1.0', s)
-        s = re.sub(r'"x":[-\d.]+,"y":[-\d.]+', f'"x":{float(c * 16)},"y":{float(r * 16)}', s)
+        s = re.sub(r'"scaleX":[\d.]+,"scaleY":[\d.]+', f'"scaleX":{(e - c) / 2},"scaleY":0.5', s)
+        s = re.sub(r'"x":[-\d.]+,"y":[-\d.]+', f'"x":{float(c * 8)},"y":{float(r * 8)}', s)
         new_lines += s
         c = e
 last = list(inst_re.finditer(t))[-1]
@@ -86,4 +108,4 @@ t = t[:last.end()] + new_lines + t[last.end():]
 co = t.index("  ],", t.index('"instanceCreationOrder":['))
 t = t[:co] + "".join(f'    {{"name":"{n}","path":"rooms/{room}/{room}.yy",}},\n' for n in names) + t[co:]
 open(path, "w", encoding="utf-8", newline="").write(t)
-print(f"{room}: {len(old)} o_solid replaced by {len(names)} ({len(solid)} solid cells)")
+print(f"{room}: {len(old)} o_solid replaced by {len(names)} ({len(solid)} solid 8px cells)")

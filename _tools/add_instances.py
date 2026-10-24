@@ -1,11 +1,15 @@
 """Add instances of an object to a room, copying the format of an existing instance.
 Usage: python3 add_instances.py r_desert o_rock 312,128 312,144 ...
-       (name an instance with name@x,y, e.g. i_ruins_out@552,98)"""
+       (name an instance with name@x,y, e.g. i_ruins_out@552,98;
+        add creation code for them all with code='flag_ = "d1_switch";')"""
 import hashlib, os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 room, objname = sys.argv[1], sys.argv[2]
-coords = []
+coords, code = [], None
 for c in sys.argv[3:]:
+    if c.startswith("code="):
+        code = c[5:]
+        continue
     given, _, pos = c.rpartition("@")
     coords.append((given or None, *map(float, pos.split(","))))
 path = f"{ROOT}/rooms/{room}/{room}.yy"
@@ -30,7 +34,11 @@ for given, x, y in coords:
     taken.add(n); names.append(n)
     old = re.search(r'"%Name":"([^"]+)"', template).group(1)
     s = template.replace(f'"%Name":"{old}"', f'"%Name":"{n}"').replace(f'"name":"{old}"', f'"name":"{n}"')
-    new += re.sub(r'"x":[-\d.]+,"y":[-\d.]+', f'"x":{x},"y":{y}', s)
+    s = re.sub(r'"x":[-\d.]+,"y":[-\d.]+', f'"x":{x},"y":{y}', s)
+    s = re.sub(r'"hasCreationCode":\w+', f'"hasCreationCode":{"true" if code else "false"}', s)
+    if code:
+        open(f"{ROOT}/rooms/{room}/InstanceCreationCode_{n}.gml", "w").write(code.replace("\\n", "\n") + "\n")
+    new += s
 t = t[:lines[-1].end()] + new + t[lines[-1].end():]
 co = t.index("  ],", t.index('"instanceCreationOrder":['))
 t = t[:co] + "".join(f'    {{"name":"{n}","path":"rooms/{room}/{room}.yy",}},\n' for n in names) + t[co:]

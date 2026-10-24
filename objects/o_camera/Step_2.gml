@@ -17,11 +17,13 @@ else if (target_.x < left_edge_)
 top_edge_ = view_y_;
 bottom_edge_ = VIEW_H + (VIEW_H * (map_grid_y_ - 1));
 
-if (target_.y > bottom_edge_)
+// (Up and down go by Jordan's middle, not his feet, so the screen changes as he crosses)
+var _target_y = target_.y - 8;
+if (_target_y > bottom_edge_)
 {
 	map_grid_y_ += 1;
 } 
-else if (target_.y < top_edge_)
+else if (_target_y < top_edge_)
 {
 	map_grid_y_ -= 1;
 }

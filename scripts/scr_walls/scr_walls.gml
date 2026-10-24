@@ -84,7 +84,7 @@ function high_ground_at(_x, _y)
 	if (_layer == -1) return false;
 	var _map = layer_tilemap_get_id(_layer);
 	var _c = floor(_x / 16), _r = floor((_y - 3) / 16);
-	var _top_rims = [110, 111, 126, 127, 141, 142, 143, 157, 158, 159, 173, 174, 175];
+	var _top_rims = [110, 111, 126, 127, 141, 142, 143, 157, 158, 159, 173, 174, 175, 481, 482];	// (481, 482: tiles 140 and 156 turned round)
 	// Stairs, cave mouths and the tips of plateau tongues are cut into cliffs: standing below one,
 	// Jordan is on the canyon floor, even though the plateau's top rim is further up.
 	var _cut_in = [2, 3, 4, 5, 294, 237, 172];

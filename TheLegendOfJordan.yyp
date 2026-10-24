@@ -144,6 +144,7 @@
     {"id":{"name":"o_spike","path":"objects/o_spike/o_spike.yy",},},
     {"id":{"name":"o_start_position","path":"objects/o_start_position/o_start_position.yy",},},
     {"id":{"name":"o_sweetie_tin","path":"objects/o_sweetie_tin/o_sweetie_tin.yy",},},
+    {"id":{"name":"o_switch_block","path":"objects/o_switch_block/o_switch_block.yy",},},
     {"id":{"name":"o_sword_item","path":"objects/o_sword_item/o_sword_item.yy",},},
     {"id":{"name":"o_sword_pickup","path":"objects/o_sword_pickup/o_sword_pickup.yy",},},
     {"id":{"name":"o_textbox","path":"objects/o_textbox/o_textbox.yy",},},

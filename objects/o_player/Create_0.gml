@@ -16,9 +16,9 @@ max_speed_ = 1.5;
 facing_direction_ = dir.right;
 roll_direction_ = 0;
 roll_speed_ = 2;
-// Jumping (the Winged Boots): about 48px in 22 steps, up to 12px off the ground
+// Jumping (the Winged Boots): only from the open edges of plateaus (no parapet), to somewhere
+// the same height or lower. 22 steps, up to 12px off the ground. See jump_landing() in scr_walls.
 jump_time_ = 22;
-jump_distance_ = 48;		// clears a one-tile canyon between two plateaus
 jump_height_ = 12;
 jump_t_ = 0;
 jump_high_ = false;
@@ -26,6 +26,8 @@ auto_walk_ = undefined;		// walking himself through a dungeon doorway (see o_doo
 jump_z_ = 0;
 jump_from_x_ = x;
 jump_from_y_ = y;
+jump_to_x_ = x;
+jump_to_y_ = y;
 
 // Text boxes
 name = "Jordan";

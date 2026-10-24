@@ -45,9 +45,9 @@ if CANYON:
     # Raised ground: rims and cliff faces are solid; the side pieces are solid on their outer half;
     # the tops (190), ground, stairs, cave mouths and cracks are walkable.
     WALLS = {110, 111, 126, 127, 141, 142, 143, 157, 158, 159, 173, 174, 175, 205, 206, 207,
-             221, 222, 223, 238, 239, 253, 254, 255, 90, 91, 140, 156, 108, 109, 124, 125, 481, 482}
+             221, 222, 223, 238, 239, 253, 254, 255, 90, 91, 140, 156, 108, 109, 124, 125, 481, 482, 106, 107, 154, 155}
     DOORWAY = {2, 3, 4, 5, 294, 237}
-    PILLAR = {189: "L", 191: "R"}
+    PILLAR = {189: "L", 191: "R", 478: "L", 479: "R", 480: "T", 172: "B"}   # (478-480, 172: open edges, solid on the outer half)
 solid = set()                   # cells at 8px: (c*2 + qx, r*2 + qy)
 
 
@@ -75,26 +75,6 @@ for r in range(h):
             fill(c, r)
         elif top in WALLS:          # the decor layer (painted on top) decides
             fill(c, r)
-
-if CANYON:
-    # Thin plateau tops (one tile between rims, like the high ground along the screen borders)
-    # can't be landed on: count them as ledge too.
-    TOP_RIMS = {110, 111, 126, 127, 141, 142, 143, 157, 158, 159, 173, 174, 175, 481, 482}
-    BOTTOM_RIMS = {205, 206, 207, 90, 91, 140, 156}
-    # (Only strips with no stairs up to them: those are the high ground along the screen borders.)
-    STAIRS = {2, 3, 4, 5, 294}
-    thin = lambda c, r: G(c, r) == 190 and G(c, r - 1) in TOP_RIMS and G(c, r + 1) in (BOTTOM_RIMS | STAIRS)
-    seen = set()
-    for r in range(h):
-        for c in range(w):
-            if (c, r) in seen or not thin(c, r):
-                continue
-            strip, e = [], c
-            while thin(e, r):
-                strip.append((e, r)); seen.add((e, r)); e += 1
-            if not any(G(x, r + 1) in STAIRS for x, _ in strip):
-                for x, y in strip:
-                    fill(x, y)
 
 # Gaps (o_gap and its children) are jumped, not walls
 for m in re.finditer(r'"objectId":\{"name":"(o_gap\w*)"[^\n]*?"x":([-\d.]+),"y":([-\d.]+)', t):

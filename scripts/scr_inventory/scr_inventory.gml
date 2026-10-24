@@ -55,6 +55,8 @@ function inventory_use_item(_pressed, _item)
 	if (!_pressed) exit;
 	if (!instance_exists(_item)) exit;
 	if (state_ != player.move) exit;
+	// The Winged Boots only work from an open edge, with somewhere to land
+	if (_item.action_ == player.evade and is_undefined(jump_landing(facing_direction_ * 90))) exit;
 
 	if (global.player_stamina >= _item.cost_)
 	{

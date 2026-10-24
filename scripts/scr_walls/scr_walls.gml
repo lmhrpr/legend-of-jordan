@@ -98,3 +98,84 @@ function high_ground_at(_x, _y)
 	}
 	return false;
 }
+
+// ---- Jumping with the Winged Boots ----
+// Rims (white parapets) along the top edge of raised ground, and the cliff below it (bottom rims,
+// faces, and the stairs and cave mouths cut into them).
+#macro PLATEAU_TOP_RIMS [110, 111, 126, 127, 141, 142, 143, 154, 155, 157, 158, 159, 173, 174, 175, 481, 482]
+#macro PLATEAU_CLIFF [205, 206, 207, 90, 91, 140, 156, 221, 222, 223, 238, 239, 253, 254, 255, 2, 3, 4, 5, 294, 237]
+#macro JUMP_REACH 64		// furthest a jump can go (px)
+
+/// @function plateau_height_at(x, y)
+/// @desc How high the ground is at a spot: 0 on the canyon floor, otherwise the rows of cliff
+///       (rim and faces) below the plateau it's on. A plateau whose cliff comes down behind
+///       another one stands on the floor behind it, so only its own cliff counts.
+function plateau_height_at(_x, _y)
+{
+	var _layer = layer_get_id("Tiles_Ground");
+	if (_layer == -1) return 0;
+	var _map = layer_tilemap_get_id(_layer);
+	var _c = floor(_x / 16), _r = floor((_y - 3) / 16);
+	var _h = tilemap_get_height(_map);
+	if (_c < 0 or _c >= tilemap_get_width(_map) or _r < 0) return 0;
+	var _top = PLATEAU_TOP_RIMS, _cliff = PLATEAU_CLIFF;
+	// Down across the top to its edge...
+	while (_r < _h)
+	{
+		var _t = tile_get_index(tilemap_get(_map, _c, _r));
+		if (array_contains(_cliff, _t) or array_contains(_top, _t)) break;
+		_r++;
+	}
+	// ...then count the cliff (none if the edge is the top rim of something lower: he's on the floor)
+	var _n = 0;
+	while (_r < _h and array_contains(_cliff, tile_get_index(tilemap_get(_map, _c, _r))))
+	{
+		_n++;
+		_r++;
+	}
+	return _n;
+}
+
+/// @function jump_open_edge(x, y)
+/// @desc The direction he can jump from here (an edge with no parapet), or -1
+function jump_open_edge(_x, _y)
+{
+	var _layer = layer_get_id("Tiles_Ground");
+	if (_layer == -1) return -1;
+	var _t = tile_get_index(tilemap_get(layer_tilemap_get_id(_layer), floor(_x / 16), floor((_y - 3) / 16)));
+	switch (_t)
+	{
+		case 479: return 0;		// right edge
+		case 480: return 90;		// top edge
+		case 478: return 180;		// left edge
+		case 172: return 270;		// bottom edge
+	}
+	return -1;
+}
+
+/// @function jump_landing(direction)
+/// @desc Called by Jordan. Where a jump that way would land: {x, y}, or undefined if he can't jump.
+///       He must be on an open edge facing out of it. He lands inside the rim of somewhere the same
+///       height or lower (the highest such spot within reach, then the nearest), and can't jump over
+///       anything higher than where he started.
+function jump_landing(_dir)
+{
+	if (jump_open_edge(x, y) != _dir) return undefined;
+	var _h0 = plateau_height_at(x, y);
+	var _best = undefined, _best_h = -1;
+	for (var _d = 8; _d <= JUMP_REACH; _d += 2)
+	{
+		var _lx = x + lengthdir_x(_d, _dir), _ly = y + lengthdir_y(_d, _dir);
+		if (place_meeting(_lx, _ly, o_ledge)) continue;		// over a rim or cliff
+		var _h = plateau_height_at(_lx, _ly);
+		if (_h > _h0) break;										// higher ground in the way
+		if (place_meeting(_lx, _ly, [o_solid, o_gap])) continue;
+		if (jump_open_edge(_lx, _ly) == _dir) continue;			// still on the edge he's leaving
+		if (_h > _best_h)
+		{
+			_best_h = _h;
+			_best = { x: _lx, y: _ly };
+		}
+	}
+	return _best;
+}

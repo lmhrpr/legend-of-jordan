@@ -3,3 +3,4 @@
 flag_ = "";
 image_speed = 0;
 depth = 50;		// under everything standing on it
+lines_ = ["Click!", "Somewhere in the ruins, a gate rumbles open."];	// what it says when pressed

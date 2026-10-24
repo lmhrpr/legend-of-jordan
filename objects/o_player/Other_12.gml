@@ -1,14 +1,19 @@
-/// @description player.evade: a jump (the Winged Boots), over small gaps
+/// @description player.evade: a jump with the Winged Boots, from an open plateau edge
+// (inventory_use_item only lets him start one when jump_landing() finds somewhere to land)
 
 // Take off
 if (jump_t_ == 0)
 {
+	var _landing = jump_landing(facing_direction_ * 90);
+	if (is_undefined(_landing))
+	{
+		state_ = player.move;
+		exit;
+	}
 	jump_from_x_ = x;
 	jump_from_y_ = y;
-	// Gaps never stop him in the air. Ledges (the edges and cliff faces of raised ground) only
-	// don't if he jumps from high ground: across the canyon to another plateau, or down.
-	jump_high_ = high_ground_at(x, y);
-	collision_object_ = jump_high_ ? o_solid : [o_solid, o_ledge];
+	jump_to_x_ = _landing.x;
+	jump_to_y_ = _landing.y;
 	play_sfx(a_swipe, 5);
 }
 
@@ -17,26 +22,16 @@ image_index = 1;
 jump_t_ += 1;
 var _t = jump_t_ / jump_time_;
 jump_z_ = -sin(_t * pi) * jump_height_;
-set_movement(roll_direction_, jump_distance_ / jump_time_);
-move_movement_entity(false);
+x = lerp(jump_from_x_, jump_to_x_, _t);
+y = lerp(jump_from_y_, jump_to_y_, _t);
+speed_ = 0;
 
 // Land
 if (jump_t_ >= jump_time_)
 {
 	jump_t_ = 0;
 	jump_z_ = 0;
-	speed_ = 0;
-	collision_object_ = [o_solid, o_gap, o_ledge];
+	x = jump_to_x_;
+	y = jump_to_y_;
 	state_ = player.move;
-
-	// Came down in a gap or on a ledge: fall, lose half a heart, and climb back out where he jumped from
-	if (position_meeting(x, y - 3, o_gap) or place_meeting(x, y, o_ledge))
-	{
-		global.player_health -= 0.5;
-		play_sfx(a_hurt, 6);
-		x = jump_from_x_;
-		y = jump_from_y_;
-		invincible_ = true;
-		alarm[0] = global.one_second;
-	}
 }

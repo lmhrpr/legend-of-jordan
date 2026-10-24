@@ -1,4 +1,4 @@
-/// @description player.evade: a jump with the Winged Boots, from an open plateau edge
+/// @description player.evade: a jump with the Winged Boots, over a pit or from an open plateau edge
 // (inventory_use_item only lets him start one when jump_landing() finds somewhere to land)
 
 // Take off

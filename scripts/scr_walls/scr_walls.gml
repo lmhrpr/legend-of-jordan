@@ -155,17 +155,35 @@ function jump_open_edge(_x, _y)
 
 /// @function jump_landing(direction)
 /// @desc Called by Jordan. Where a jump that way would land: {x, y}, or undefined if he can't jump.
-///       He must be on an open edge facing out of it. He lands inside the rim of somewhere the same
-///       height or lower (the highest such spot within reach, then the nearest), and can't jump over
-///       anything higher than where he started.
+///       Two kinds of jump:
+///       - over a pit (o_gap) right in front of him: to the nearest clear spot past it, not over walls;
+///       - off an open plateau edge (facing out of it): inside the rim of the highest spot within
+///         reach that's no higher than where he took off, never over anything higher.
 function jump_landing(_dir)
 {
-	if (jump_open_edge(x, y) != _dir) return undefined;
+	var _dx = lengthdir_x(1, _dir), _dy = lengthdir_y(1, _dir);
 	var _h0 = plateau_height_at(x, y);
+
+	// Over a pit
+	if (place_meeting(x + _dx * 12, y + _dy * 12, o_gap))
+	{
+		for (var _d = 8; _d <= JUMP_REACH; _d += 2)
+		{
+			var _lx = x + _dx * _d, _ly = y + _dy * _d;
+			if (place_meeting(_lx, _ly, [o_solid, o_ledge])) return undefined;	// a wall in the way
+			if (place_meeting(_lx, _ly, o_gap)) continue;
+			if (plateau_height_at(_lx, _ly) > _h0) return undefined;
+			return { x: _lx, y: _ly };
+		}
+		return undefined;
+	}
+
+	// Off an open edge
+	if (jump_open_edge(x, y) != _dir) return undefined;
 	var _best = undefined, _best_h = -1;
 	for (var _d = 8; _d <= JUMP_REACH; _d += 2)
 	{
-		var _lx = x + lengthdir_x(_d, _dir), _ly = y + lengthdir_y(_d, _dir);
+		var _lx = x + _dx * _d, _ly = y + _dy * _d;
 		if (place_meeting(_lx, _ly, o_ledge)) continue;		// over a rim or cliff
 		var _h = plateau_height_at(_lx, _ly);
 		if (_h > _h0) break;										// higher ground in the way

@@ -1,5 +1,6 @@
-"""Rebuild a dungeon room's o_solid blocks from its tiles (after walls/doorways are repainted).
+"""Rebuild a room's o_solid blocks from its tiles (after walls are repainted).
 Usage: python3 dungeon_solids.py r_dungeon1   (blocks are made at 8px, so doorway pillars are solid)
+       python3 dungeon_solids.py r_canyon     (the canyon's raised ground: rims, sides and cliff faces)
 
 Solid: wall tiles (ground or decor layer), blocks and torches on the decor layer, and empty cells
 (the black rows between screens), except where a doorway runs through them.
@@ -18,6 +19,8 @@ t = open(path, encoding="utf-8", newline="").read()
 
 
 def layer(name):
+    if f'"%Name":"{name}"' not in t:
+        return None, None
     i = t.index(f'"%Name":"{name}"')
     w = int(re.search(r'"SerialiseWidth":(\d+)', t[i:]).group(1))
     a = t.index('"TileCompressedData":[', i) + len('"TileCompressedData":[')
@@ -28,6 +31,8 @@ def layer(name):
 w, ground = layer("Tiles_Ground")
 _, decor = layer("Tiles_Decor")
 h = len(ground) // w
+if decor is None:
+    decor = [None] * len(ground)
 G = lambda c, r: ground[r * w + c] if 0 <= c < w and 0 <= r < h else None
 D = lambda c, r: decor[r * w + c] if 0 <= c < w and 0 <= r < h else None
 # Doorway tiles are half pillar, half opening: the pillar half is solid.
@@ -35,6 +40,14 @@ D = lambda c, r: decor[r * w + c] if 0 <= c < w and 0 <= r < h else None
 #   in side walls: top tiles have the pillar on top, bottom tiles underneath
 PILLAR = {263: "L", 247: "L", 279: "L", 264: "R", 248: "R", 280: "R", 249: "T", 250: "T", 265: "B", 266: "B"}
 HALF = {"L": [(0, 0), (0, 1)], "R": [(1, 0), (1, 1)], "T": [(0, 0), (1, 0)], "B": [(0, 1), (1, 1)]}
+CANYON = room == "r_canyon"
+if CANYON:
+    # Raised ground: rims and cliff faces are solid; the side pieces are solid on their outer half;
+    # the tops (190), ground, stairs, cave mouths and cracks are walkable.
+    WALLS = {110, 111, 126, 127, 141, 142, 143, 157, 158, 159, 173, 174, 175, 205, 206, 207,
+             221, 222, 223, 238, 239, 253, 254, 255, 90, 91, 140, 156, 108, 109, 124, 125}
+    DOORWAY = {2, 3, 4, 5, 294, 237}
+    PILLAR = {189: "L", 191: "R"}
 solid = set()                   # cells at 8px: (c*2 + qx, r*2 + qy)
 
 

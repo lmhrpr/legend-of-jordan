@@ -177,7 +177,7 @@ The route: bomb the entrance's cracked north wall → centre hall (locked door) 
 
 ## 3b. Enemies (to build)
 
-Liam's notes. First-pass art for all of these is in `art/enemies/` (one strip of frames each; `_all.png` shows them together). It isn't in the GameMaker project yet.
+Liam's notes. Art for all of these is in `art/enemies/` (one strip of frames each; `_all.png` shows them together), drawn by `_tools/enemy_art/` (run `sheet.py` to redraw). It isn't in the GameMaker project yet.
 
 **Changes to every enemy:** replace the code that sends enemies shooting across the screen when they're hit (a short knock-back instead).
 
@@ -185,9 +185,9 @@ Liam's notes. First-pass art for all of these is in `art/enemies/` (one strip of
 |---|---|---|---|
 | Bat (redo) | Anywhere | Flies about in a random pattern, then lands for a second. Doesn't target or swoop at Jordan: it only hurts if it flies into him. | Sword, bombs |
 | Armadillo | Desert, canyon | Walks about. If Jordan is in range and lined up with it (same row or column), it rolls up and rolls straight at him, horizontally or vertically. | Sword and bombs, but not while rolled up |
-| Snake | Desert, forest | Waits, tongue flicking. If Jordan comes close, it pauses, then strikes. | Sword, bombs |
+| Snake | Desert, forest | Slithers about; coils up and waits, tongue flicking. If Jordan comes close, it pauses, then strikes. | Sword, bombs |
 | Dust devil | Desert, canyon | Moves erratically; doesn't target Jordan. Hurts if it touches him. | Bombs only |
-| Skeleton warrior | Dungeons | Variations: no weapon; with a sword; with a throwing spear; with a shield that blocks hits from the front. | Sword, bombs (shield: from behind or the sides) |
+| Skeleton warrior | Dungeons | Variations: no weapon; with a sword; with a throwing spear; with a shield that blocks hits from the front, plus a sword or a spear. | Sword, bombs (shield: from behind or the sides) |
 | Gelatinous blob | Dungeons, caves | Hops around slowly. Variations: green (slow); blue (faster hops); purple (splits in two when killed, once); red (splits twice). | Sword, bombs |
 | Scorpion | Desert, canyon | Burrows under the sand (a moving mound), then pops up behind Jordan to attack. | Sword and bombs once it's up |
 

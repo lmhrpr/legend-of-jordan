@@ -169,9 +169,12 @@ function jump_landing(_dir)
 	var _h0 = plateau_height_at(x, y);
 
 	// Over a pit
-	if (place_meeting(x + _dx * 12, y + _dy * 12, o_gap))
+	var _gap = instance_place(x + _dx * 12, y + _dy * 12, o_gap);
+	if (_gap != noone)
 	{
-		for (var _d = 8; _d <= JUMP_REACH; _d += 2)
+		// A pit can set how far a jump over it may go (creation code: reach_ = 32;  for 2 tiles)
+		var _reach = variable_instance_exists(_gap, "reach_") ? _gap.reach_ : JUMP_REACH;
+		for (var _d = 8; _d <= _reach; _d += 2)
 		{
 			var _lx = x + _dx * _d, _ly = y + _dy * _d;
 			if (place_meeting(_lx, _ly, [o_solid, o_ledge])) return undefined;	// a wall in the way

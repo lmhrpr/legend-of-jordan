@@ -63,6 +63,14 @@ function player_found_item(_sprite, _text)
 {
 	with (o_player)
 	{
+		// Mid-jump? Land first, or he'd hang in the air while holding the item up
+		if (jump_t_ > 0)
+		{
+			x = jump_to_x_;
+			y = jump_to_y_;
+			jump_t_ = 0;
+			jump_z_ = 0;
+		}
 		state_ = player.found_item;
 		facing_direction_ = dir.down;
 		item_found_sprite_ = _sprite;

@@ -159,8 +159,8 @@ function jump_open_edge(_x, _y)
 /// @function jump_landing(direction)
 /// @desc Called by Jordan. Where a jump that way would land: {x, y}, or undefined if he can't jump.
 ///       Two kinds of jump:
-///       - over a pit (o_gap) right in front of him: to the nearest clear spot past it (nudged up to a
-///         tile sideways if need be), not over walls. If there's nowhere to land and the pit has
+///       - over a pit (o_gap) right in front of him: to the nearest clear spot past it (nudged up to
+///         10px sideways, 13px for up/down jumps), not over walls. If there's nowhere to land and the pit has
 ///         fall_ = true, he jumps anyway and drops in ({fall: true});
 ///       - off an open plateau edge (facing out of it): inside the rim of the highest spot within
 ///         reach that's no higher than where he took off, never over anything higher.
@@ -181,9 +181,11 @@ function jump_landing(_dir)
 		{
 			var _lx = x + _dx * _d, _ly = y + _dy * _d;
 			if (place_meeting(_lx, _ly, [o_solid, o_ledge])) break;		// a wall in the way
-			// Land here, or up to a tile to the side if that's clear (so a stepping stone one tile
-			// wide doesn't need lining up to the pixel, and he can hop to a stone a column over)
-			var _nudges = [0, -3, 3, -6, 6, -9, 9, -12, 12, -16, 16];
+			// Land here, or a little to the side if that's clear: enough to reach a stone a row (or
+			// column) over from the half of his stone nearest it, but not from the far half, so he
+			// has to line up (from the wrong spot he falls). Up/down jumps get a bit more, as his
+			// feet are wider than they are deep.
+			var _nudges = (_dx != 0) ? [0, -3, 3, -6, 6, -9, 9, -10, 10] : [0, -3, 3, -6, 6, -9, 9, -12, 12, -13, 13];
 			for (var _n = 0; _n < array_length(_nudges); _n++)
 			{
 				var _nx = _lx + _dy * _nudges[_n], _ny = _ly + _dx * _nudges[_n];

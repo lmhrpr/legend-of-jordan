@@ -2,6 +2,7 @@
 
 if (instance_exists(o_transition)) exit;
 if (other.room_ == noone) exit;
+if (jump_t_ > 0) exit;		// in the air: jumps clear doors, he has to walk in
 
 global.player_start_position = other.start_;
 // A dungeon's way out names its stairs instead (Jordan comes out in front of them)

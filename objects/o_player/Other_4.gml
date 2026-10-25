@@ -1,3 +1,12 @@
+// Never arrive mid-jump (a jump that ended in a doorway carries on otherwise)
+if (state_ == player.evade or jump_t_ > 0)
+{
+	jump_t_ = 0;
+	jump_z_ = 0;
+	speed_ = 0;
+	state_ = player.move;
+}
+
 // Coming back out of a dungeon: start just below its entrance
 var _off_stairs = false;
 if (global.arrive_at_ != "")

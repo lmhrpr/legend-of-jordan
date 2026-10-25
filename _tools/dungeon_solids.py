@@ -40,7 +40,7 @@ D = lambda c, r: decor[r * w + c] if 0 <= c < w and 0 <= r < h else None
 #   in side walls: top tiles have the pillar on top, bottom tiles underneath
 PILLAR = {263: "L", 247: "L", 279: "L", 264: "R", 248: "R", 280: "R", 249: "T", 250: "T", 265: "B", 266: "B"}
 HALF = {"L": [(0, 0), (0, 1)], "R": [(1, 0), (1, 1)], "T": [(0, 0), (1, 0)], "B": [(0, 1), (1, 1)]}
-CANYON = room in ("r_canyon", "r_canyon_test")
+CANYON = room == "r_canyon"
 if CANYON:
     # Raised ground: rims and cliff faces are solid; the side pieces are solid on their outer half;
     # the tops (190), ground, stairs, cave mouths and cracks are walkable.
@@ -86,6 +86,8 @@ for m in re.finditer(r'"objectId":\{"name":"(o_gap\w*)"[^\n]*?"x":([-\d.]+),"y":
 # Replace the room's o_solid (or, in the canyon, o_ledge) instances.
 # Canyon walls are o_ledge: they stop walking, but Jordan can jump over them from high ground.
 OBJ = "o_ledge" if CANYON else "o_solid"
+import zlib
+PREFIX = "%03X" % (zlib.crc32(room.encode()) & 0xFFF)
 inst_re = re.compile(r'^ *\{"\$GMRInstance".*$\n', re.M)
 lines = [m for m in inst_re.finditer(t) if re.search(r'"name":"o_(solid|ledge)"', m.group(0))
          and '"hasCreationCode":false' in m.group(0)]
@@ -110,7 +112,7 @@ for r in range(h * 2):
             e += 1
         while True:
             k += 1
-            n = f"inst_5D{k:06X}"
+            n = f"inst_{PREFIX}{k:05X}"     # (a prefix per room: instance names are shared by the whole project)
             if n not in taken:
                 break
         names.append(n)

@@ -94,31 +94,18 @@ Bats and porcupines everywhere except the Keeper's glade. Gloom deepens towards 
 
 ### The Canyon (west of the Southern Desert)
 
-Room `r_canyon` (3 × 3 screens), reached by bombing the cracked rocks on the Desert's west side (the exit is on screen 4's west edge). Built from the tileset's raised-ground pieces: plateaus with white rims and layered cliff faces, stairs cut into the cliffs, and cracks (`o_gap`) to jump with the Winged Boots. High ground along the screen borders makes a maze; the gaps between screens are:
-
-| Between | Way through |
-|---|---|
-| Desert → 6 | The way in (east edge) |
-| 6 ↔ 5 | Open |
-| 5 ↔ 2, 5 ↔ 8 | Open |
-| 2 ↔ 3 | A crack to jump |
-| 8 | A long crack splits it in two |
-| 8 ↔ 7 ↔ 4 ↔ 1 | Open |
-
-Secrets: a cave in screen 1 behind cracked rocks (gems and a heart), a cave in screen 3's high mesa (a Heart Container), a cave in screen 7 behind a cracked rock (Liam's scratched map: "L.H."), a gem guarded by a cracked rock on screen 2's mesa, and gems beyond cracks on the mesas in screens 4 and 6. The caves are `r_canyon_caves`. Dungeon 3's entrance is still to place.
-
-**Jumping (the Winged Boots).** Jordan can jump over a pit (`o_gap`) right in front of him, landing just past it. On raised ground he can only jump from an open edge of a plateau, where there's no stone parapet (tiles 478, 479, 480 and 172, facing out of the edge), and only to somewhere the same height or lower, landing inside its rim. A plateau's height is the rows of cliff below it, rim included (0 is the canyon floor); a plateau whose cliff comes down behind another one is on the floor behind it. If there's nowhere to land, the boots do nothing: no falls, no lost hearts. So the jump north from the band in screen 3 (height 3) to the mesa (height 2) is one-way, and the way back is the tunnel (cave 5): its blocks only sink once the switch on its north side is pressed (flag `canyon_tunnel`).
-
-**Test copy: `r_canyon_test`** (F1 menu: "Canyon (test copy)"). Liam's canyon with screens 3 and 6 kept and the rest rebuilt so the way out (north, from the plateau on screen 2) comes last:
+Room `r_canyon` (3 × 3 screens), Liam's layout. Reached by bombing the cracked rocks on the Desert's west side; the way in is on screen 6's east edge, the way out (to the next area) up the steps of the Gate plateau on screen 2. Built from the tileset's raised-ground pieces: plateaus with white rims and layered cliff faces, stairs cut into the cliffs, open edges to jump from. The caves are `r_canyon_caves`.
 
 | Step | Where | What happens |
 |---|---|---|
-| 1 | Screens 6 to 3 | Up onto the band, then the one-way jump north onto the mesa, down its stairs to the strip of floor north of the band (cave 5's north end is here: its switch opens the way back to screen 6). |
-| 2 | Screens 2, 1, 4, 7, 8, 9 | At ground level, counter-clockwise: west along the strip and the foot of the Shelf, down the west edge, through the gap into screen 7, east along the bottom to screen 9. This part of the floor is sealed off from screens 5 and 6 (rocks in the passage under the Tower; no gap in the wall above screens 8 and 9). |
-| 3 | Screen 9 to 5 | Cave 6, in the cliff of the plateau in screen 9, runs north and west (Liam's cave rooms) and comes up through steps on top of the Tower (height 4). |
-| 4 | Screens 5, 4, 1, 2 | Step down: Tower west to the Ledge (3), north from the Ledge's notch over the path to the Shelf (2), east to the Gate plateau (2), and out. |
+| 1 | Screens 6, 3 | Up onto the band, then the one-way jump north from its notch onto the mesa (cave 2, a Heart Container), and down its stairs to the floor north of the band. Cave 5's north end is here: its switch opens the tunnel back to screen 6. |
+| 2 | Screens 2, 1, 4, 7, 8, 9 | At ground level, anticlockwise round the canyon to cave 6 in screen 9. This floor is sealed off from screens 5 and 6. |
+| 3 | Screen 9 to 5 | Cave 6 runs north and west through three cave rooms and comes up through steps on top of the Tower. |
+| 4 | Screens 5, 4, 1, 2 | Down from the Tower onto the long plateau, stairs up to the Ledge, the Ledge's notch north onto the Shelf, east to the Gate plateau, and out. |
 
-Coming back from the north: jump west from the Gate plateau to the Shelf, then drop off the Shelf's west end to the floor of screen 1 (one way). Cave 1 is in the Ledge's cliff, behind the cracked rocks. Caves 1 to 5 in the copy lead back to the real `r_canyon`.
+Coming back from the north: drop off the Gate plateau's east edge, and home through cave 5. Other secrets: cave 1 (gems) behind cracked rocks in the Ledge's cliff, cave 3 (Liam's scratched map, "L.H.") behind a cracked rock in screen 7, cave 4 (a gem stash) behind a cracked patch of cliff in screen 6. Dungeon 3's entrance is still to place.
+
+**Jumping (the Winged Boots).** Jordan can jump over a pit (`o_gap`) right in front of him, landing just past it. On raised ground he can only jump from an open edge of a plateau, where there's no stone parapet (tiles 478, 479, 480 and 172, facing out of the edge), and only to somewhere the same height or lower, landing inside its rim (up to 4½ tiles away). A plateau's height is the rows of cliff below it, rim included (0 is the canyon floor); a plateau whose cliff comes down behind another one is on the floor behind it. If there's nowhere to land, the boots do nothing: no falls, no lost hearts. Cave 5's blocks only sink once the switch on its north side is pressed (flag `canyon_tunnel`).
 
 ## 3. Dungeons and progression
 

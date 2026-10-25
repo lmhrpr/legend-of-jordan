@@ -1,3 +1,3 @@
-room_ = r_canyon_test;
-start_ = i_cave6_a_test;
+room_ = r_canyon;
+start_ = i_cave6_a;
 type_ = trans_type.iris;

@@ -41,6 +41,7 @@ else if (keyboard_check_pressed(vk_enter))
 			if (!inventory_has_item(o_sword_item)) global.item[0] = inventory_add_item(o_sword_item);
 			if (!inventory_has_item(o_bomb_item)) inventory_add_item(o_bomb_item);
 			if (!inventory_has_item(o_boots_item)) inventory_add_item(o_boots_item);
+			if (!inventory_has_item(o_gloves_item)) inventory_add_item(o_gloves_item);
 			global.found_letter = true;
 			global.main_quest_active = true;
 			break;

@@ -15,6 +15,6 @@ rooms_ = [
 	{ name: "Post Office", room: r_post_office , cols: 1, rows: 1 },
 	{ name: "The ending", room: r_ending , cols: 1, rows: 1 }
 ];
-extras_ = ["Give sword, bombs and boots", "+1 key (in a dungeon)", "Full hearts", "Close"];
+extras_ = ["Give sword, bombs, boots, gloves", "+1 key (in a dungeon)", "Full hearts", "Close"];
 index_ = 0;
 screen_ = 0;

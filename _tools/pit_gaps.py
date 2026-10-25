@@ -1,12 +1,14 @@
 """Rebuild the pit gaps in one screen of a room from its tiles, then its walls.
 
-Usage: python3 pit_gaps.py r_canyon_caves 2 2 [reach]
-       (room, screen column, screen row, optional jump reach in px, e.g. 32 for stone to stone)
+Usage: python3 pit_gaps.py r_canyon_caves 2 2 [reach] [fall]
+       (room, screen column, screen row, optional jump reach in px, e.g. 32 for stone to stone,
+        and "fall" if Jordan can fall in: jumping the wrong way or walking off an edge costs a heart)
 
 Inside the screen's walls, the black void (456) and the faces of pillars (204, 220) become
 o_gap_1 (invisible pits Jordan can jump with the Winged Boots); pillar tops (172) stay floor.
 Any o_gap_1 already in that screen is removed first, with its creation code. With a reach,
-each gap gets the creation code  reach_ = <reach>;  (how far a jump over it can go).
+each gap gets the creation code  reach_ = <reach>;  (how far a jump over it can go), and with
+"fall",  fall_ = true;
 Then dungeon_solids.py rebuilds the room's walls around them."""
 import os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -14,7 +16,10 @@ from render_room import decode
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 room, sc, sr = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
-reach = int(sys.argv[4]) if len(sys.argv) > 4 else None
+args = sys.argv[4:]
+fall = "fall" in args
+nums = [a for a in args if a.isdigit()]
+reach = int(nums[0]) if nums else None
 PIT = {456, 204, 220}
 T, SW, SH = 16, 320, 180
 path = f"{ROOT}/rooms/{room}/{room}.yy"
@@ -68,12 +73,16 @@ for s, r, n in runs:
     ms = list(pat.finditer(t))
     assert len(ms) == 1, (s, r, len(ms))
     line = re.sub(r'"scaleX":[\d.]+', f'"scaleX":{float(n)}', ms[0].group(0))
-    if reach:
+    if reach or fall:
         line = line.replace('"hasCreationCode":false', '"hasCreationCode":true')
         name = re.search(r'"%Name":"(\w+)"', line).group(1)
-        open(f"{ROOT}/rooms/{room}/InstanceCreationCode_{name}.gml", "w", newline="").write(
-            f"reach_ = {reach};\t\t// how far a jump over this pit can go (px)\n")
+        code = ""
+        if reach:
+            code += f"reach_ = {reach};\t\t// how far a jump over this pit can go (px)\n"
+        if fall:
+            code += "fall_ = true;\t\t// Jordan can fall in (a wrong jump, or walking off the edge)\n"
+        open(f"{ROOT}/rooms/{room}/InstanceCreationCode_{name}.gml", "w", newline="").write(code)
     t = t[:ms[0].start()] + line + t[ms[0].end():]
 open(path, "w", encoding="utf-8", newline="").write(t)
-print(f"{room} screen ({sc},{sr}): removed {len(gone)} gaps, added {len(runs)}" + (f" (reach {reach})" if reach else ""))
+print(f"{room} screen ({sc},{sr}): removed {len(gone)} gaps, added {len(runs)}" + (f" (reach {reach})" if reach else "") + (" (can fall in)" if fall else ""))
 subprocess.run(["python3", f"{ROOT}/_tools/dungeon_solids.py", room], check=True)

@@ -19,8 +19,53 @@ if (is_struct(auto_walk_))
 	exit;
 }
 
+// Falling into a pit: shrink away, then lose a heart and come back on safe ground
+if (fall_t_ > 0)
+{
+	fall_t_ += 1;
+	speed_ = 0;
+	image_speed = 0;
+	if (fall_t_ >= FALL_TIME)
+	{
+		fall_t_ = 0;
+		x = safe_x_;
+		y = safe_y_;
+		state_ = player.move;
+		global.player_health -= FALL_DAMAGE;
+		invincible_ = true;
+		alarm[0] = global.one_second;
+		play_sfx(a_hurt, 6);
+	}
+	else exit;
+}
+
 // Update state
 event_user(state_);
+
+// Walking off the edge of a pit (holding a direction into it; a tap only turns him)
+if (state_ == player.move and jump_t_ == 0 and visible)
+{
+	var _xi = o_input.right_ - o_input.left_;
+	var _yi = o_input.down_ - o_input.up_;
+	var _into = false;
+	if (_xi != 0 or _yi != 0)
+	{
+		var _d = point_direction(0, 0, _xi, _yi);
+		_into = fall_pit_near(x + lengthdir_x(2, _d), y + lengthdir_y(2, _d), 0);
+	}
+	edge_t_ = _into ? edge_t_ + 1 : 0;
+	if (edge_t_ >= FALL_EDGE_FRAMES)
+	{
+		x += lengthdir_x(6, _d);
+		y += lengthdir_y(6, _d);
+		player_start_fall();
+	}
+	else if (!fall_pit_near(x, y, 12))
+	{
+		safe_x_ = x;		// solid ground well away from any pit
+		safe_y_ = y;
+	}
+}
 
 // Update the sprite
 if global.first_play 

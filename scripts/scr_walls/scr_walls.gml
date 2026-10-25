@@ -160,7 +160,8 @@ function jump_open_edge(_x, _y)
 /// @desc Called by Jordan. Where a jump that way would land: {x, y}, or undefined if he can't jump.
 ///       Two kinds of jump:
 ///       - over a pit (o_gap) right in front of him: to the nearest clear spot past it (nudged up to a
-///         tile sideways if need be), not over walls;
+///         tile sideways if need be), not over walls. If there's nowhere to land and the pit has
+///         fall_ = true, he jumps anyway and drops in ({fall: true});
 ///       - off an open plateau edge (facing out of it): inside the rim of the highest spot within
 ///         reach that's no higher than where he took off, never over anything higher.
 function jump_landing(_dir)
@@ -174,20 +175,23 @@ function jump_landing(_dir)
 	{
 		// A pit can set how far a jump over it may go (creation code: reach_ = 32;  for 2 tiles)
 		var _reach = variable_instance_exists(_gap, "reach_") ? _gap.reach_ : JUMP_REACH;
-		for (var _d = 8; _d <= _reach; _d += 2)
+		var _falls = variable_instance_exists(_gap, "fall_") and _gap.fall_;
+		var _last = undefined;		// the furthest spot in the air he gets to
+		for (var _d = 14; _d <= _reach; _d += 2)		// (from 14: past the edge, not a hop on the spot)
 		{
 			var _lx = x + _dx * _d, _ly = y + _dy * _d;
-			if (place_meeting(_lx, _ly, [o_solid, o_ledge])) return undefined;	// a wall in the way
+			if (place_meeting(_lx, _ly, [o_solid, o_ledge])) break;		// a wall in the way
 			// Land here, or up to a tile to the side if that's clear (so a stepping stone one tile
 			// wide doesn't need lining up to the pixel, and he can hop to a stone a column over)
 			var _nudges = [0, -3, 3, -6, 6, -9, 9, -12, 12, -16, 16];
 			for (var _n = 0; _n < array_length(_nudges); _n++)
 			{
 				var _nx = _lx + _dy * _nudges[_n], _ny = _ly + _dx * _nudges[_n];
-				if (!place_meeting(_nx, _ny, [o_solid, o_ledge, o_gap])) return { x: _nx, y: _ny };
+				if (!place_meeting(_nx, _ny, [o_solid, o_ledge, o_gap])) return { x: _nx, y: _ny, fall: false };
 			}
+			_last = { x: _lx, y: _ly, fall: true };
 		}
-		return undefined;
+		return _falls ? _last : undefined;		// a pit he can fall into: jumping the wrong way drops him in
 	}
 
 	// Off an open edge
@@ -209,10 +213,48 @@ function jump_landing(_dir)
 			if (_h > _best_h)
 			{
 				_best_h = _h;
-				_best = { x: _lx, y: _ly };
+				_best = { x: _lx, y: _ly, fall: false };
 			}
 			break;
 		}
 	}
 	return _best;
+}
+
+// ---- Falling into pits ----
+// A pit with  fall_ = true;  in its creation code can be fallen into: by jumping the wrong way, or by
+// walking off its edge (pushing into it for FALL_EDGE_FRAMES; a quick tap just turns him round).
+// He loses FALL_DAMAGE and comes back on the last ground he stood on away from such pits.
+#macro FALL_EDGE_FRAMES 12
+#macro FALL_TIME 30
+#macro FALL_DAMAGE 1
+
+/// @function fall_pit_near(x, y, margin)
+/// @desc Called by Jordan: true if his feet, standing at x, y and widened by margin px, touch a pit he can fall into
+function fall_pit_near(_x, _y, _margin)
+{
+	var _list = ds_list_create();
+	var _n = collision_rectangle_list(bbox_left + (_x - x) - _margin, bbox_top + (_y - y) - _margin,
+		bbox_right + (_x - x) + _margin, bbox_bottom + (_y - y) + _margin, o_gap, false, true, _list, false);
+	var _hit = false;
+	for (var _i = 0; _i < _n; _i++)
+	{
+		var _g = _list[| _i];
+		if (variable_instance_exists(_g, "fall_") and _g.fall_) { _hit = true; break; }
+	}
+	ds_list_destroy(_list);
+	return _hit;
+}
+
+/// @function player_start_fall()
+/// @desc Called by Jordan: drop into the pit he's over
+function player_start_fall()
+{
+	fall_t_ = 1;
+	jump_t_ = 0;
+	jump_z_ = 0;
+	speed_ = 0;
+	edge_t_ = 0;
+	state_ = player.locked;
+	play_sfx(a_swipe, 6);
 }

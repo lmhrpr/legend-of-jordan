@@ -14,6 +14,7 @@ if (jump_t_ == 0)
 	jump_from_y_ = y;
 	jump_to_x_ = _landing.x;
 	jump_to_y_ = _landing.y;
+	jump_falls_ = _landing.fall;
 	play_sfx(a_swipe, 5);
 }
 
@@ -34,4 +35,6 @@ if (jump_t_ >= jump_time_)
 	x = jump_to_x_;
 	y = jump_to_y_;
 	state_ = player.move;
+	if (jump_falls_) player_start_fall();		// jumped the wrong way: into the pit
+	jump_falls_ = false;
 }

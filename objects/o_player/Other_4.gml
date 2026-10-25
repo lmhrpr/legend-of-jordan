@@ -1,8 +1,10 @@
 // Never arrive mid-jump (a jump that ended in a doorway carries on otherwise)
-if (state_ == player.evade or jump_t_ > 0)
+if (state_ == player.evade or jump_t_ > 0 or fall_t_ > 0)
 {
 	jump_t_ = 0;
 	jump_z_ = 0;
+	jump_falls_ = false;
+	fall_t_ = 0;
 	speed_ = 0;
 	state_ = player.move;
 }

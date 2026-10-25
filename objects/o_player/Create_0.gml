@@ -28,6 +28,12 @@ jump_from_x_ = x;
 jump_from_y_ = y;
 jump_to_x_ = x;
 jump_to_y_ = y;
+jump_falls_ = false;		// this jump lands in a pit
+// Falling into pits (see player_start_fall in scr_walls)
+fall_t_ = 0;			// counts up while he falls
+edge_t_ = 0;			// how long he's been pushing into a pit's edge
+safe_x_ = x;			// last ground he stood on away from pits: where he comes back
+safe_y_ = y;
 
 // Text boxes
 name = "Jordan";

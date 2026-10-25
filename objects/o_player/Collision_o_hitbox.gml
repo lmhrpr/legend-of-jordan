@@ -2,6 +2,7 @@
 
 if (!visible) exit;		// fainted
 if (jump_t_ > 0) exit;		// in the air: jumps over trouble
+if (fall_t_ > 0) exit;		// already falling
 if (hurtbox_entity_can_be_hit_by(other))
 {
 	invincible_ = true;

@@ -1,0 +1,60 @@
+# THE CANYON: level layout (60 tiles across x 34 down, one character per tile)
+#
+#   (blank)  canyon floor
+#   1-9      plateau of that height. Fill in the whole block as seen from above, rims and cliff
+#            included: the bottom rows of each column become its cliff (rim + faces), so a
+#            height-3 plateau needs at least 5 rows (top rim, 1 row to walk on, 3 rows of cliff).
+#   S        stairs: put one anywhere in a plateau's cliff, they're cut up that column
+#   A-M      cave door, on the bottom row of a cliff. Once = a cave; twice = the two ends of a tunnel.
+#              A-D caves 1-4, E cave 5 (the switch tunnel), F cave 6 (the long tunnel), G-M spare
+#   a-m      a cave entrance cut down into the ground (like the steps on top of a plateau)
+#   < > ^ v  open edge (no parapet): Jordan can jump off it that way. Put it on the edge cell.
+#   %        cracked rock (bomb it)
+#   A* etc.  a cave hidden behind a cracked patch of cliff: the letter, then * on the cell to its right
+#
+# Lines starting with # are ignored (the rulers' # sits in column 0). Only the first 60 characters of a line count: the | and the
+# row number after them are just a guide. Keep every line 60 characters long.
+# Screens: columns 0-19 | 20-39 | 40-59. Rows 0-10 are the top screens; row 11 is mostly in the
+# middle screens; rows 12-21 middle; row 22 is half and half; rows 23-33 bottom.
+# Fixed: the outer wall (height 3), the way in from the desert (east, rows 17-18) and the way out
+# north (columns 28-29). Enemies and pickups go in the room editor afterwards.
+#
+#         1         2         3         4         5         
+#12345678901234567890123456789012345678901234567890123456789
+#                   |                   |                   
+3333333333333333333333333333  333333333333333333333333333333|  0
+3333333333333333333333333333  333333333333333333333333333333|  1
+3333333333333333333333333333  333333333333333333333333333333|  2
+3333333333333333333333333333  333333333333333333333333333333|  3
+33                                                        33|  4
+33                                                        33|  5
+33                                                        33|  6
+33                                                        33|  7
+33                                                        33|  8
+33                                                        33|  9
+33                                                        33| 10
+33                                                        33| 11   <- screen border is in this row
+33                                                        33| 12
+33                                                        33| 13
+33                                                        33| 14
+33                                                        33| 15
+33                                                        33| 16
+33                                                          | 17
+33                                                          | 18
+33                                                        33| 19
+33                                                        33| 20
+33                                                        33| 21
+33                                                        33| 22   <- screen border is in this row
+33                                                        33| 23
+33                                                        33| 24
+33                                                        33| 25
+33                                                        33| 26
+33                                                        33| 27
+33                                                        33| 28
+33                                                        33| 29
+33                                                        33| 30
+333333333333333333333333333333333333333333333333333333333333| 31
+333333333333333333333333333333333333333333333333333333333333| 32
+333333333333333333333333333333333333333333333333333333333333| 33
+#                   |                   |                   
+#12345678901234567890123456789012345678901234567890123456789

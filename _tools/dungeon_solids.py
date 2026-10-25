@@ -11,7 +11,8 @@ from render_room import decode
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WALLS = {1, 240, 241, 242, 243, 244, 256, 258, 259, 260, 272, 273, 274, 275, 276, 277, 278,
-         305, 307, 323, 336, 352, 456}          # (blocks are o_block objects now)
+         305, 307, 323, 336, 352, 456,
+         158, 481, 482}     # (blocks are o_block objects now; 158/481/482: parapets, e.g. along cave 3's pit)
 DOORWAY = {237, 247, 248, 249, 250, 263, 264, 265, 266, 279, 280}
 room = sys.argv[1]
 path = f"{ROOT}/rooms/{room}/{room}.yy"
@@ -77,11 +78,13 @@ for r in range(h):
             fill(c, r)
 
 # Gaps (o_gap and its children) are jumped, not walls
-for m in re.finditer(r'"objectId":\{"name":"(o_gap\w*)"[^\n]*?"x":([-\d.]+),"y":([-\d.]+)', t):
-    gc, gr = int(float(m.group(2))) // 16, int(float(m.group(3))) // 16
-    for qx in (0, 1):
-        for qy in (0, 1):
-            solid.discard((gc * 2 + qx, gr * 2 + qy))
+for m in re.finditer(r'^.*"objectId":\{"name":"(o_gap\w*)".*$', t, re.M):
+    s = m.group(0)
+    gx, gy = float(re.search(r'"x":([-\d.]+)', s).group(1)), float(re.search(r'"y":([-\d.]+)', s).group(1))
+    sx, sy = float(re.search(r'"scaleX":([-\d.]+)', s).group(1)), float(re.search(r'"scaleY":([-\d.]+)', s).group(1))
+    for qx in range(int(gx // 8), int((gx + 16 * sx) // 8)):          # (a stretched gap covers its whole run)
+        for qy in range(int(gy // 8), int((gy + 16 * sy) // 8)):
+            solid.discard((qx, qy))
 
 # Replace the room's o_solid (or, in the canyon, o_ledge) instances.
 # Canyon walls are o_ledge: they stop walking, but Jordan can jump over them from high ground.

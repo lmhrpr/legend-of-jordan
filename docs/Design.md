@@ -114,7 +114,9 @@ Coming back from the north: drop off the Gate plateau's east edge, and home thro
 | 3 (Liam's map, screen 7) | Looks empty: a line of gems points to a cracked wall; bomb it for the alcove with the map. |
 | 4 (gem stash, screen 6) | Treasure vault: the gems are behind blocks that sink when a switch is pressed, on the far side of a block maze, with bats. |
 | 5 (the switch tunnel) | As it is: it only opens from the north side. |
-| 6 (the long tunnel) | A mini-dungeon (the canyon has no dungeon): room 1, the crevice to jump with the boots; room 2, a switch that sinks one row of blocks and raises another (only one way through), or spikes and a pit; room 3, a boss, before the steps up to the Tower. |
+| 6 (the long tunnel) | A mini-dungeon (the canyon has no dungeon): room 1, the crevice to jump with the boots; room 2, a switch that sinks one row of blocks and raises another (only one way through), or spikes and a pit; room 3, the **giant scorpion** (`o_scorpion_boss`), before the steps up to the Tower. |
+
+**Giant scorpion (cave 6 boss).** Built. It dives under the sand and tunnels as a mound to the spot behind Jordan (opposite the way he's facing), bursts out (half a heart if he's on it), turns, cocks its tail (shakes: the warning), stings in front of its claws (1 heart), then sits with its tail stuck for 1.5s: the moment to hit it. It can't be hurt under the sand; a hit sends it back under. 6 hits; at half health it tunnels faster and recovers quicker. Touching it above the sand costs half a heart. Beating it sets `canyon_boss`, drops a heart container, and removes the block in front of the steps up to the Tower.
 
 New mechanics: **pushable blocks**, only once Jordan has a later item (so some caves are worth coming back to), and **switches that only hold while something stands on them** (push a block onto one to keep a door open). Spikes and floor switches on sandy floors use sandstone versions (tiles 490/491 for sand spikes; switches pick theirs automatically).
 

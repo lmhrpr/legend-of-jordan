@@ -105,6 +105,19 @@ Room `r_canyon` (3 × 3 screens), Liam's layout. Reached by bombing the cracked 
 
 Coming back from the north: drop off the Gate plateau's east edge, and home through cave 5. Other secrets: cave 1 (gems) behind cracked rocks in the Ledge's cliff, cave 3 (Liam's scratched map, "L.H.") behind a cracked rock in screen 7, cave 4 (a gem stash) behind a cracked patch of cliff in screen 6. Dungeon 3's entrance is still to place.
 
+**Cave plans (agreed, to build).**
+
+| Cave | Puzzle |
+|---|---|
+| 1 (gems, under the Ledge) | Spike rhythm: a corridor of spikes on their timer; wait in the gaps, dash between. A heart on a side ledge. |
+| 2 (Heart Container, on the mesa) | A room of pits with the Heart Container on an island: jump tile to tile with the boots; the island opens when both floor switches (one each end) have been pressed. |
+| 3 (Liam's map, screen 7) | Looks empty: a line of gems points to a cracked wall; bomb it for the alcove with the map. |
+| 4 (gem stash, screen 6) | Treasure vault: the gems are behind blocks that sink when a switch is pressed, on the far side of a block maze, with bats. |
+| 5 (the switch tunnel) | As it is: it only opens from the north side. |
+| 6 (the long tunnel) | A mini-dungeon (the canyon has no dungeon): room 1, the crevice to jump with the boots; room 2, a switch that sinks one row of blocks and raises another (only one way through), or spikes and a pit; room 3, a boss, before the steps up to the Tower. |
+
+New mechanics: **pushable blocks**, only once Jordan has a later item (so some caves are worth coming back to), and **switches that only hold while something stands on them** (push a block onto one to keep a door open). Spikes and floor switches on sandy floors use sandstone versions (tiles 490/491 for sand spikes; switches pick theirs automatically).
+
 **Jumping (the Winged Boots).** Jordan can jump over a pit (`o_gap`) right in front of him, landing just past it. On raised ground he can only jump from an open edge of a plateau, where there's no stone parapet (tiles 478, 479, 480 and 172, facing out of the edge), and only to somewhere the same height or lower, landing inside its rim (up to 4½ tiles away). A plateau's height is the rows of cliff below it, rim included (0 is the canyon floor); a plateau whose cliff comes down behind another one is on the floor behind it. If there's nowhere to land, the boots do nothing: no falls, no lost hearts. Cave 5's blocks only sink once the switch on its north side is pressed (flag `canyon_tunnel`).
 
 ## 3. Dungeons and progression

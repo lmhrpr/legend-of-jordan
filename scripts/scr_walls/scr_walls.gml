@@ -175,7 +175,6 @@ function jump_landing(_dir)
 			var _lx = x + _dx * _d, _ly = y + _dy * _d;
 			if (place_meeting(_lx, _ly, [o_solid, o_ledge])) return undefined;	// a wall in the way
 			if (place_meeting(_lx, _ly, o_gap)) continue;
-			if (plateau_height_at(_lx, _ly) > _h0) return undefined;
 			return { x: _lx, y: _ly };
 		}
 		return undefined;

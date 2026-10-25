@@ -118,7 +118,7 @@ Coming back from the north: drop off the Gate plateau's east edge, and home thro
 
 **Giant scorpion (cave 6 boss).** Built. It dives under the sand and tunnels as a mound to the spot behind Jordan (opposite the way he's facing), bursts out (half a heart if he's on it), turns, cocks its tail (shakes: the warning), stings in front of its claws (1 heart), then sits with its tail stuck for 1.5s: the moment to hit it. It can't be hurt under the sand; a hit sends it back under. 6 hits; at half health it tunnels faster and recovers quicker. Touching it above the sand costs half a heart. Beating it sets `canyon_boss`, drops a heart container, and removes the block in front of the steps up to the Tower.
 
-New mechanics: **pushable blocks**, only once Jordan has a later item (so some caves are worth coming back to), and **switches that only hold while something stands on them** (push a block onto one to keep a door open). Spikes and floor switches on sandy floors use sandstone versions (tiles 490/491 for sand spikes; switches pick theirs automatically).
+New mechanics: **pushable blocks** (`o_push_block`, built), which only move once Jordan has the **Gloves** from the Coast (so some caves are worth coming back to; without them he's told it won't budge). Push straight at one for a moment and it slides one tile, if there's room on that screen, and **switches that only hold while something stands on them** (`o_hold_switch` + `o_hold_gate`, built: gates with the same `link_` sink while the plate is down; `invert_ = true` makes a gate rise instead; a gate won't rise onto anyone). Push a block onto one to keep a way open. Spikes and floor switches on sandy floors use sandstone versions (tiles 490/491 for sand spikes; switches pick theirs automatically).
 
 **Jumping (the Winged Boots).** Jordan can jump over a pit (`o_gap`) right in front of him, landing just past it. On raised ground he can only jump from an open edge of a plateau, where there's no stone parapet (tiles 478, 479, 480 and 172, facing out of the edge), and only to somewhere the same height or lower, landing inside its rim (up to 4½ tiles away). A plateau's height is the rows of cliff below it, rim included (0 is the canyon floor); a plateau whose cliff comes down behind another one is on the floor behind it. If there's nowhere to land, the boots do nothing: no falls, no lost hearts. Cave 5's blocks only sink once the switch on its north side is pressed (flag `canyon_tunnel`).
 
@@ -135,7 +135,7 @@ Each outer region hides a ruin holding **one of Liam's undelivered letters** (th
 | 4 | Hills | Lantern | Catapult | Hit far-off switches and flying enemies | *TBD* |
 | 5 | Riverside | Catapult | Wellies | Wade through shallow water | *TBD* |
 | 6 | Lake | Wellies | Raft | Cross deep water | *TBD* |
-| 7 | Coast | Raft | Gloves | Lift and throw boulders | *TBD* |
+| 7 | Coast | Raft | Gloves | Push heavy blocks (so earlier caves are worth revisiting); lift and throw boulders | *TBD* |
 | 8 | Fields | Gloves | Last letter | — | *TBD* |
 | 9 | Where Liam is | All 8 letters | **The cartridge** | The ending | *TBD* |
 

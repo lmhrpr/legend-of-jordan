@@ -1,1 +1,1 @@
-reach_ = 32;		// stone to stone only (2 tiles)
+reach_ = 32;		// how far a jump over this pit can go (px)

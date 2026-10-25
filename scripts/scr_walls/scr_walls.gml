@@ -159,8 +159,8 @@ function jump_open_edge(_x, _y)
 /// @function jump_landing(direction)
 /// @desc Called by Jordan. Where a jump that way would land: {x, y}, or undefined if he can't jump.
 ///       Two kinds of jump:
-///       - over a pit (o_gap) right in front of him: to the nearest clear spot past it (nudged a few
-///         pixels sideways if need be), not over walls;
+///       - over a pit (o_gap) right in front of him: to the nearest clear spot past it (nudged up to a
+///         tile sideways if need be), not over walls;
 ///       - off an open plateau edge (facing out of it): inside the rim of the highest spot within
 ///         reach that's no higher than where he took off, never over anything higher.
 function jump_landing(_dir)
@@ -178,9 +178,9 @@ function jump_landing(_dir)
 		{
 			var _lx = x + _dx * _d, _ly = y + _dy * _d;
 			if (place_meeting(_lx, _ly, [o_solid, o_ledge])) return undefined;	// a wall in the way
-			// Land here, or a few pixels to the side if that's clear (so a stepping stone one tile
-			// wide doesn't need lining up to the pixel)
-			var _nudges = [0, -3, 3, -6, 6];
+			// Land here, or up to a tile to the side if that's clear (so a stepping stone one tile
+			// wide doesn't need lining up to the pixel, and he can hop to a stone a column over)
+			var _nudges = [0, -3, 3, -6, 6, -9, 9, -12, 12, -16, 16];
 			for (var _n = 0; _n < array_length(_nudges); _n++)
 			{
 				var _nx = _lx + _dy * _nudges[_n], _ny = _ly + _dx * _nudges[_n];

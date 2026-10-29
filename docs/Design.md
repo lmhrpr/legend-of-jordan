@@ -21,9 +21,9 @@ Liam has gone to deliver a letter for Dad and hasn't come home. Mum sends Jordan
 | The Keeper (Old Forest) | The letter was for the Keeper. Dad's Post Office secretly serves the forest folk. Liam was expected but never arrived; the Keeper thinks he's gone into the ruins he was always asking about. | He's lost in the ruins. |
 | Dungeon 1 (Old Forest) | Liam's post bag, left in the ruins. Half the letters are gone. Delivered? Down here? | He's in there, but something's odd. |
 | Dungeon 2 | "Your brother? He asked what I was called and drew me in a little notebook. Then he asked the way to the next ruin." | Why would he go *further in*? |
-| Dungeon 3 | Liam's own map: the ruins numbered, three ticked off. | Baffled, and a bit cross. |
-| Dungeons 4–7 | "He asked how hard my puzzles were and wrote it down." "He made me roar three times to get it right." "He asked where I'd hide my treasure." | Wrong guesses, each a chance for a joke: running away, a spy, a present for Mum. |
-| Dungeon 8 | The craftsman: "The lad ordered a cartridge. Black, fits a Master System. Wanted a gold label." | Knows where Liam will be, but not why. |
+| Dungeon 3 (Canyon) | Liam's own map: the ruins numbered, three ticked off. | Baffled, and a bit cross. |
+| Dungeons 4–5 (Riverside, Lake) | "He asked how hard my puzzles were and wrote it down." "He made me roar three times to get it right." "He asked where I'd hide my treasure." | Wrong guesses, each a chance for a joke: running away, a spy, a present for Mum. |
+| Dungeon 6 (Coast) | The craftsman: "The lad ordered a cartridge. Black, fits a Master System. Wanted a gold label." | Knows where Liam will be, but not why. |
 | Finale | Liam hands over the cartridge: *The Legend of Jordan*. | Understands everything. |
 
 ### The ending
@@ -34,15 +34,15 @@ After each dungeon, a short scene in Baku: grown-up Jordan is telling the story 
 
 ---
 
-## 2. The world (9 × 9 screens)
+## 2. The world
 
-Nine regions of 3 × 3 screens, with the Village in the middle.
+Seven regions of 3 × 3 screens, with the Village in the middle. The Hills and the Fields have been dropped: neither had a mechanic worth a level (and hills are hard to show top-down), and the Canyon already covers high ground.
 
-|   | A–C | D–F | G–I |
+|   | West | Middle | East |
 |---|---|---|---|
-| **1–3** | Hills | **Old Forest** | Lake |
-| **4–6** | Fields | **Village** *(built)* | Riverside |
-| **7–9** | Canyon | **Southern Desert** *(sword screen built)* | Coast |
+| **North** | — | **Old Forest** *(built)* | Lake |
+| **Middle** | — | **Village** *(built)* | Riverside |
+| **South** | **Canyon** *(built)* | **Southern Desert** *(built)* | Coast |
 
 ### The Village (Liam's plan)
 
@@ -94,7 +94,7 @@ Bats and porcupines everywhere except the Keeper's glade. Gloom deepens towards 
 
 ### The Canyon (west of the Southern Desert)
 
-Room `r_canyon` (3 × 3 screens), Liam's layout. Reached by bombing the cracked rocks on the Desert's west side; the way in is on screen 6's east edge, the way out (to the next area) up the steps of the Gate plateau on screen 2. Built from the tileset's raised-ground pieces: plateaus with white rims and layered cliff faces, stairs cut into the cliffs, open edges to jump from. The caves are `r_canyon_caves`.
+Room `r_canyon` (3 × 3 screens), Liam's layout. Reached by bombing the cracked rocks on the Desert's west side; the way in is on screen 6's east edge, the way out up the steps of the Gate plateau on screen 2 (where it leads is open now the Fields have gone: see Open questions). Built from the tileset's raised-ground pieces: plateaus with white rims and layered cliff faces, stairs cut into the cliffs, open edges to jump from. The caves are `r_canyon_caves`.
 
 | Step | Where | What happens |
 |---|---|---|
@@ -103,41 +103,41 @@ Room `r_canyon` (3 × 3 screens), Liam's layout. Reached by bombing the cracked 
 | 3 | Screen 9 to 5 | Cave 6 runs north and west through three cave rooms and comes up through steps on top of the Tower. |
 | 4 | Screens 5, 4, 1, 2 | Down from the Tower onto the long plateau, stairs up to the Ledge, the Ledge's notch north onto the Shelf, east to the Gate plateau, and out. |
 
-Coming back from the north: drop off the Gate plateau's east edge, and home through cave 5. Other secrets: cave 1 (gems) behind cracked rocks in the Ledge's cliff, cave 3 (Liam's scratched map, "L.H.") behind a cracked rock in screen 7, cave 4 (a gem stash) behind a cracked patch of cliff in screen 6. Dungeon 3's entrance is still to place.
+Coming back from the north: drop off the Gate plateau's east edge, and home through cave 5.
 
-**Cave plans (agreed, to build).**
+**The caves** (room `r_canyon_caves`; screens are column, row). Two cave screens, (2,1) and (3,1), are still empty.
 
-| Cave | Puzzle |
-|---|---|
-| 1 (gems, under the Ledge) | Spike rhythm: a corridor of spikes on their timer; wait in the gaps, dash between. A heart on a side ledge. |
-| 2 (Heart Container, on the mesa) | A room of pits with the Heart Container on an island: jump tile to tile with the boots; the island opens when both floor switches (one each end) have been pressed. |
-| 3 (Liam's map, screen 7) | Looks empty: a line of gems points to a cracked wall; bomb it for the alcove with the map. |
-| 4 (gem stash, screen 6) | Treasure vault: the gems are behind blocks that sink when a switch is pressed, on the far side of a block maze, with bats. |
-| 5 (the switch tunnel) | As it is: it only opens from the north side. |
-| 6 (the long tunnel) | A mini-dungeon (the canyon has no dungeon): room 1, the crevice to jump with the boots; room 2, a switch that sinks one row of blocks and raises another (only one way through), or spikes and a pit; room 3, the **giant scorpion** (`o_scorpion_boss`), before the steps up to the Tower. |
+| Cave | Way in | Screen | What's there |
+|---|---|---|---|
+| 1 | Behind cracked rocks in the Ledge's cliff (canyon screen 4) | (0,2) | *Built.* Spike rhythm: rows of blocks and alternating spikes; gems, a heart, a bat. |
+| 2 | On the mesa (canyon screen 3) | (1,2) | *In progress:* four blocks so far. |
+| 3 | Canyon screen 7 | (2,2) | *Built.* **The pitfall room:** up the notch onto stepping stones over a pit, hop stone to stone (2 tiles at most, lined up from the right half of the stone) to the **Heart Container** (`canyon_heart`); a wrong jump or walking off an edge drops him in. |
+| 4 | Hidden cave (`o_hidden_cave`, `canyon_cave4`), canyon screen 6 | (3,2) | *Built.* Gem stash: 8 gems, a heart, a porcupine. |
+| 5 | Both ends: screens 6 (south) and 3 (north) | (0,1) | *Built.* The switch tunnel: blocks across it sink only when the switch at the north end is pressed (`canyon_tunnel`). |
+| 6 | Canyon screen 9, out on top of the Tower (screen 5) | (1,1), (1,0), (0,0) | **The Canyon's dungeon** (a mini-dungeon in three rooms). Room 1: a crevice to jump with the boots. Room 2: *in progress* (three pedestal blocks). Room 3: the **giant scorpion**, then the steps up to the Tower. |
 
-**Giant scorpion (cave 6 boss).** Built. It dives under the sand and tunnels as a mound to the spot behind Jordan (opposite the way he's facing), bursts out (half a heart if he's on it), turns, cocks its tail (shakes: the warning), stings in front of its claws (1 heart), then sits with its tail stuck for 1.5s: the moment to hit it. It can't be hurt under the sand; a hit sends it back under. 6 hits; at half health it tunnels faster and recovers quicker. Touching it above the sand costs half a heart. Beating it sets `canyon_boss`, drops a heart container, and removes the block in front of the steps up to the Tower.
+Puzzle ideas not used yet: a pit room whose island opens when two floor switches are pressed; a line of gems pointing to a cracked wall (Liam's scratched map, "L.H."); a treasure vault behind sinking blocks and a block maze; a switch that sinks one row of blocks and raises another (`o_hold_gate` with `invert_`); push-block puzzles that need the Gloves (a reason to come back later).
 
-New mechanics: **pushable blocks** (`o_push_block`, built), which only move once Jordan has the **Gloves** from the Coast (so some caves are worth coming back to; without them he's told it won't budge). Push straight at one for a moment and it slides one tile, if there's room on that screen, and **switches that only hold while something stands on them** (`o_hold_switch` + `o_hold_gate`, built: gates with the same `link_` sink while the plate is down; `invert_ = true` makes a gate rise instead; a gate won't rise onto anyone). Push a block onto one to keep a way open. Spikes and floor switches on sandy floors use sandstone versions (tiles 490/491 for sand spikes; switches pick theirs automatically).
+**Giant scorpion (cave 6 boss).** Built. It dives under the sand and tunnels as a mound to the spot behind Jordan (opposite the way he's facing), bursts out (half a heart if he's on it), turns, cocks its tail (shakes: the warning), stings in front of its claws (1 heart), then sits with its tail stuck for 1.5s: the moment to hit it. It can't be hurt under the sand; a hit sends it back under. 6 hits; at half health it tunnels faster and recovers quicker. Touching it above the sand costs half a heart. Beating it sets `canyon_boss`, drops a heart container, and removes the block in front of the steps up to the Tower. (Its reward item is still to decide.)
+
+**Mechanics built for the caves.** **Pushable blocks** (`o_push_block`, built), which only move once Jordan has the **Gloves** from the Coast (so some caves are worth coming back to; without them he's told it won't budge). Push straight at one for a moment and it slides one tile, if there's room on that screen, and **switches that only hold while something stands on them** (`o_hold_switch` + `o_hold_gate`, built: gates with the same `link_` sink while the plate is down; `invert_ = true` makes a gate rise instead; a gate won't rise onto anyone). Push a block onto one to keep a way open. Spikes and floor switches on sandy floors use sandstone versions (tiles 490/491 for sand spikes; switches pick theirs automatically).
 
 **Jumping (the Winged Boots).** Jordan can jump over a pit (`o_gap`) right in front of him, landing just past it. On raised ground he can only jump from an open edge of a plateau, where there's no stone parapet (tiles 478, 479, 480 and 172, facing out of the edge), and only to somewhere the same height or lower, landing inside its rim (up to 4½ tiles away). A plateau's height is the rows of cliff below it, rim included (0 is the canyon floor); a plateau whose cliff comes down behind another one is on the floor behind it. If there's nowhere to land, the boots do nothing, except over a pit set to `fall_ = true` (cave 3's pitfall room): there a wrong jump drops him in, and so does holding a direction into the edge for a moment (a quick tap only turns him). Falling costs a heart and puts him back on the last safe ground, away from the pit. A pit's `reach_` sets how far a jump over it can go (cave 3: 2 tiles); `_tools/pit_gaps.py` rebuilds a screen's pits from its tiles. Cave 5's blocks only sink once the switch on its north side is pressed (flag `canyon_tunnel`).
 
 ## 3. Dungeons and progression
 
-Each outer region hides a ruin holding **one of Liam's undelivered letters** (the Golden Axe Warrior "crystals"). Delivering all eight opens the way to Liam.
+Each outer region has a dungeon. The original plan was that each holds **one of Liam's undelivered letters** (like Golden Axe Warrior's crystals), and delivering them all opens the way to Liam. What the letters are for is now an open question (see below).
 
 | # | Dungeon | To get in, you need | Reward item | What it unlocks | Boss |
 |---|---|---|---|---|---|
-| — | Desert shrine *(done)* | — | Magic Sword | Cut the bushes into the Old Forest | — |
-| 1 | Old Forest ruins | The Keeper throws a bomb at the slab | Bombs | Blow open cracked rocks and old trees | *TBD* (stand-in: a giant charging porcupine) |
-| 2 | Southern Desert pyramid *(built)* | Bombs (blow open the sealed entrance) | Winged Boots | Jump over small gaps | *TBD* (stand-in: a sand-coloured giant porcupine) |
-| 3 | Canyon (west of the Desert, through the cracked rocks) | Bombs to get in; Winged Boots to cross its gaps | Lantern? | Light dark caves | *TBD* |
-| 4 | Hills | Lantern | Catapult | Hit far-off switches and flying enemies | *TBD* |
-| 5 | Riverside | Catapult | Wellies | Wade through shallow water | *TBD* |
-| 6 | Lake | Wellies | Raft | Cross deep water | *TBD* |
-| 7 | Coast | Raft | Gloves | Push heavy blocks (so earlier caves are worth revisiting); lift and throw boulders | *TBD* |
-| 8 | Fields | Gloves | Last letter | — | *TBD* |
-| 9 | Where Liam is | All 8 letters | **The cartridge** | The ending | *TBD* |
+| — | Desert shrine *(built)* | — | Magic Sword | Cut the bushes into the Old Forest | — |
+| 1 | Old Forest ruins *(built)* | The Keeper throws a bomb at the slab | Bombs | Blow open cracked rocks and old trees | *TBD* (stand-in: a giant charging porcupine) |
+| 2 | Southern Desert pyramid *(built)* | Bombs (blow open the sealed entrance) | Winged Boots | Jump over gaps and off open plateau edges | *TBD* (stand-in: a sand-coloured giant porcupine) |
+| 3 | Canyon: cave 6 *(mostly built)* | Bombs to get into the Canyon; Winged Boots to cross it | *TBD* | *TBD* | **Giant scorpion** *(built)* |
+| 4 | Riverside | *TBD* | Wellies | Wade through shallow water | *TBD* |
+| 5 | Lake | Wellies | Raft | Cross deep water | *TBD* |
+| 6 | Coast | Raft | Gloves *(built)* | Push heavy blocks (so earlier caves are worth revisiting); lift and throw boulders (to build) | *TBD* |
+| 7 | Where Liam is | *TBD* (all the letters?) | **The cartridge** | The ending | *TBD* |
 
 ### Dungeon 1: the Old Forest ruins (built)
 
@@ -171,7 +171,7 @@ The route: bomb the entrance's cracked north wall → centre hall (locked door) 
 |---|---|
 | +1 heart | Every boss |
 | Stamina ("magic pots") | Secrets and the shop; items cost stamina |
-| Sword upgrades | Dungeons 4 and 7 |
+| Sword upgrades | Later dungeons (*TBD*) |
 | Armour | Post Office shop, late game |
 | Gems | Grass, bushes, enemies, hidden treasure |
 
@@ -200,7 +200,7 @@ Liam's notes. Art for all of these is in `art/enemies/` (one strip of frames eac
 | Art | Status |
 |---|---|
 | Regular enemies (~14 types) | First pass drawn for the armadillo, snake, dust devil, skeleton warriors, blobs and scorpion (`art/enemies/`); bat and porcupine as before |
-| Bosses (8) | *TBD* |
+| Bosses (6) | Giant scorpion drawn and in the game; the rest *TBD* |
 | The Keeper | Stand-in |
 | Kid Liam, grown-up Jordan, grown-up Liam, Mavi | To make |
 | Baku flat with the Flame Towers through the window | To make |
@@ -214,10 +214,21 @@ Liam's notes. Art for all of these is in `art/enemies/` (one strip of frames eac
 |---|---|---|---|
 | 1 Old Forest | | | |
 | 2 Southern Desert | | | |
-| 3 Fields | | | |
-| 4 Hills | | | |
-| 5 Riverside | | | |
-| 6 Lake | | | |
-| 7 Coast | | | |
-| 8 Canyon | | | |
-| 9 Liam's hideout | | | |
+| 3 Canyon | | | Giant scorpion |
+| 4 Riverside | | | |
+| 5 Lake | | | |
+| 6 Coast | | | |
+| 7 Liam's hideout | | | |
+
+---
+
+## 6. Open questions
+
+| Question | Notes |
+|---|---|
+| What are the letters for? | At the moment they show that Liam meant to go as far as the Keeper. Options: keep one per dungeon (the "crystals" that open the finale), keep only the Keeper's letter and the post bag, or swap them for something that carries the story better (pages of Liam's notebook, say). |
+| What does the scorpion give? | It drops a heart container. Its item would be what gets Jordan into the Riverside. |
+| Where does the Canyon's way out go? | It used to lead north to the Fields. Now: a back way to somewhere else, a dead end with a reward, or move the exit. |
+| What opens the Riverside? | It used to need the Catapult from the Hills. Probably the Canyon's item. |
+| What goes in the west column? | The Hills' and Fields' squares are empty. The map could just be smaller, or the Canyon could spread north. |
+| Inventory slots | `global.player_max_inv` is 5 (in `o_game`): with the sword, bombs, boots, ring and gloves it's full, so raise it before adding the Wellies and Raft. |
